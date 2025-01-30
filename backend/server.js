@@ -1,7 +1,7 @@
 const express = require("express")
+require("dotenv").config() // Load environment variables from .env
 const mongoose = require("mongoose")
 const cors = require("cors")
-require("dotenv").config()
 
 const app = express()
 
@@ -16,12 +16,12 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err))
 
 // Test route
-app.get("/", (req, res) => {
-  res.send("ICAPE Backend is running!")
-})
+// app.get("/", (req, res) => {
+//   res.send("iCAPE Backend is running!")
+// })
 
 // Start server
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
