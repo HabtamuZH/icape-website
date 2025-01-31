@@ -1,0 +1,65 @@
+### TEST GET Endpoints
+GET http://localhost:3000/
+
+
+//======================Project==============================
+### POST a project data
+POST http://localhost:3000/api/projects
+Content-Type: application/json
+
+{
+  "title": "New Office Building",
+  "description": "A modern office building located in downtown.",
+  "category": "Commercial",
+  "year": 2025,
+  "image": "http://example.com/image.jpg"
+}
+
+### GET All project
+GET http://localhost:3000/api/projects
+
+### GET a project by ID
+GET http://localhost:3000/api/projects/679c900b35da74244d4320b8
+
+
+//==========================Contact============================
+### POST A contact form
+POST http://localhost:3000/api/contact
+Content-Type: application/json
+
+{
+  "name": "Jane Smith",
+  "email": "jane.smith@example.com",
+  "message": "I would like to know more about your services."
+}
+
+### GET All contact form
+GET http://localhost:3000/api/contact
+
+
+//========================Blogs===============================
+### POST a new blog
+POST http://localhost:3000/api/blogs
+Content-Type: application/json
+
+{
+  "title": "The Updated of Urban Architecture",
+  "content": "In this post, we explore the future trends in urban architecture...",
+  "author": "John Doe"
+}
+
+### GET All blogs
+GET http://localhost:3000/api/blogs
+
+### GET a blog by ID
+GET http://localhost:3000/api/blogs/679c97304973df9e22eea45d
+
+### PUT a blog by ID
+PUT http://localhost:3000/api/blogs/679c97304973df9e22eea45d
+Content-Type: application/json
+
+{
+  "title": "Updated Future of Urban Architecture",
+  "content": "Updated content for the blog post.",
+  "author": "John Doe"
+}
