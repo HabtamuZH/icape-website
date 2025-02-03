@@ -1,128 +1,127 @@
-import React from "react";
+import {useEffect} from "react"
+import Glide from "@glidejs/glide"
+import ScrollReveal from "scrollreveal"
+import {FaArrowLeft, FaArrowRight} from "react-icons/fa"
+import "@glidejs/glide/dist/css/glide.core.min.css"
+import "@glidejs/glide/dist/css/glide.theme.min.css"
 
-const Hero = () => {
+export default function Hero() {
+  const images = [
+    "/images/image1.jpg",
+    "/images/image2.jpg",
+    "/images/image3.jpg",
+    "/images/image4.jpg",
+    "/images/image5.jpg",
+    "/images/image6.jpg",
+    "/images/image7.jpg",
+    "/images/image8.jpg",
+    "/images/image9.jpg",
+    "/images/image10.jpg",
+    "/images/image11.jpg",
+    "/images/image12.jpg",
+    "/images/image13.jpg",
+    "/images/image14.jpg",
+    "/images/image15.jpg",
+    "/images/image16.jpg",
+    "/images/image17.jpg",
+    "/images/image18.jpg",
+    "/images/image19.jpg",
+    "/images/image20.jpg",
+    "/images/image21.jpg",
+    "/images/image22.jpg"
+  ]
+
+  useEffect(() => {
+    const glide = new Glide(".glide", {
+      type: "carousel",
+      perView: 1,
+      autoplay: 3000,
+      animationDuration: 800,
+      hoverpause: true
+    })
+    glide.mount()
+
+    ScrollReveal().reveal(".hero-text", {
+      delay: 200,
+      distance: "50px",
+      origin: "bottom",
+      duration: 1000
+    })
+    ScrollReveal().reveal(".hero-button", {
+      delay: 400,
+      distance: "50px",
+      origin: "bottom",
+      duration: 1000
+    })
+    ScrollReveal().reveal(".glide", {
+      delay: 600,
+      distance: "50px",
+      origin: "bottom",
+      duration: 1000
+    })
+
+    return () => glide.destroy()
+  }, [])
+
   return (
-    <section className="bg-[var(--color-bg-color)] dark:bg-gray-900 mt-10">
-      <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-        {/* Announcement Banner */}
-        <a
-          href="#"
-          className="inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 text-sm text-[var(--color-text-700)] bg-[var(--color-text-100)] rounded-full dark:bg-gray-800 dark:text-white hover:bg-[var(--color-text-200)] dark:hover:bg-gray-700"
-          role="alert"
-        >
-          <span className="text-xs bg-[var(--color-bg-color-2)] rounded-full text-white px-4 py-1.5 mr-3">
-            New
+    <div className='bg-gray-100 h-screen text-black overflow-hidden flex items-center'>
+      <div className='max-w-screen-xl mx-auto px-6 flex flex-col md:flex-row items-center gap-12'>
+        {/* Hero Text Section */}
+        <div className='flex-1 space-y-6 hero-text'>
+          <span className='bg-gray-200 text-indigo-600 text-sm font-semibold px-3 py-1 rounded-full shadow-md cursor-pointer'>
+            🚀 Exclusive Architectural Designs
           </span>
-          <span className="text-sm font-medium">
-            Partnership Management System is live! Explore the features
-          </span>
-          <svg
-            className="ml-2 w-5 h-5"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clipRule="evenodd"
-            ></path>
-          </svg>
-        </a>
-
-        {/* Main Heading */}
-        <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-[var(--color-text-h1)] md:text-5xl lg:text-6xl dark:text-white">
-          Streamline Your Partnerships with Ease
-        </h1>
-
-        {/* Subheading */}
-        <p className="mb-8 text-lg font-normal text-[var(--color-text-p)] lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
-          Our Partnership Management System helps you manage, track, and grow
-          your partnerships efficiently. From onboarding to performance
-          evaluation, we’ve got you covered.
-        </p>
-
-        {/* Call-to-Action Buttons */}
-        <div className="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-          <a
-            href="#"
-            className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-[var(--color-btn-default)] hover:bg-[var(--color-btn-hover)] focus:ring-4 focus:ring-[var(--color-btn-active)] dark:focus:ring-primary-900"
-          >
-            Get Started
-            <svg
-              className="ml-2 -mr-1 w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </a>
-          <a
-            href="#"
-            className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-[var(--color-text-h1)] rounded-lg border border-[var(--color-text-200)] hover:bg-[var(--color-text-100)] focus:ring-4 focus:ring-[var(--color-text-200)] dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-          >
-            <svg
-              className="mr-2 -ml-1 w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path>
-            </svg>
-            Watch Demo
-          </a>
+          <h1 className='text-5xl font-extrabold leading-tight'>
+            Build Your Dream Project with Excellence
+          </h1>
+          <p className='text-lg opacity-90'>
+            Discover innovative designs and bring your architectural vision to
+            reality with our expert solutions.
+          </p>
+          <div className='flex gap-4 hero-button'>
+            <button className='px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-full text-white font-semibold shadow-lg transition-all duration-300 focus:ring-4 ring-indigo-400'>
+              Get Started
+            </button>
+          </div>
         </div>
 
-        {/* Featured Logos */}
-        <div className="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg lg:px-36">
-          <span className="font-semibold text-[var(--color-text-400)] uppercase">
-            Trusted by Leading Organizations
-          </span>
-          <div className="flex flex-wrap justify-center items-center mt-8 text-[var(--color-text-500)] sm:justify-between">
-            {/* Add your logos or icons here */}
-            <a href="#" className="mr-5 mb-5 lg:mb-0 hover:text-[var(--color-text-600)] dark:hover:text-gray-400">
-              {/* Logo 1 */}
-              <svg
-                className="h-8"
-                viewBox="0 0 132 29"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+        {/* Image Carousel */}
+        <div className='w-full md:w-1/2 max-w-lg rounded-3xl overflow-hidden'>
+          <div className='glide relative'>
+            <div className='glide__track overflow-hidden' data-glide-el='track'>
+              <ul className='glide__slides h-[80%] object-cover'>
+                {images.map((image, index) => (
+                  <li key={index} className='glide__slide object-cover'>
+                    <img
+                      src={image}
+                      className='w-full object-cover rounded-2xl shadow-lg'
+                      alt={`Slide ${index + 1}`}
+                    />
+                  </li>
+                ))}
+              </ul>
+              {/* Navigation Arrows */}
+              <div
+                className='glide__arrows absolute inset-0 flex justify-between items-center p-4'
+                data-glide-el='controls'
               >
-                {/* Add your SVG path here */}
-              </svg>
-            </a>
-            <a href="#" className="mr-5 mb-5 lg:mb-0 hover:text-[var(--color-text-600)] dark:hover:text-gray-400">
-              {/* Logo 2 */}
-              <svg
-                className="h-11"
-                viewBox="0 0 208 42"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Add your SVG path here */}
-              </svg>
-            </a>
-            <a href="#" className="mr-5 mb-5 lg:mb-0 hover:text-[var(--color-text-600)] dark:hover:text-gray-400">
-              {/* Logo 3 */}
-              <svg
-                className="h-11"
-                viewBox="0 0 120 41"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Add your SVG path here */}
-              </svg>
-            </a>
+                <button
+                  className='glide__arrow glide__arrow--left p-2 bg-white/50 rounded-full shadow-md'
+                  data-glide-dir='<'
+                >
+                  <FaArrowLeft className='text-gray-800' />
+                </button>
+                <button
+                  className='glide__arrow glide__arrow--right p-2 bg-white/50 rounded-full shadow-md'
+                  data-glide-dir='>'
+                >
+                  <FaArrowRight className='text-gray-800' />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
-  );
-};
-
-export default Hero;
+    </div>
+  )
+}
