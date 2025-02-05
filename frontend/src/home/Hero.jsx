@@ -4,6 +4,7 @@ import ScrollReveal from "scrollreveal"
 import {FaArrowLeft, FaArrowRight} from "react-icons/fa"
 import "@glidejs/glide/dist/css/glide.core.min.css"
 import "@glidejs/glide/dist/css/glide.theme.min.css"
+import {Link} from "react-router-dom"
 
 export default function Hero() {
   const images = [
@@ -12,23 +13,7 @@ export default function Hero() {
     "/images/image3.jpg",
     "/images/image4.jpg",
     "/images/image5.jpg",
-    "/images/image6.jpg",
-    "/images/image7.jpg",
-    "/images/image8.jpg",
-    "/images/image9.jpg",
-    "/images/image10.jpg",
-    "/images/image11.jpg",
-    "/images/image12.jpg",
-    "/images/image13.jpg",
-    "/images/image14.jpg",
-    "/images/image15.jpg",
-    "/images/image16.jpg",
-    "/images/image17.jpg",
-    "/images/image18.jpg",
-    "/images/image19.jpg",
-    "/images/image20.jpg",
-    "/images/image21.jpg",
-    "/images/image22.jpg"
+    "/images/image6.jpg"
   ]
 
   useEffect(() => {
@@ -64,24 +49,27 @@ export default function Hero() {
   }, [])
 
   return (
-    <div className='bg-gray-100 h-screen text-black overflow-hidden flex items-center'>
+    <div className='bg-[#F5EFFF] h-screen text-textColor flex items-center'>
       <div className='max-w-screen-xl mx-auto px-6 flex flex-col md:flex-row items-center gap-12'>
         {/* Hero Text Section */}
         <div className='flex-1 space-y-6 hero-text'>
-          <span className='bg-gray-200 text-indigo-600 text-sm font-semibold px-3 py-1 rounded-full shadow-md cursor-pointer'>
+          <span className='bg-white/20 text-primary text-sm font-semibold px-3 py-1 rounded-full shadow-md cursor-pointer'>
             🚀 Exclusive Architectural Designs
           </span>
-          <h1 className='text-5xl font-extrabold leading-tight'>
+          <h1 className='text-4xl font-extrabold leading-tight font-heading text-black'>
             Build Your Dream Project with Excellence
           </h1>
-          <p className='text-lg opacity-90'>
+          <p className='text-lg opacity-90 font-sans'>
             Discover innovative designs and bring your architectural vision to
             reality with our expert solutions.
           </p>
           <div className='flex gap-4 hero-button'>
-            <button className='px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-full text-white font-semibold shadow-lg transition-all duration-300 focus:ring-4 ring-indigo-400'>
+            <Link
+              to='/signup'
+              className='bg-primary hover:bg-[#0e62ff] text-white px-6 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 focus:ring-4 ring-white/40'
+            >
               Get Started
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -89,35 +77,36 @@ export default function Hero() {
         <div className='w-full md:w-1/2 max-w-lg rounded-3xl overflow-hidden'>
           <div className='glide relative'>
             <div className='glide__track overflow-hidden' data-glide-el='track'>
-              <ul className='glide__slides h-[80%] object-cover'>
+              <ul className='glide__slides'>
                 {images.map((image, index) => (
-                  <li key={index} className='glide__slide object-cover'>
+                  <li key={index} className='glide__slide'>
                     <img
                       src={image}
-                      className='w-full object-cover rounded-2xl shadow-lg'
+                      className='w-full h-80 object-cover rounded-2xl shadow-lg'
                       alt={`Slide ${index + 1}`}
                     />
                   </li>
                 ))}
               </ul>
-              {/* Navigation Arrows */}
-              <div
-                className='glide__arrows absolute inset-0 flex justify-between items-center p-4'
-                data-glide-el='controls'
+            </div>
+
+            {/* Navigation Arrows */}
+            <div
+              className='glide__arrows absolute inset-0 flex justify-between items-center p-4'
+              data-glide-el='controls'
+            >
+              <button
+                className='glide__arrow glide__arrow--left p-3 bg-white/20 hover:bg-white/30 rounded-full shadow-md z-10'
+                data-glide-dir='<'
               >
-                <button
-                  className='glide__arrow glide__arrow--left p-2 bg-white/50 rounded-full shadow-md'
-                  data-glide-dir='<'
-                >
-                  <FaArrowLeft className='text-gray-800' />
-                </button>
-                <button
-                  className='glide__arrow glide__arrow--right p-2 bg-white/50 rounded-full shadow-md'
-                  data-glide-dir='>'
-                >
-                  <FaArrowRight className='text-gray-800' />
-                </button>
-              </div>
+                <FaArrowLeft className='text-white' />
+              </button>
+              <button
+                className='glide__arrow glide__arrow--right p-3 bg-white/20 hover:bg-white/30 rounded-full shadow-md z-10'
+                data-glide-dir='>'
+              >
+                <FaArrowRight className='text-white' />
+              </button>
             </div>
           </div>
         </div>

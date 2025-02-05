@@ -1,5 +1,5 @@
 import express from "express"
-import Contact from "../models/Contact.js" // Ensure you use the .js extension
+import Contact from "../Models/contact.js" // Ensure you use the .js extension
 const router = express.Router()
 
 // Create a new contact submission

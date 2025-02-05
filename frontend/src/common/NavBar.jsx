@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useState, useEffect, useRef} from "react"
 import {Link} from "react-router-dom"
 import {FaBars, FaUserCircle, FaBell} from "react-icons/fa"
 
@@ -8,52 +8,85 @@ const Navbar = () => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
   const notificationCount = 3 // Example notification count
 
+  const navbarRef = useRef(null)
+  const notificationsRef = useRef(null)
+  const profileRef = useRef(null)
+
   const toggleProfileDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen)
-    setIsNotificationsOpen(false) // Close notifications if profile is opened
+    setIsNotificationsOpen(false) // Close notifications when profile opens
   }
 
   const toggleNotificationsDropdown = () => {
     setIsNotificationsOpen(!isNotificationsOpen)
-    setIsDropdownOpen(false) // Close profile if notifications are opened
+    setIsDropdownOpen(false) // Close profile when notifications open
   }
+
+  const handleClickOutside = (event) => {
+    if (
+      navbarRef.current &&
+      !navbarRef.current.contains(event.target) &&
+      !notificationsRef.current.contains(event.target) &&
+      !profileRef.current.contains(event.target)
+    ) {
+      setIsDropdownOpen(false)
+      setIsNotificationsOpen(false)
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   return (
     <nav
-      className='bg-white border-gray-200 dark:bg-gray-900 shadow-md'
-      style={{
-        background:
-          "linear-gradient(152.92deg, rgba(192, 132, 252, 0.2) 4.54%, rgba(232, 121, 249, 0.17) 34.2%, rgba(192, 132, 252, 0.1) 77.55%)"
-      }}
+      ref={navbarRef}
+      className='fixed top-0 w-full bg-gradient-to-r from-[#37AFE1] to-[#E5D9F2] text-textColor shadow-md z-50'
     >
-      <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
-        <Link to='/' className='flex items-center space-x-3'>
-          <span className='text-2xl font-semibold text-black'>iCAPE</span>
+      <div className='max-w-screen-xl flex items-center justify-between mx-auto px-6 py-3'>
+        {/* Logo */}
+        <Link to='/' className='text-2xl font-semibold tracking-wide'>
+          iCAPE
         </Link>
 
-        {/* Profile, Notifications, and Mobile Menu Button */}
-        <div className='flex items-center space-x-6 md:order-2 relative'>
+        {/* Desktop Navigation */}
+        <div className='hidden md:flex space-x-6'>
+          {["", "About", "Services", "Projects", "Blogs", "Contact"].map(
+            (item) => (
+              <Link
+                key={item}
+                to={`/${item.toLowerCase()}`}
+                className='hover:text-gray-200 transition'
+              >
+                {item || "Home"}
+              </Link>
+            )
+          )}
+        </div>
+
+        {/* Icons & Mobile Menu */}
+        <div className='flex items-center space-x-6'>
           {/* Notification Icon */}
           <button
             onClick={toggleNotificationsDropdown}
-            className='relative text-gray-700 dark:text-black'
+            className='relative'
+            ref={notificationsRef}
           >
-            <FaBell size={24} />
+            <FaBell size={22} />
             {notificationCount > 0 && (
-              <span className='absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5'>
+              <span className='absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full px-1.5'>
                 {notificationCount}
               </span>
             )}
           </button>
 
-          {/* Notification Dropdown */}
+          {/* Notifications Dropdown */}
           {isNotificationsOpen && (
-            <div className='z-50 absolute right-16 mt-40 w-60 bg-white border rounded-lg shadow-md dark:bg-gray-700'>
-              <ul className='py-2 text-sm text-gray-700 dark:text-gray-200'>
-                <li className='px-4 py-2 border-b dark:border-gray-600'>
-                  New message received!
-                </li>
-                <li className='px-4 py-2 border-b dark:border-gray-600'>
+            <div className='absolute right-16 mt-64 w-60 bg-white text-gray-800 border rounded-lg shadow-md'>
+              <ul className='py-2 text-sm'>
+                <li className='px-4 py-2 border-b'>New message received!</li>
+                <li className='px-4 py-2 border-b'>
                   Project update available.
                 </li>
                 <li className='px-4 py-2'>New comment on your post.</li>
@@ -62,160 +95,63 @@ const Navbar = () => {
           )}
 
           {/* Profile Icon */}
-          <button
-            onClick={toggleProfileDropdown}
-            className='text-gray-700 dark:text-black'
-          >
-            <FaUserCircle size={30} />
+          <button onClick={toggleProfileDropdown} ref={profileRef}>
+            <FaUserCircle size={26} />
           </button>
 
-          {/* Profile Dropdown  */}
+          {/* Profile Dropdown */}
           {isDropdownOpen && (
-            <div class='z-50 absolute right-4 mt-48 w-48 text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white'>
-              <button
-                type='button'
-                class='relative inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 rounded-t-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white'
-              >
-                <svg
-                  class='w-3 h-3 me-2.5'
-                  aria-hidden='true'
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                >
-                  <path d='M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z' />
-                </svg>
+            <div className='absolute right-10 mt-64 w-48 bg-white text-gray-800 border rounded-lg shadow-md'>
+              <Link to='/profile' className='block px-4 py-2 hover:bg-gray-100'>
                 Profile
-              </button>
-              <button
-                type='button'
-                class='relative inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white'
+              </Link>
+              <Link
+                to='/settings'
+                className='block px-4 py-2 hover:bg-gray-100'
               >
-                <svg
-                  class='w-3 h-3 me-2.5'
-                  aria-hidden='true'
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  viewBox='0 0 20 20'
-                >
-                  <path
-                    stroke='currentColor'
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
-                    stroke-width='2'
-                    d='M7.75 4H19M7.75 4a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 4h2.25m13.5 6H19m-2.25 0a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 10h11.25m-4.5 6H19M7.75 16a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 16h2.25'
-                  />
-                </svg>
                 Settings
-              </button>
-              <button
-                type='button'
-                class='relative inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white'
+              </Link>
+              <Link
+                to='/messages'
+                className='block px-4 py-2 hover:bg-gray-100'
               >
-                <svg
-                  class='w-3 h-3 me-2.5'
-                  aria-hidden='true'
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 20 18'
-                  fill='currentColor'
-                >
-                  <path
-                    d='M18 4H16V9C16 10.0609 15.5786 11.0783 14.8284 11.8284C14.0783 12.5786 13.0609 13 12 13H9L6.846 14.615C7.17993 14.8628 7.58418 14.9977 8 15H11.667L15.4 17.8C15.5731 17.9298 15.7836 18 16 18C16.2652 18 16.5196 17.8946 16.7071 17.7071C16.8946 17.5196 17 17.2652 17 17V15H18C18.5304 15 19.0391 14.7893 19.4142 14.4142C19.7893 14.0391 20 13.5304 20 13V6C20 5.46957 19.7893 4.96086 19.4142 4.58579C19.0391 4.21071 18.5304 4 18 4Z'
-                    fill='currentColor'
-                  />
-                  <path
-                    d='M12 0H2C1.46957 0 0.960859 0.210714 0.585786 0.585786C0.210714 0.960859 0 1.46957 0 2V9C0 9.53043 0.210714 10.0391 0.585786 10.4142C0.960859 10.7893 1.46957 11 2 11H3V13C3 13.1857 3.05171 13.3678 3.14935 13.5257C3.24698 13.6837 3.38668 13.8114 3.55279 13.8944C3.71889 13.9775 3.90484 14.0126 4.08981 13.996C4.27477 13.9793 4.45143 13.9114 4.6 13.8L8.333 11H12C12.5304 11 13.0391 10.7893 13.4142 10.4142C13.7893 10.0391 14 9.53043 14 9V2C14 1.46957 13.7893 0.960859 13.4142 0.585786C13.0391 0.210714 12.5304 0 12 0Z'
-                    fill='currentColor'
-                  />
-                </svg>
                 Messages
-              </button>
-              <button
-                type='button'
-                class='relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white'
+              </Link>
+              <Link
+                to='/download'
+                className='block px-4 py-2 hover:bg-gray-100'
               >
-                <svg
-                  class='w-3 h-3 me-2.5'
-                  aria-hidden='true'
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                >
-                  <path d='M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z' />
-                  <path d='M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z' />
-                </svg>
                 Download
-              </button>
+              </Link>
             </div>
           )}
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className='md:hidden text-gray-700 dark:text-white'
+            className='md:hidden'
           >
-            <FaBars size={24} />
+            <FaBars size={22} />
           </button>
         </div>
-
-        {/* Navigation Links */}
-        <div
-          className={`${
-            isMenuOpen ? "block" : "hidden"
-          } md:flex md:items-center md:space-x-8 w-full md:w-auto`}
-        >
-          <ul className='flex flex-col md:flex-row font-medium p-4 md:p-0 border border-gray-700 rounded-lg bg-gray-50 md:bg-transparent'>
-            <li>
-              <Link
-                to='/'
-                className='block py-2 px-3 hover:text-blue-700 text-black'
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to='/about'
-                className='block py-2 px-3 hover:text-blue-700 text-black'
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                to='/services'
-                className='block py-2 px-3 hover:text-blue-700 text-black'
-              >
-                Services
-              </Link>
-            </li>
-            <li>
-              <Link
-                to='/projects'
-                className='block py-2 px-3 hover:text-blue-700 text-black'
-              >
-                Projects
-              </Link>
-            </li>
-            <li>
-              <Link
-                to='/blogs'
-                className='block py-2 px-3 hover:text-blue-700 text-black'
-              >
-                Blogs
-              </Link>
-            </li>
-            <li>
-              <Link
-                to='/contact'
-                className='block py-2 px-3 hover:text-blue-700 text-black'
-              >
-                Contact
-              </Link>
-            </li>
-          </ul>
-        </div>
       </div>
+
+      {/* Mobile Navigation */}
+      {isMenuOpen && (
+        <div className='md:hidden bg-gray-800 text-white py-3 px-4'>
+          {["Home", "About", "Services", "Projects", "Blogs", "Contact"].map(
+            (item) => (
+              <Link
+                key={item}
+                to={`/${item.toLowerCase()}`}
+                className='block py-2 border-b border-gray-600'
+              >
+                {item}
+              </Link>
+            )
+          )}
+        </div>
+      )}
     </nav>
   )
 }

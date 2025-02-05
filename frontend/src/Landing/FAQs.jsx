@@ -14,7 +14,7 @@ const FaqsCard = (props) => {
 
   return (
     <div
-      className='space-y-3 mt-5 overflow-hidden border-b bg-gray-100 rounded-lg pt-2 px-4'
+      className='space-y-3 mt-5 overflow-hidden border-b bg-gray-200 rounded-lg pt-2 px-4'
       key={idx}
       onClick={handleOpenAnswer}
     >
@@ -29,9 +29,9 @@ const FaqsCard = (props) => {
             stroke='currentColor'
           >
             <path
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              stroke-width='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth='2'
               d='M20 12H4'
             />
           </svg>
@@ -68,42 +68,36 @@ const FaqsCard = (props) => {
 export default () => {
   const faqsList = [
     {
-      q: "What are some random questions to ask?",
-      a: "That's exactly the reason we created this random question generator. There are hundreds of random questions to choose from so you're able to find the perfect random question."
+      q: "What is iCAPE?",
+      a: "iCAPE is an innovative platform developed to streamline partnership management, allowing organizations to easily manage and track their partnerships, collaborations, and growth opportunities."
     },
     {
-      q: "Do you include common questions?",
-      a: "This generator doesn't include most common questions. The thought is that you can come up with common questions on your own so most of the questions in this generator."
+      q: "How can iCAPE help my organization?",
+      a: "iCAPE provides tools for seamless partnership management, allowing your organization to track goals, performance, and communication with partners in real-time, ensuring that every partnership is nurtured efficiently."
     },
     {
-      q: "Can I use this for 21 questions?",
-      a: "Yes! there are two ways that you can use this question generator depending on what you're after. You can indicate that you want 21 questions generated."
+      q: "Who can use iCAPE?",
+      a: "iCAPE is designed for organizations looking to manage their partnerships better. Whether you're a business, nonprofit, or government agency, iCAPE helps you stay on top of your collaborations and ensure mutual growth."
     },
     {
-      q: "Are these questions for girls or for boys?",
-      a: "The questions in this generator are gender neutral and can be used to ask either male of females (or any other gender the person identifies with)."
+      q: "What features does iCAPE offer?",
+      a: "iCAPE offers features like partnership tracking, goal-setting, performance monitoring, document sharing, and detailed reporting to ensure the success of every partnership."
     },
     {
-      q: "What do you wish you had more talent doing?",
-      a: "If you've been searching for a way to get random questions, you've landed on the correct webpage. We created the Random Question Generator to ask you as many random questions as your heart desires."
+      q: "How secure is my data with iCAPE?",
+      a: "We take data security seriously at iCAPE. We use industry-leading encryption protocols and adhere to best practices in cybersecurity to ensure that all your partnership data is safe and secure."
     }
   ]
 
   return (
-    <section
-      className='leading-relaxed max-w-full pt-12 mx-auto px-4 md:px-8'
-      style={{
-        background:
-          "linear-gradient(152.92deg, rgba(192, 132, 252, 0.2) 4.54%, rgba(232, 121, 249, 0.17) 34.2%, rgba(192, 132, 252, 0.1) 77.55%)"
-      }}
-    >
+    <section className='leading-relaxed max-w-full pt-12 mx-auto px-4 md:px-8'>
       <div className='space-y-3 text-center'>
         <h1 className='text-3xl text-gray-800 font-semibold'>
           Frequently Asked Questions
         </h1>
         <p className='text-gray-600 max-w-lg mx-auto text-lg'>
-          Answered all frequently asked questions, Still confused? feel free to
-          contact us.
+          Answered all frequently asked questions about iCAPE. Still confused?
+          Feel free to contact us.
         </p>
       </div>
       <div className='mt-14 pb-32 max-w-2xl mx-auto'>

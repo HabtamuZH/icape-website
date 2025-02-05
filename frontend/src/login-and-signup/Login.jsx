@@ -1,104 +1,180 @@
-const Login =() => {
+import React, {useState} from "react"
+import {FaEnvelope, FaGoogle, FaLock} from "react-icons/fa"
+import {Link} from "react-router-dom"
+import axios from "axios"
+import {auth, provider} from "../../src/firebase" // Adjust the import path
+import { signInWithPopup } from "firebase/auth"
+
+const Login = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  })
+
+
+const handleGoogleSignIn = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider)
+    const user = result.user
+    console.log("Google Sign-in Success:", user)
+    localStorage.setItem("token", user.accessToken)
+  } catch (error) {
+    console.error("Google Sign-in Error:", error)
+  }
+}
+
+
+  // const handleChange = (e) => {
+  //   const {name, value} = e.target
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value
+  //   }))
+  // }
+
+  const handleChange = (e) => {
+    const {name, value} = e.target
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      console.log("Data being sent:", formData) // Log the data before sending
+      const res = await axios.post(
+        "https://5001-idx-icape-websitegit-1738576899242.cluster-23wp6v3w4jhzmwncf7crloq3kw.cloudworkstations.dev/api/auth/login",
+        formData
+      )
+      console.log("Success login", res.data) // Log the successful response
+      // Store token.
+      localStorage.setItem("token", res.data.token)
+      // alert("Success login") //show a pop up
+    } catch (err) {
+      console.error("Error", err?.response?.data) // log the specific error sent by the backend.
+      // alert(err?.response?.data.message) //show a pop up
+    }
+  }
+
   return (
-    <main className='w-full h-screen flex flex-col items-center justify-center px-4'>
-      <div className='max-w-sm w-full text-gray-600 space-y-5'>
-        <div className='text-center pb-8'>
+    <div className='flex w-[80%] h-[100vh] m-24 max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg lg:max-w-full'>
+      <div
+        className='hidden bg-cover lg:block lg:w-5/6'
+        style={{
+          backgroundImage: "url('/images/image1.jpg')"
+        }}
+      ></div>
+
+      <div className='w-screen px-6 py-8 md:px-8 lg:w-1/2'>
+        <div className='flex justify-center mx-auto'>
           <img
-            src='https://floatui.com/logo.svg'
-            width={150}
-            className='mx-auto'
+            className='w-auto h-7 sm:h-8'
+            src='../../images/icape_Logo.png'
+            alt='Logo'
           />
-          <div className='mt-5'>
-            <h3 className='text-gray-800 text-2xl font-bold sm:text-3xl'>
-              Log in to your account
-            </h3>
-          </div>
         </div>
-        <form onSubmit={(e) => e.preventDefault()} className='space-y-5'>
-          <div>
-            <label className='font-medium'>Email</label>
-            <input
-              type='email'
-              required
-              className='w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg'
-            />
+        <p className='mt-3 text-xl text-center text-gray-600'>Welcome back!</p>
+        <button
+          onClick={handleGoogleSignIn}
+          type='button'
+          className='flex items-center justify-center mx-auto mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg hover:bg-gray-50'
+        >
+          <div className='px-4'>
+            <FaGoogle className='w-6 h-6 text-[#4285F4]' />
           </div>
-          <div>
-            <label className='font-medium'>Password</label>
-            <input
-              type='password'
-              required
-              className='w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg'
-            />
-          </div>
-          <div className='flex items-center justify-between text-sm'>
-            <div className='flex items-center gap-x-3'>
-              <input
-                type='checkbox'
-                id='remember-me-checkbox'
-                className='checkbox-item peer hidden'
-              />
-              <label
-                htmlFor='remember-me-checkbox'
-                className='relative flex w-5 h-5 bg-white peer-checked:bg-indigo-600 rounded-md border ring-offset-2 ring-indigo-600 duration-150 peer-active:ring cursor-pointer after:absolute after:inset-x-0 after:top-[3px] after:m-auto after:w-1.5 after:h-2.5 after:border-r-2 after:border-b-2 after:border-white after:rotate-45'
-              ></label>
-              <span>Remember me</span>
-            </div>
-            <a
-              href='/forgot-password'
-              className='text-center text-indigo-600 hover:text-indigo-500'
-            >
-              Forgot password?
-            </a>
-          </div>
-          <button className='w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150'>
-            Sign in
-          </button>
-        </form>
-        <button className='w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg text-sm font-medium hover:bg-gray-50 duration-150 active:bg-gray-100'>
-          <svg
-            className='w-5 h-5'
-            viewBox='0 0 48 48'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <g clip-path='url(#clip0_17_40)'>
-              <path
-                d='M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z'
-                fill='#4285F4'
-              />
-              <path
-                d='M24.48 48.0016C30.9529 48.0016 36.4116 45.8764 40.3888 42.2078L32.6549 36.2111C30.5031 37.675 27.7252 38.5039 24.4888 38.5039C18.2275 38.5039 12.9187 34.2798 11.0139 28.6006H3.03296V34.7825C7.10718 42.8868 15.4056 48.0016 24.48 48.0016Z'
-                fill='#34A853'
-              />
-              <path
-                d='M11.0051 28.6006C9.99973 25.6199 9.99973 22.3922 11.0051 19.4115V13.2296H3.03298C-0.371021 20.0112 -0.371021 28.0009 3.03298 34.7825L11.0051 28.6006Z'
-                fill='#FBBC04'
-              />
-              <path
-                d='M24.48 9.49932C27.9016 9.44641 31.2086 10.7339 33.6866 13.0973L40.5387 6.24523C36.2 2.17101 30.4414 -0.068932 24.48 0.00161733C15.4055 0.00161733 7.10718 5.11644 3.03296 13.2296L11.005 19.4115C12.901 13.7235 18.2187 9.49932 24.48 9.49932Z'
-                fill='#EA4335'
-              />
-            </g>
-            <defs>
-              <clipPath id='clip0_17_40'>
-                <rect width='48' height='48' fill='white' />
-              </clipPath>
-            </defs>
-          </svg>
-          Continue with Google
+
+          <span className='w-5/6 px-4 py-3 font-bold text-center'>
+            Sign in with Google
+          </span>
         </button>
-        <p className='text-center'>
-          Don't have an account?{" "}
+
+        <div className='flex items-center justify-between mt-4'>
+          <span className='w-1/5 border-b lg:w-1/4'></span>
+
           <a
-            href='/signup'
-            className='font-medium text-indigo-600 hover:text-indigo-500'
+            href='#'
+            className='text-xs text-center text-blue-700 uppercase hover:underline'
           >
-            Sign up
+            or login with email
           </a>
-        </p>
+
+          <span className='w-1/5 border-b lg:w-1/4'></span>
+        </div>
+
+        <form className='mt-4' onSubmit={handleSubmit}>
+          <div className='mt-4'>
+            <label
+              className='block mb-2 text-sm font-medium text-gray-600 '
+              htmlFor='LoggingEmailAddress'
+            >
+              Email Address
+            </label>
+            <div className='relative flex items-center'>
+              <FaEnvelope className='absolute left-3 text-gray-400' size={20} />
+              <input
+                id='LoggingEmailAddress'
+                type='email'
+                name='email'
+                value={formData.email}
+                onChange={handleChange}
+                placeholder='Email address'
+                className='w-full py-3 pl-10 pr-4 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring focus:ring-blue-300 focus:outline-none'
+              />
+            </div>
+          </div>
+
+          <div className='mt-4'>
+            <div className='flex justify-between'>
+              <label
+                className='block mb-2 text-sm font-medium text-gray-600 '
+                htmlFor='loggingPassword'
+              >
+                Password
+              </label>
+              <a href='#' className='text-xs text-blue-700  hover:underline'>
+                Forget Password?
+              </a>
+            </div>
+            <div className='relative flex items-center'>
+              <FaLock className='absolute left-3 text-gray-400' size={20} />
+              <input
+                type='password'
+                name='password'
+                value={formData.password}
+                onChange={handleChange}
+                placeholder='Password'
+                className='w-full py-3 pl-10 pr-4 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring focus:ring-blue-300 focus:outline-none'
+              />
+            </div>
+          </div>
+
+          <div className='mt-6'>
+            <button
+              type='submit'
+              className='w-full px-6 py-3 text-sm font-medium tracking-wide text-white bg-primary hover:bg-[#0e62ff] capitalize transition-colors duration-300 transform rounded-lg  focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50'
+            >
+              Sign In
+            </button>
+          </div>
+        </form>
+        <div className='flex items-center justify-between mt-4'>
+          <span className='w-[10%] border-b  md:w-1/4 block'></span>
+          <p className='text-sm text-nowrap text-black'>
+            Don`t have an account?
+            <Link
+              to='/signup'
+              className='text-blue-700 hover:underline ps-1  dark:text-blue-400'
+            >
+              Sign Up
+            </Link>
+          </p>
+          <span className='w-[10%] border-b md:w-1/4'></span>
+        </div>
       </div>
-    </main>
+    </div>
   )
 }
-export default Login;
+
+export default Login
