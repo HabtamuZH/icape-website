@@ -25,10 +25,6 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({message: "Email already registered"})
     }
 
-    //  Hash password before saving
-    // const salt = await bcrypt.genSalt(8)
-    // const hashedPassword = await bcrypt.hash(password, salt)
-
     const user = new User({
       username,
       email,
@@ -51,7 +47,7 @@ router.post("/register", async (req, res) => {
   }
 })
 
-// Login Route (authRoutes.js)
+// Login a user
 router.post("/login", async (req, res) => {
   const {email, password} = req.body
   console.log("Requested Data:", req.body)
@@ -64,7 +60,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({message: "Invalid email credentials"})
     }
 
-    const isMatch = await user.isPasswordMatch(password)
+    const isMatch = await bcrypt.compare(password, user.password)
     console.log("Password Match:", isMatch)
 
     if (!isMatch) {
@@ -73,11 +69,35 @@ router.post("/login", async (req, res) => {
 
     // Generate token using the model method
     const token = user.generateAuthToken()
-    console.log("Token: ",token)
+    console.log("Token: ", token)
 
     res.status(200).json({message: "User login successful!", token})
   } catch (error) {
     console.error("Login Error:", error)
+    res.status(500).json({error: error.message})
+  }
+})
+
+// Google Sign-In
+router.post("/google", async (req, res) => {
+  const {email, googleId} = req.body
+  try {
+    let user = await User.findOne({googleId})
+
+    if (!user) {
+      // If no user found with the googleId, create a new user
+      user = new User({
+        email,
+        googleId,
+        // You can set a default username or prompt the user to set one later
+        username: email.split("@")[0] // Or generate a random one
+      })
+      await user.save()
+    }
+    const token = user.generateAuthToken()
+    res.status(200).json({message: "Google login successful!", token})
+  } catch (error) {
+    console.error("Google login error:", error)
     res.status(500).json({error: error.message})
   }
 })

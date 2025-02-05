@@ -1,36 +1,48 @@
 import React, {useState} from "react"
 import {FaEnvelope, FaGoogle, FaLock} from "react-icons/fa"
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import axios from "axios"
-import {auth, provider} from "../../src/firebase" // Adjust the import path
-import { signInWithPopup } from "firebase/auth"
+import {auth, provider} from "../../src/firebase"
+import {toast} from "react-toastify"
+import {signInWithPopup} from "firebase/auth"
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   })
+  const navigate = useNavigate()
 
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider)
+      const user = result.user
+      console.log("Google Sign-in Success:", user)
 
-const handleGoogleSignIn = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider)
-    const user = result.user
-    console.log("Google Sign-in Success:", user)
-    localStorage.setItem("token", user.accessToken)
-  } catch (error) {
-    console.error("Google Sign-in Error:", error)
+      // Send the google user to backend
+      const res = await axios.post(
+        "https://5001-idx-icape-websitegit-1738576899242.cluster-23wp6v3w4jhzmwncf7crloq3kw.cloudworkstations.dev/api/auth/google",
+        {
+          email: user.email,
+          googleId: user.uid
+        }
+      )
+      localStorage.setItem("token", res.data.token)
+      toast.success("Google Login successful!", {
+        position: "bottom-right", // You can change the position
+        autoClose: 3000, // Auto close after 3 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light"
+      })
+      navigate("/")
+    } catch (error) {
+      console.error("Google Sign-in Error:", error)
+      toast.error(error?.response?.data?.message || "Google Sign-in failed")
+    }
   }
-}
-
-
-  // const handleChange = (e) => {
-  //   const {name, value} = e.target
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     [name]: value
-  //   }))
-  // }
 
   const handleChange = (e) => {
     const {name, value} = e.target
@@ -43,18 +55,27 @@ const handleGoogleSignIn = async () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      console.log("Data being sent:", formData) // Log the data before sending
+      console.log("Data being sent:", formData)
       const res = await axios.post(
         "https://5001-idx-icape-websitegit-1738576899242.cluster-23wp6v3w4jhzmwncf7crloq3kw.cloudworkstations.dev/api/auth/login",
         formData
       )
-      console.log("Success login", res.data) // Log the successful response
-      // Store token.
+      console.log("Success login", res.data)
       localStorage.setItem("token", res.data.token)
-      // alert("Success login") //show a pop up
+      // Show success toast
+      toast.success("Login successful!", {
+        position: "bottom-right", // You can change the position
+        autoClose: 3000, // Auto close after 3 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light"
+      })
+      navigate("/")
     } catch (err) {
-      console.error("Error", err?.response?.data) // log the specific error sent by the backend.
-      // alert(err?.response?.data.message) //show a pop up
+      console.error("Error", err?.response?.data)
+      toast.error(err?.response?.data?.message || "Login failed")
     }
   }
 
