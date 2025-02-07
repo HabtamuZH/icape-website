@@ -1,77 +1,32 @@
 import React, {useState} from "react"
 import {Link} from "react-router-dom"
 import {Menu, Transition} from "@headlessui/react"
-import {BellIcon, UserCircleIcon} from "@heroicons/react/24/outline"
-import Notifications from "../user/Notifications"
+import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline"
+import {MdArrowDropDown} from "react-icons/md" // React Icons for the dropdown
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
-
-  const toggleNotifications = () => {
-    setIsNotificationsOpen(!isNotificationsOpen)
-  }
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
 
   return (
-    <nav className='bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600'>
-      <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
-        {/* Logo and Brand Name */}
-        <Link
-          to='/user'
-          className='flex items-center space-x-3 rtl:space-x-reverse'
-        >
-          <span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white'>
-            PMS
+    <nav className='fixed top-0 w-full bg-gradient-to-r from-[#37AFE1] to-[#E5D9F2] text-textColor shadow-md z-50 py-1'>
+      <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-1'>
+        {/* Logo */}
+        <Link to='/' className='flex items-center space-x-3'>
+          <span className='text-2xl font-semibold text-gray-900 dark:text-white'>
+            iCAPE
           </span>
         </Link>
 
-        {/* Mobile Menu Button */}
-        <div className='flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse'>
-          <button
-            onClick={toggleMenu}
-            type='button'
-            className='inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600'
-            aria-controls='navbar-sticky'
-            aria-expanded={isMenuOpen}
-          >
-            <span className='sr-only'>Open main menu</span>
-            <svg
-              className='w-5 h-5'
-              aria-hidden='true'
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 17 14'
-            >
-              <path
-                stroke='currentColor'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                d='M1 1h15M1 7h15M1 13h15'
-              />
-            </svg>
-          </button>
-          <button
-            onClick={toggleNotifications}
-            className=' bg-gray-100 dark:bg-gray-800 p-1 rounded-full text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none'
-          >
-            <BellIcon className='h-6 w-6' aria-hidden='true' />
-            {isNotificationsOpen && <Notifications />}
-          </button>
-          <Menu as='div' className='ml-3 relative'>
-            <div>
-              <Menu.Button className='bg-gray-100 dark:bg-gray-800 flex text-sm rounded-full focus:outline-none'>
-                <span className='sr-only'>Open user menu</span>
-                <UserCircleIcon
-                  className='h-8 w-8 text-gray-900 dark:text-white'
-                  aria-hidden='true'
-                />
-              </Menu.Button>
-            </div>
+        {/* Desktop Menu */}
+        <div className='hidden md:flex space-x-8 border-2 border-zinc-900 rounded-lg py-1 px-2'>
+          <Link to='/about' className='text-gray-900 hover:text-blue-500'>
+            About
+          </Link>
+          {/* Resources Dropdown */}
+          <Menu as='div' className='relative'>
+            <Menu.Button className='text-gray-900 hover:text-blue-500 flex items-center'>
+              Resources <MdArrowDropDown className='ml-1' />
+            </Menu.Button>
             <Transition
               as={React.Fragment}
               enter='transition ease-out duration-100'
@@ -81,104 +36,133 @@ const NavBar = () => {
               leaveFrom='transform opacity-100 scale-100'
               leaveTo='transform opacity-0 scale-95'
             >
-              <Menu.Items className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none'>
+              <Menu.Items className='absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'>
                 <Menu.Item>
                   {({active}) => (
                     <Link
-                      to='/user/profile'
-                      className={`block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 ${
-                        active ? "bg-gray-100 dark:bg-gray-700" : ""
+                      to='/faqs'
+                      className={`block px-4 py-2 text-sm ${
+                        active ? "bg-gray-100 dark:bg-gray-200" : ""
                       }`}
                     >
-                      profile
+                      FAQs
                     </Link>
                   )}
                 </Menu.Item>
                 <Menu.Item>
                   {({active}) => (
                     <Link
-                      to='/user/request'
-                      className={`block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 ${
-                        active ? "bg-gray-100 dark:bg-gray-700" : ""
+                      to='/howto'
+                      className={`block px-4 py-2 text-sm ${
+                        active ? "bg-gray-100 dark:bg-gray-200" : ""
                       }`}
                     >
-                      Send Request
+                      How To
                     </Link>
                   )}
                 </Menu.Item>
                 <Menu.Item>
                   {({active}) => (
                     <Link
-                      to='request-status'
-                      className={`block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 ${
-                        active ? "bg-gray-100 dark:bg-gray-700" : ""
+                      to='/blogs'
+                      className={`block px-4 py-2 text-sm ${
+                        active ? "bg-gray-100 dark:bg-gray-200" : ""
                       }`}
                     >
-                      Reauest Status
+                      Blogs
                     </Link>
                   )}
                 </Menu.Item>
                 <Menu.Item>
                   {({active}) => (
                     <Link
-                      to='/logout'
-                      className={`block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 ${
-                        active ? "bg-gray-100 dark:bg-gray-700" : ""
+                      to='/services'
+                      className={`block px-4 py-2 text-sm ${
+                        active ? "bg-gray-100 dark:bg-gray-200" : ""
                       }`}
                     >
-                      Log out
+                      Services
                     </Link>
                   )}
                 </Menu.Item>
               </Menu.Items>
             </Transition>
           </Menu>
+          <Link to='/projects' className='text-gray-900 hover:text-blue-500'>
+            Projects
+          </Link>
+          <Link to='/contact' className='text-gray-900 hover:text-blue-500'>
+            Contact
+          </Link>
         </div>
 
-        {/* Navigation Links */}
-        <div
-          className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${
-            isMenuOpen ? "block" : "hidden"
-          }`}
-          id='navbar-sticky'
-        >
-          <ul className='flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700'>
-            <li>
-              <Link
-                to='/user'
-                className='block py-2 px-3 text-white bg-[var(--color-btn-default)] rounded-sm md:bg-transparent md:text-[var(--color-btn-default)] md:p-0 md:dark:text-blue-500'
-                aria-current='page'
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to='/user#how-to'
-                className='block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[var(--color-btn-default)] md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
-              >
-                How to
-              </Link>
-            </li>
-            <li>
-              <Link
-                to='/user#faq'
-                className='block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[var(--color-btn-default)] md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
-              >
-                FAQ
-              </Link>
-            </li>
-            <li>
-              <Link
-                to='/user#support'
-                className='block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[var(--color-btn-default)] md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
-              >
-                Support
-              </Link>
-            </li>
-          </ul>
+        {/* Signup Button */}
+        <div className='flex items-center space-x-2'>
+          <Link
+            to='/signup'
+            className='bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600 transition duration-200'
+          >
+            Sign Up
+          </Link>
         </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className='md:hidden p-2 rounded-md focus:outline-none'
+        >
+          {isMenuOpen ? (
+            <XMarkIcon className='h-6 w-6' />
+          ) : (
+            <Bars3Icon className='h-6 w-6' />
+          )}
+        </button>
       </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className='md:hidden flex flex-col space-y-4 p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-600'>
+          <Link to='/about' className='text-gray-700 dark:text-gray-300'>
+            About
+          </Link>
+          <Link to='/services' className='text-gray-700 dark:text-gray-300'>
+            Services
+          </Link>
+          <Link to='/projects' className='text-gray-700 dark:text-gray-300'>
+            Projects
+          </Link>
+          <Link to='/contact' className='text-gray-700 dark:text-gray-300'>
+            Contact
+          </Link>
+          {/* Mobile Resources Dropdown */}
+          <div className='flex items-center justify-between'>
+            <button className='text-gray-700 dark:text-gray-300'>
+              Resources <MdArrowDropDown />
+            </button>
+            <div className='flex flex-col space-y-2'>
+              <Link to='/faqs' className='text-gray-700 dark:text-gray-300'>
+                FAQs
+              </Link>
+              <Link to='/howto' className='text-gray-700 dark:text-gray-300'>
+                How To
+              </Link>
+              <Link to='/blogs' className='text-gray-700 dark:text-gray-300'>
+                Blogs
+              </Link>
+              <Link to='/services' className='text-gray-700 dark:text-gray-300'>
+                Services
+              </Link>
+            </div>
+          </div>
+
+          <Link
+            to='/signup'
+            className='bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200'
+          >
+            Sign Up
+          </Link>
+        </div>
+      )}
     </nav>
   )
 }

@@ -26,7 +26,7 @@ const Testimonials = () => {
     <section className='relative py-14 bg-[#F5EFFF]'>
       <div className='relative z-10 max-w-screen-xl mx-auto px-4 md:px-8'>
         <div className='max-w-xl sm:text-center md:mx-auto'>
-          <h3 className='text-[#4B2A97] text-3xl font-semibold sm:text-4xl'>
+          <h3 className='text-black text-3xl font-semibold sm:text-4xl'>
             Hear from our customers
           </h3>
           <p className='mt-3 text-gray-700'>

@@ -90,8 +90,8 @@ export default () => {
   ]
 
   return (
-    <section className='leading-relaxed max-w-full pt-12 mx-auto px-4 md:px-8'>
-      <div className='space-y-3 text-center'>
+    <section className='leading-relaxed max-w-full py-20 mx-auto px-4 md:px-8'>
+      <div className='space-y-1 text-center'>
         <h1 className='text-3xl text-gray-800 font-semibold'>
           Frequently Asked Questions
         </h1>
