@@ -7,7 +7,7 @@ import SignUp from "../login-and-signup/SignUp.jsx"
 import Contact from "../contact/ContactUs.jsx"
 import FAQs from "../Landing/FAQs.jsx"
 import HowTo from "../Landing/HowTo.jsx"
-import About from "../about/About.jsx"
+import About from "../pages/About.jsx"
 
 const RouteConfig = () => {
   return (
