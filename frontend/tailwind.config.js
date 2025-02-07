@@ -12,8 +12,8 @@ export default {
         border: "#D1BFA7" // Soft Beige (Border/Details)
       },
       fontFamily: {
-        heading: ["Montserrat", "sans-serif"], // Headings
-        body: ["Poppins", "sans-serif"] // Body text
+        heading: ["DM Serif Display", "sans-serif"], // Headings
+        body: ["Montserrat", "sans-serif"] // Body text
       }
     }
   },
