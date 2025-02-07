@@ -35,7 +35,7 @@ const UrbanPlanningProjects = () => {
   const [selectedProject, setSelectedProject] = useState(null)
 
   return (
-    <section className='py-1 bg-gray-50'>
+    <section className='py-14 bg-gray-50'>
       <div className='max-w-6xl mx-auto px-6 text-center'>
         <h2 className='text-3xl font-bold text-gray-800 sm:text-4xl'>
           Urban Planning Projects
