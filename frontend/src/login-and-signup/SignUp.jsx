@@ -38,7 +38,7 @@ const SignUp = () => {
   }
 
   return (
-    <div className='flex w-[80%] h-[100vh] m-24 max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg lg:max-w-full'>
+    <div className='flex w-[80%] h-[100vh] m-24 max-w-sm mx-auto overflow-hidden bg-secondary rounded-lg shadow-lg lg:max-w-full'>
       <div
         className='hidden bg-cover lg:block lg:w-5/6'
         style={{
@@ -56,7 +56,7 @@ const SignUp = () => {
         </div>
 
         <div className='flex items-center justify-center mt-6'>
-          <button className='w-1/3 pb-2 text-center text-gray-800 border-b-2 border-blue-500 text-2xl text-semibold'>
+          <button className='w-1/3 pb-2 text-center text-gray-800 border-b-2 border-blue-500 text-2xl text-heading'>
             Sign Up
           </button>
         </div>

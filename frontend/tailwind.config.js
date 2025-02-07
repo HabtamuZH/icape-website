@@ -4,25 +4,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#37AFE1", // Button Background
-        secondary: "#E5D9F2", // Secondary Background
-        accent: "#578FCA", // Button Hover
-        background: "#F5EFFF", // Main Background
-        textColor: "#000000" // Black Text
+        primary: "#333333", // Dark Gray (Text)
+        secondary: "#F5F5F5", // Light Gray (Background)
+        accent: "#C19A6B", // Muted Gold (Highlights)
+        dark: "#000000", // Black (Strong UI elements)
+        light: "#FFFFFF", // White (Text/Background)
+        border: "#D1BFA7" // Soft Beige (Border/Details)
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
-        heading: ["Roboto", "sans-serif"]
-      },
-      fontSize: {
-        "2xl": "24px",
-        "3xl": "36px",
-        "4xl": "48px"
-      },
-      spacing: {
-        1: "8px",
-        2: "16px",
-        4: "32px"
+        heading: ["Montserrat", "sans-serif"], // Headings
+        body: ["Poppins", "sans-serif"] // Body text
       }
     }
   },

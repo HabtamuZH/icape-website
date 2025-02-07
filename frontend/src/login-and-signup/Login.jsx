@@ -80,7 +80,7 @@ const Login = () => {
   }
 
   return (
-    <div className='flex w-[80%] h-[100vh] m-24 max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg lg:max-w-full'>
+    <div className='flex w-[80%] h-[100vh] m-24 max-w-sm mx-auto overflow-hidden bg-secondary rounded-lg shadow-lg lg:max-w-full'>
       <div
         className='hidden bg-cover lg:block lg:w-5/6'
         style={{
@@ -96,7 +96,7 @@ const Login = () => {
             alt='Logo'
           />
         </div>
-        <p className='mt-3 text-xl text-center text-gray-600'>Welcome back!</p>
+        <p className='mt-3 text-xl text-heading text-center text-gray-600'>Welcome back!</p>
         <button
           onClick={handleGoogleSignIn}
           type='button'
@@ -174,7 +174,7 @@ const Login = () => {
           <div className='mt-6'>
             <button
               type='submit'
-              className='w-full px-6 py-3 text-sm font-medium tracking-wide text-white bg-primary hover:bg-[#0e62ff] capitalize transition-colors duration-300 transform rounded-lg  focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50'
+              className='w-full px-6 py-3 mt-6 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-400 focus:ring focus:ring-blue-300 focus:outline-none'
             >
               Sign In
             </button>

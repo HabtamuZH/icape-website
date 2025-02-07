@@ -2,11 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ✔ Headings: font-heading (Montserrat)
+✔ Body Text: font-body (Poppins)
+✔ Background: bg-secondary (#F5F5F5)
+✔ Text: text-primary (#333333)
+✔ Accents (Buttons, Highlights): text-accent (#C19A6B)
+✔ Borders & Lines: border border-border (#D1BFA7) */
+
 body {
-  /* background-color: rgb(1, 1, 27); */
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
