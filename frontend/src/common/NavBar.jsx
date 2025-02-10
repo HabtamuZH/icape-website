@@ -65,15 +65,15 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <Link to="/" className="text-xl font-bold text-primary dark:text-white">
+        <Link to="/" className="text-xl font-bold text-primary">
           iCAPE
         </Link>
       </div>
 
       {/* Desktop Navigation */}
-      <div className="hidden lg:flex navbar-center">
+      <div className="hidden lg:flex navbar-center text-black">
         <ul className="menu menu-horizontal px-1 space-x-6">
-          <li><Link to="/" className="hover:text-accent">Home</Link></li>
+          <li><Link to="/" className=" hover:text-accent">Home</Link></li>
           <li><Link to="/about" className="hover:text-accent">About</Link></li>
 
           {/* Services Dropdown (Fixed) */}
