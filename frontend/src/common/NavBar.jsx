@@ -65,7 +65,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <Link to="/" className="text-xl font-bold text-primary">
+        <Link to="/" className="text-xl font-bold text-primary dark:text-white">
           iCAPE
         </Link>
       </div>
@@ -84,7 +84,7 @@ const Navbar = () => {
           >
             <button className="hover:text-accent">Services ▾</button>
             {activeDropdown === "services" && (
-              <ul className="absolute left-0 top-10 mt-2 w-48 bg-white shadow-lg rounded-box p-2 z-50">
+              <ul className="absolute left-0 top-5 mt-2 w-48 bg-white shadow-lg rounded-box p-2 z-50">
                 <li><Link to="/services/web-development" className="block px-4 py-2 hover:bg-gray-100">Web Development</Link></li>
                 <li><Link to="/services/ui-ux" className="block px-4 py-2 hover:bg-gray-100">UI/UX Design</Link></li>
                 <li><Link to="/services/mobile-apps" className="block px-4 py-2 hover:bg-gray-100">Mobile App Development</Link></li>
@@ -100,7 +100,7 @@ const Navbar = () => {
           >
             <button className="hover:text-accent">Projects ▾</button>
             {activeDropdown === "projects" && (
-              <ul className="absolute left-0 top-10 mt-2 w-48 bg-white shadow-lg rounded-box p-2 z-50">
+              <ul className="absolute left-0 top-5 mt-2 w-48 bg-white shadow-lg rounded-box p-2 z-50">
                 <li><Link to="/projects/completed" className="block px-4 py-2 hover:bg-gray-100">Completed</Link></li>
                 <li><Link to="/projects/ongoing" className="block px-4 py-2 hover:bg-gray-100">Ongoing</Link></li>
                 <li><Link to="/projects/upcoming" className="block px-4 py-2 hover:bg-gray-100">Upcoming</Link></li>
@@ -116,7 +116,7 @@ const Navbar = () => {
       {/* Right Side (CTA Button) */}
       <div className="navbar-end flex items-center">
         <Link
-          to="/contact"
+          to="/contactus"
           className="btn btn-primary px-6 py-2 text-white font-semibold rounded-full bg-accent hover:bg-primary transition duration-300"
         >
           Get Started
