@@ -1,4 +1,7 @@
+import {useEffect} from "react"
 import {FaLinkedin, FaTwitter} from "react-icons/fa"
+import ScrollReveal from "scrollreveal"
+import SpotlightCard from "./SpotlightCard"
 
 const TeamMembers = () => {
   const team = [
@@ -53,14 +56,36 @@ const TeamMembers = () => {
     }
   ]
 
+  useEffect(() => {
+    // ScrollReveal animations for team members
+    ScrollReveal().reveal(".team-card", {
+      delay: 300,
+      distance: "30px",
+      origin: "bottom",
+      opacity: 0,
+      duration: 1000,
+      reset: true,
+      scale: 0.9,
+      easing: "ease-in-out",
+      interval: 200 // Stagger the reveal for each team member
+    })
+    ScrollReveal().reveal(".sr-community-empowerment", {
+      opacity: 0,
+      x: -50,
+      duration: 1000,
+      delay: 600,
+      reset: true
+    })
+  }, [])
+
   return (
-    <section className='py-14 bg-gray-50'>
+    <section className='py-14 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white'>
       <div className='max-w-screen-xl mx-auto px-6 text-center'>
-        <div className='max-w-2xl mx-auto mb-12'>
-          <h3 className='text-gray-800 text-3xl font-bold sm:text-4xl'>
+        <div className='max-w-2xl mx-auto mb-12 sr-community-empowerment'>
+          <h3 className='text-gray-100 text-3xl font-bold sm:text-5xl'>
             Meet Our Team
           </h3>
-          <p className='text-gray-600 mt-3'>
+          <p className='text-gray-100 mt-3 text-xl'>
             A passionate team committed to innovation and excellence.
           </p>
         </div>
@@ -68,40 +93,42 @@ const TeamMembers = () => {
           {team.map((member, idx) => (
             <div
               key={idx}
-              className='bg-white shadow-md hover:shadow-lg transition-shadow p-6 rounded-xl text-center'
+              className='team-card p-6 rounded-xl text-center transform hover:scale-105'
             >
-              <div className='w-24 h-24 mx-auto mb-4 overflow-hidden rounded-full border-4 border-indigo-200'>
-                <img
-                  src={member.avatar}
-                  className='w-full h-full object-cover'
-                  alt={member.name}
-                />
-              </div>
-              <h4 className='text-gray-700 text-lg font-semibold'>
-                {member.name}
-              </h4>
-              <p className='text-indigo-600 text-sm font-medium'>
-                {member.title}
-              </p>
-              <p className='text-gray-600 mt-3 text-sm'>{member.desc}</p>
-              <div className='mt-4 flex justify-center gap-4 text-gray-400'>
-                <a
-                  href={member.twitter}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='hover:text-blue-500 transition'
-                >
-                  <FaTwitter size={20} />
-                </a>
-                <a
-                  href={member.linkedin}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='hover:text-blue-700 transition'
-                >
-                  <FaLinkedin size={20} />
-                </a>
-              </div>
+              <SpotlightCard>
+                <div className='w-24 h-24 mx-auto mb-4 overflow-hidden rounded-full border-4 border-indigo-200'>
+                  <img
+                    src={member.avatar}
+                    className='w-full h-full object-cover'
+                    alt={member.name}
+                  />
+                </div>
+                <h4 className='text-gray-100 text-lg font-semibold'>
+                  {member.name}
+                </h4>
+                <p className='text-fuchsia-700 text-sm font-medium'>
+                  {member.title}
+                </p>
+                <p className='text-gray-200 mt-3 text-sm'>{member.desc}</p>
+                <div className='mt-4 flex justify-center gap-4 text-gray-400'>
+                  <a
+                    href={member.twitter}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='hover:text-blue-700 transition'
+                  >
+                    <FaTwitter size={20} />
+                  </a>
+                  <a
+                    href={member.linkedin}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='hover:text-blue-700 transition'
+                  >
+                    <FaLinkedin size={20} />
+                  </a>
+                </div>
+              </SpotlightCard>
             </div>
           ))}
         </div>
