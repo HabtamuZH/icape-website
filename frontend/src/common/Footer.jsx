@@ -64,21 +64,21 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaTwitter className="w-6 h-6 text-primary hover:text-accent transition duration-300" />
+              <FaTwitter className="w-6 h-6 text-secondary hover:text-accent transition duration-300" />
             </a>
             <a
               href="https://facebook.com"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaFacebook className="w-6 h-6 text-primary hover:text-accent transition duration-300" />
+              <FaFacebook className="w-6 h-6 text-secondary hover:text-accent transition duration-300" />
             </a>
             <a
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaInstagram className="w-6 h-6 text-primary hover:text-accent transition duration-300" />
+              <FaInstagram className="w-6 h-6 text-secondary hover:text-accent transition duration-300" />
             </a>
           </div>
         </nav>

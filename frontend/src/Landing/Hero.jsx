@@ -112,10 +112,10 @@ const HeroSection = () => {
         {/* Call-to-Action Button */}
         <div className="hero-button flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
           <Link
-            to="/contact"
+            to="/projects"
             className="inline-flex justify-center items-center py-3 px-6 text-base font-medium text-white bg-accent rounded-lg hover:bg-opacity-80 transition duration-300"
           >
-            Get Started
+            Explore Our Projects
             <FaArrowRight className="ml-2 w-5 h-5" />
           </Link>
         </div>

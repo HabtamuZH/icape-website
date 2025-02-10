@@ -33,7 +33,7 @@ const Navbar = () => {
   return (
     <nav
       ref={navbarRef}
-      className="navbar bg-base-100 shadow-md fixed top-4 left-4 right-4 w-[calc(100%-2rem)] z-50 rounded-lg flex justify-between px-6 py-3 items-center"
+      className="navbar bg-base-100 bg-secondary shadow-md fixed top-4 left-4 right-4 w-[calc(100%-2rem)] z-50 rounded-lg flex justify-between px-6 py-3 items-center"
     >
       <div className="navbar-start flex items-center">
         {/* Mobile Menu Button */}
@@ -109,7 +109,6 @@ const Navbar = () => {
           </li>
 
           <li><Link to="/blog" className="hover:text-accent">Blogs</Link></li>
-          <li><Link to="/contactus" className="hover:text-accent">Contact</Link></li>
         </ul>
       </div>
 
@@ -119,7 +118,7 @@ const Navbar = () => {
           to="/contactus"
           className="btn btn-primary px-6 py-2 text-white font-semibold rounded-full bg-accent hover:bg-primary transition duration-300"
         >
-          Get Started
+          Contact Us
         </Link>
       </div>
     </nav>
