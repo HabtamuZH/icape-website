@@ -1,6 +1,5 @@
-import RouteConfig from "./route/RouteConfig"
-import {BrowserRouter} from "react-router"
-
+import RouteConfig from "./route/RouteConfig";
+import { BrowserRouter } from "react-router";
 
 function App() {
   return (
@@ -10,7 +9,7 @@ function App() {
       </BrowserRouter>
 
     </>
-  )
+  );
 }
 
-export default App
+export default App;

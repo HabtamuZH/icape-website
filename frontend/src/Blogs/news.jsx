@@ -1,171 +1,348 @@
-import React, {useState} from "react"
-import {FaArrowRight} from "react-icons/fa"
+import { useState, useEffect, useRef } from "react";
+import ScrollReveal from "scrollreveal";
+import { Bookmark, Calendar, User } from "lucide-react";
 
-const BlogData = [
-  {
-    date: "Dec 22, 2023",
-    CardTitle: "Introducing AutoManage: Revolutionizing Partnership Management",
-    CardDescription:
-      "AutoManage provides innovative AI tools for efficient partnership management, helping organizations streamline collaboration...",
-    image: "https://i.ibb.co/Cnwd4q6/image-01.jpg",
-    fullDescription:
-      "AutoManage provides innovative AI tools for efficient partnership management, helping organizations streamline collaboration and improve overall performance. AutoManage is an advanced AI-driven platform that enables organizations to manage their partnerships with greater efficiency. The platform leverages machine learning and data analytics to optimize collaboration, track progress, and ensure long-term success in all business partnerships."
-  },
-  {
-    date: "Dec 22, 2023",
-    CardTitle: "How AutoManage Enhances Communication in Partnerships",
-    CardDescription:
-      "Effective communication is the backbone of successful partnerships. AutoManage helps organizations foster better communication...",
-    image: "https://i.ibb.co/Cnwd4q6/image-01.jpg",
-    fullDescription:
-      "Effective communication is the backbone of successful partnerships. AutoManage helps organizations foster better communication through automated updates, real-time notifications, and streamlined messaging. AutoManage allows organizations to stay connected with partners in real time through seamless messaging and instant notifications. The platform improves clarity, ensures timely updates, and minimizes communication gaps, resulting in stronger, more effective partnerships."
-  },
-  {
-    date: "Dec 22, 2023",
-    CardTitle: "The Future of AI in Partnership Management",
-    CardDescription:
-      "AI is transforming partnership management, and AutoManage is at the forefront of this revolution. Learn how AI can automate tasks, improve decision-making, and foster growth...",
-    image: "https://i.ibb.co/Cnwd4q6/image-01.jpg",
-    fullDescription:
-      "AI is transforming partnership management, and AutoManage is at the forefront of this revolution. Learn how AI can automate tasks, improve decision-making, and foster growth. Artificial intelligence is changing the way organizations manage partnerships by automating repetitive tasks, analyzing data for valuable insights, and assisting in decision-making. AutoManage harnesses the power of AI to provide organizations with the tools they need to drive growth and maximize the potential of every partnership."
-  }
-]
+const Blog = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedBlog, setSelectedBlog] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("All");
 
-const News = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [modalContent, setModalContent] = useState({})
+  const blogs = [
+    {
+      title: "The Future of Sustainable Architecture",
+      description:
+        "Exploring the latest trends in green building and eco-friendly designs.",
+      date: "Feb 5, 2025",
+      author: "Emily Carter",
+      category: "Sustainability",
+      fullText:
+        "Sustainable architecture is revolutionizing the industry with innovative materials, energy-efficient designs, and eco-conscious urban planning...",
+      imageUrl:
+        "https://via.placeholder.com/600x400?text=Sustainable+Architecture",
+    },
+    {
+      title: "Minimalist Architecture: Less is More",
+      description:
+        "How minimalist design principles are shaping modern architecture.",
+      date: "Jan 28, 2025",
+      author: "Michael Johnson",
+      category: "Minimalism",
+      fullText:
+        "Minimalist architecture focuses on simplicity, functionality, and the use of natural light. Architects worldwide are embracing clean lines, open spaces...",
+      imageUrl: "https://via.placeholder.com/600x400?text=Minimalist+Design",
+    },
+    {
+      title: "The Role of AI in Architecture",
+      description:
+        "How artificial intelligence is transforming architectural design and construction.",
+      date: "Jan 15, 2025",
+      author: "Sophia Nguyen",
+      category: "Technology",
+      fullText:
+        "Artificial intelligence is streamlining design processes, optimizing construction efficiency, and introducing new possibilities in generative design...",
+      imageUrl: "https://via.placeholder.com/600x400?text=AI+in+Architecture",
+    },
+    {
+      title: "Biophilic Design: Bringing Nature Indoors",
+      description:
+        "Understanding the impact of biophilic design on human well-being and productivity.",
+      date: "Dec 30, 2024",
+      author: "Daniel Ross",
+      category: "Nature",
+      fullText:
+        "Biophilic design incorporates natural elements into buildings, such as living walls, indoor gardens, and water features. Studies show that such spaces...",
+      imageUrl: "https://via.placeholder.com/600x400?text=Biophilic+Design",
+    },
+    {
+      title: "Smart Homes: The Intersection of Tech & Design",
+      description:
+        "The evolution of smart home technology in modern architectural projects.",
+      date: "Dec 10, 2024",
+      author: "Laura Smith",
+      category: "Smart Homes",
+      fullText:
+        "Smart homes integrate IoT devices, automation, and AI-powered assistants to create seamless, energy-efficient living environments...",
+      imageUrl: "https://via.placeholder.com/600x400?text=Smart+Homes",
+    },
+    {
+      title: "Historical Architecture: Preserving the Past",
+      description:
+        "How architects balance restoration and modernization in historic buildings.",
+      date: "Nov 22, 2024",
+      author: "James Bennett",
+      category: "History",
+      fullText:
+        "Historical preservation involves careful restoration techniques, ensuring that buildings retain their original charm while incorporating modern upgrades...",
+      imageUrl: "https://via.placeholder.com/600x400?text=Historical+Buildings",
+    },
+    {
+      title: "The Impact of 3D Printing in Architecture",
+      description:
+        "Revolutionizing construction with 3D-printed buildings and structures.",
+      date: "Nov 5, 2024",
+      author: "Rachel Adams",
+      category: "Technology",
+      fullText:
+        "3D printing in architecture is rapidly growing, allowing for cost-effective, sustainable, and complex structures that traditional methods struggle to achieve...",
+      imageUrl: "https://via.placeholder.com/600x400?text=3D+Printed+Buildings",
+    },
+    {
+      title: "Urban Planning: Designing Cities for the Future",
+      description:
+        "How urban planning is adapting to population growth and climate change.",
+      date: "Oct 20, 2024",
+      author: "David Wilson",
+      category: "Urban Design",
+      fullText:
+        "Future cities require efficient transportation, green spaces, and resilient infrastructure. Urban planners focus on smart cities and sustainable growth...",
+      imageUrl: "https://via.placeholder.com/600x400?text=Urban+Planning",
+    },
+    {
+      title: "The Rise of Modular Architecture",
+      description:
+        "Why prefabricated and modular buildings are gaining popularity.",
+      date: "Oct 3, 2024",
+      author: "Lisa Thompson",
+      category: "Construction",
+      fullText:
+        "Modular architecture provides faster construction, reduced costs, and increased sustainability, making it a game-changer in the industry...",
+      imageUrl: "https://via.placeholder.com/600x400?text=Modular+Architecture",
+    },
+    {
+      title: "Glass Architecture: Aesthetic & Functional",
+      description:
+        "The pros and cons of using glass in modern architectural design.",
+      date: "Sep 15, 2024",
+      author: "Mark Anderson",
+      category: "Materials",
+      fullText:
+        "Glass buildings are striking and energy-efficient, but they require careful planning to balance transparency, privacy, and thermal insulation...",
+      imageUrl: "https://via.placeholder.com/600x400?text=Glass+Architecture",
+    },
+    {
+      title: "Skyscrapers: Engineering Marvels of the 21st Century",
+      description:
+        "The latest advancements in skyscraper construction and design.",
+      date: "Sep 1, 2024",
+      author: "Nathan Roberts",
+      category: "High-Rise",
+      fullText:
+        "Modern skyscrapers push the boundaries of engineering with sustainable materials, wind-resistant designs, and innovative structural systems...",
+      imageUrl: "https://via.placeholder.com/600x400?text=Skyscrapers",
+    },
+    {
+      title: "The Beauty of Brutalist Architecture",
+      description: "Exploring the raw concrete aesthetics of Brutalism.",
+      date: "Aug 10, 2024",
+      author: "Olivia Carter",
+      category: "Brutalism",
+      fullText:
+        "Brutalist architecture is bold, raw, and unapologetically expressive. Despite its divisive nature, it has seen a revival in contemporary design...",
+      imageUrl:
+        "https://via.placeholder.com/600x400?text=Brutalist+Architecture",
+    },
+    {
+      title: "Floating Cities: The Future of Water-Based Living",
+      description:
+        "How floating cities could be a solution to rising sea levels.",
+      date: "Jul 25, 2024",
+      author: "Henry Peterson",
+      category: "Innovation",
+      fullText:
+        "With climate change causing sea levels to rise, architects and engineers are conceptualizing floating cities as sustainable living solutions...",
+      imageUrl: "https://via.placeholder.com/600x400?text=Floating+Cities",
+    },
+    {
+      title: "The Role of Lighting in Architectural Design",
+      description:
+        "How strategic lighting enhances the functionality and beauty of spaces.",
+      date: "Jul 5, 2024",
+      author: "Sarah Miller",
+      category: "Lighting",
+      fullText:
+        "Lighting in architecture is more than aesthetics; it influences mood, energy efficiency, and spatial perception...",
+      imageUrl:
+        "https://via.placeholder.com/600x400?text=Architectural+Lighting",
+    },
+  ];
 
-  const handleOpenModal = (content) => {
-    setModalContent(content)
-    setIsModalOpen(true)
-  }
+  const modalRef = useRef();
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false)
-    setModalContent({})
-  }
+  useEffect(() => {
+    ScrollReveal().reveal(".blog-section", {
+      delay: 200,
+      duration: 1500,
+      easing: "ease-in-out",
+      distance: "40px",
+      opacity: 0,
+      origin: "bottom",
+      interval: 200,
+    });
+
+    ScrollReveal().reveal(".blog-card", {
+      delay: 300,
+      duration: 1500,
+      easing: "ease-in-out",
+      distance: "30px",
+      opacity: 0,
+      origin: "right",
+      interval: 200,
+      rotate: { x: 20, y: 20 },
+    });
+  }, []);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setIsModalOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
+  const openModal = (blog) => {
+    setSelectedBlog(blog);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const filteredBlogs = blogs.filter((blog) => {
+    return (
+      blog.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      (categoryFilter === "All" || blog.category === categoryFilter)
+    );
+  });
+
+  const categories = ["All", ...new Set(blogs.map((blog) => blog.category))];
 
   return (
-    <>
-      <section className='pb-10 pt-20 lg:pb-20 lg:pt-[120px] bg-bg-color '>
-        <div>
-          <div className='mx-4 flex flex-wrap'>
-            <div className='w-full'>
-              <div className='mx-auto mb-[60px] max-w-[510px] text-center lg:mb-20'>
-                {/* <span className='mb-2 block text-lg font-semibold text-[var(--color-btn-default)]'>
-                  Our Blogs
-                </span> */}
-                <h2 className='font-poppins mb-4 text-text-h1 font-bold sm:text-4xl md:text-[40px]'>
-                  Our Recent News
-                </h2>
-                <p className='font-poppins text-text-p'>
-                  Stay updated with the latest news about AutoManage and how it
-                  is transforming partnership management across industries.
-                </p>
+    <div className="bg-gradient-to-b from-gray-800 via-gray-900 to-black min-h-screen text-white py-12 px-6">
+      <div className="w-full max-w-7xl mx-auto flex flex-col gap-8 blog-section">
+        <h2 className="text-5xl font-extrabold text-center text-gradient bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-white">
+          Latest Architectural Projects
+        </h2>
+
+        {/* Search and Filter Options */}
+        <div className="flex flex-col md:flex-row justify-between items-center bg-gray-700 p-4 rounded-lg shadow-lg">
+          <input
+            type="text"
+            placeholder="Search blog title..."
+            className="w-full md:w-1/2 p-2 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-gray-500"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <select
+            className="w-full md:w-1/4 mt-3 md:mt-0 p-2 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-gray-500"
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+          >
+            {categories.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Blog Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {filteredBlogs.map((blog, index) => (
+            <div
+              key={index}
+              className="bg-gradient-to-r from-gray-800 to-gray-700 p-8 rounded-2xl shadow-xl blog-card transform transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer"
+              onClick={() => openModal(blog)}
+            >
+              <h3 className="text-3xl font-semibold text-white mb-4 transition-colors duration-300 hover:text-gray-200">
+                {blog.title}
+              </h3>
+              <p className="text-gray-300 mb-6 transition-all duration-300 hover:text-gray-400">
+                {blog.description}
+              </p>
+              <div className="flex items-center justify-between text-gray-400">
+                <div className="flex items-center space-x-2">
+                  <User className="w-6 h-6" />
+                  <span>{blog.author}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Calendar className="w-6 h-6" />
+                  <span>{blog.date}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Bookmark className="w-6 h-6" />
+                  <span>{blog.category}</span>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className='mx-4 flex flex-wrap'>
-            {BlogData.map((blog, index) => (
-              <BlogCard
-                key={index}
-                date={blog.date}
-                CardTitle={blog.CardTitle}
-                CardDescription={blog.CardDescription}
-                image={blog.image}
-                fullDescription={blog.fullDescription}
-                onReadMore={handleOpenModal}
-              />
-            ))}
-          </div>
+          ))}
         </div>
-      </section>
 
-      {isModalOpen && (
-        <Modal content={modalContent} onClose={handleCloseModal} />
-      )}
-    </>
-  )
-}
+        {/* Modal */}
+       
 
-export default News
-
-const BlogCard = ({
-  image,
-  date,
-  CardTitle,
-  CardDescription,
-  fullDescription,
-  onReadMore
-}) => {
-  return (
-    <div className='w-full px-4 md:w-1/2 lg:w-1/3'>
-      <div className='mb-10 w-full shadow-lg rounded-[1rem] hover:scale-102 transition-transform'>
-        <div className='mb-8 overflow-hidden rounded'>
-          <img src={image} alt='' className='w-full' />
-        </div>
-        <div className='p-4'>
-          {date && (
-            <span className='font-poppins mb-5 inline-block rounded bg-[var(--color-btn-default)] px-4 py-1 text-center text-xs font-semibold leading-loose text-[var(--color-btn-text)]'>
-              {date}
-            </span>
-          )}
-          <h3 className='font-poppins mb-4 inline-block text-text-h2 font-semibold  sm:text-2xl lg:text-xl xl:text-2xl'>
-            {CardTitle}
-          </h3>
-          <p className='font-poppins text-text-p '>
-            {CardDescription}
-            <button
-              onClick={() =>
-                onReadMore({
-                  date,
-                  CardTitle,
-                  CardDescription,
-                  fullDescription,
-                  image
-                })
-              }
-              className='font-poppins flex items-center gap-2 text-[var(--color-btn-default)] hover:cursor-pointer hover:text-[var(--color-btn-hover)]'
+        {/* Footer */}
+        <footer className="w-full mt-14 py-6 bg-gradient-to-r from-gray-800 to-gray-700 text-center text-gray-300">
+          <p>
+            &copy; 2025 Architecture Firm. All rights reserved. |{" "}
+            <a href="#" className="hover:text-gray-400">
+              Privacy Policy
+            </a>{" "}
+            |{" "}
+            <a href="#" className="hover:text-gray-400">
+              Contact
+            </a>
+          </p>
+        </footer>
+      </div>
+      {isModalOpen && selectedBlog && (
+          <div className="modal-overlay backdrop-blur-sm inset-0 max-h-screen fixed bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div
+              ref={modalRef}
+              className="bg-gray-900 p-8 rounded-2xl shadow-2xl max-w-3xl w-full transform transition-all duration-500"
             >
-              Read More
-              <FaArrowRight
-                size={15}
-                className='text-[var(--color-btn-default)]'
-              />
-            </button>
-          </p>
-        </div>
-      </div>
+              <div className="w-full h-60 object-cover rounded-lg shadow-md mb-6">
+                <img
+                  src={selectedBlog.imageUrl}
+                  alt="Blog Image"
+                  className="w-full h-auto mb-6 rounded-lg"
+                />
+                <h3 className="text-4xl font-semibold text-white">
+                  {selectedBlog.title}
+                </h3>
+              </div>
+              <p className="text-gray-300 mb-4">{selectedBlog.fullText}</p>
+              <div className="flex justify-between items-center text-gray-400">
+                <div className="flex items-center space-x-2">
+                  <User className="w-6 h-6" />
+                  <span>{selectedBlog.author}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Calendar className="w-6 h-6" />
+                  <span>{selectedBlog.date}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Bookmark className="w-6 h-6" />
+                  <span>{selectedBlog.category}</span>
+                </div>
+              </div>
+              <button
+                className="absolute top-4 right-4 text-white text-3xl font-bold hover:text-gray-400"
+                onClick={closeModal}
+              >
+                &times;
+              </button>
+            </div>
+          </div>
+        )}
     </div>
-  )
-}
+  );
+};
 
-const Modal = ({content, onClose}) => {
-  const {date, CardTitle, fullDescription, image} = content
-
-  return (
-    <div className='font-poppins fixed inset-0 z-50 flex items-center justify-center backdrop-blur bg-opacity-80'>
-      <div className='bg-[var(--color-bg-color)] rounded-lg shadow-lg w-[90%] max-w-3xl max-h-[90%] overflow-y-auto'>
-        <div className='relative p-6'>
-          <img src={image} alt={CardTitle} className='rounded mb-4 w-full' />
-          <span className='inline-block text-sm font-semibold text-[var(--color-btn-default)] mb-2'>
-            {date}
-          </span>
-          <h3 className='text-2xl font-bold mb-4 text-[var(--color-text-h2)]'>
-            {CardTitle}
-          </h3>
-          <p className='text-text-p mb-6'>
-            {fullDescription}
-          </p>
-          <button
-            onClick={onClose}
-            className='absolute mb-4 px-3 py-1 right-6 bottom-0 font-semibold text-[var(--color-btn-text)] bg-[var(--color-btn-default)] rounded hover:bg-[var(--color-btn-hover)] transition-transform'
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
+export default Blog;
