@@ -1,5 +1,5 @@
-import  { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import ScrollReveal from "scrollreveal";
 import {
   MapPin,
   Phone,
@@ -9,12 +9,6 @@ import {
   MessageCircle,
   Send,
 } from "lucide-react";
-
-// Animation Variants
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } },
-};
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -44,23 +38,44 @@ const Contact = () => {
     }
   };
 
+  useEffect(() => {
+    // Initialize ScrollReveal
+    ScrollReveal().reveal(".contact-section", {
+      delay: 200,
+      duration: 1500,
+      easing: "ease-in-out",
+      distance: "40px",
+      opacity: 0,
+      origin: "bottom",
+      interval: 200,
+    });
+
+    ScrollReveal().reveal(".contact-card", {
+      delay: 300,
+      duration: 1500,
+      easing: "ease-in-out",
+      distance: "30px",
+      opacity: 0,
+      origin: "right",
+      interval: 200,
+      rotate: { x: 20, y: 20 },
+    });
+
+    ScrollReveal().reveal(".map-frame", {
+      delay: 400,
+      duration: 2000,
+      easing: "ease-in-out",
+      opacity: 0,
+      scale: 0.9,
+      origin: "top",
+    });
+  }, []);
+
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 via-black to-gray-800 py-10 px-4">
-      <motion.div
-        className="w-full max-w-6xl bg-gradient-to-r from-gray-800 to-gray-900 bg-opacity-90 shadow-2xl rounded-3xl p-10 text-white flex flex-col md:flex-row gap-10"
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: { opacity: 0, scale: 0.95 },
-          visible: {
-            opacity: 1,
-            scale: 1,
-            transition: { duration: 1.2, ease: "easeOut" },
-          },
-        }}
-      >
+      <div className="w-full max-w-6xl bg-gradient-to-r from-gray-800 to-gray-900 bg-opacity-90 shadow-2xl rounded-3xl p-10 text-white flex flex-col md:flex-row gap-10 contact-section">
         {/* Left Section - Address & Contact Info */}
-        <motion.div className="flex-1 space-y-6" variants={fadeInUp}>
+        <div className="flex-1 space-y-6 contact-card">
           <h2 className="text-4xl font-bold flex items-center gap-3">
             <MapPin className="text-blue-500 w-9 h-9 animate-pulse" />
             Contact Us
@@ -84,23 +99,13 @@ const Contact = () => {
                 text: "Mon - Fri: 9:00 AM - 6:00 PM",
               },
             ].map((item, index) => (
-              <motion.div
+              <div
                 key={index}
                 className="flex items-center space-x-4 text-gray-300 hover:text-blue-400 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  hidden: { opacity: 0, x: -30 },
-                  visible: {
-                    opacity: 1,
-                    x: 0,
-                    transition: { duration: 0.7, delay: index * 0.2 },
-                  },
-                }}
               >
                 {item.icon}
                 <span className="text-lg font-medium">{item.text}</span>
-              </motion.div>
+              </div>
             ))}
           </div>
           {/* Contact Buttons */}
@@ -117,36 +122,26 @@ const Contact = () => {
                 icon: <MessageCircle className="ml-2 w-5 h-5" />,
               },
             ].map((btn, index) => (
-              <motion.a
+              <a
                 key={index}
                 href={btn.href}
                 className="flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold text-lg shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
               >
                 {btn.text} {btn.icon}
-              </motion.a>
+              </a>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Right Section - Contact Form */}
-        <motion.div
-          className="flex-1 bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-lg shadow-lg"
-          variants={fadeInUp}
-        >
+        <div className="flex-1 bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-lg shadow-lg contact-card">
           <h3 className="text-2xl font-semibold mb-4">Send a Message</h3>
           {submitted ? (
             <p className="text-green-400 font-medium">
               Your message has been sent successfully!
             </p>
           ) : (
-            <form
-              action="https://formsubmit.co/el/nidica"
-              method="POST"
-              onSubmit={handleSubmit}
-              className="space-y-4"
-            >
+            <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="text"
                 name="name"
@@ -174,33 +169,19 @@ const Contact = () => {
                 className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none transition duration-300 transform hover:scale-105"
                 required
               ></textarea>
-              <motion.button
+              <button
                 type="submit"
                 className="w-full flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold text-lg shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 Send Message <Send className="ml-2 w-5 h-5" />
-              </motion.button>
+              </button>
             </form>
           )}
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       {/* Google Maps Embed */}
-      <motion.div
-        className="w-full max-w-6xl mt-10 h-80 rounded-xl overflow-hidden shadow-lg border border-gray-700"
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: { opacity: 0, scale: 0.9 },
-          visible: {
-            opacity: 1,
-            scale: 1,
-            transition: { duration: 1.5, ease: "easeInOut" },
-          },
-        }}
-      >
+      <div className="w-full max-w-6xl mt-10 h-80 rounded-xl overflow-hidden shadow-lg border border-gray-700 map-frame">
         <iframe
           title="Google Maps"
           className="w-full h-full"
@@ -208,7 +189,7 @@ const Contact = () => {
           allowFullScreen
           loading="lazy"
         ></iframe>
-      </motion.div>
+      </div>
     </div>
   );
 };
