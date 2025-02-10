@@ -1,5 +1,5 @@
 import {Route, Routes} from "react-router-dom"
-// import Home from "../home/Home.jsx"
+import Home from "../pages/Home.jsx"
 import Navbar from "../common/NavBar.jsx"
 import Footer from "../common/Footer.jsx"
 import Login from "../login-and-signup/Login.jsx"
@@ -14,7 +14,7 @@ const RouteConfig = () => {
     <>
       <Navbar />
       <Routes>
-        <Route path='/' element={<SignUp />} />
+        <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
       </Routes>

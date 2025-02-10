@@ -1,159 +1,128 @@
-import {useState, useEffect, useRef} from "react"
-import {Link} from "react-router-dom"
-import {FaBars, FaUserCircle, FaBell} from "react-icons/fa"
+import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import { FaBars } from "react-icons/fa";
+import ScrollReveal from "scrollreveal";
 
 const Navbar = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
-  const notificationCount = 3 // Example notification count
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const navbarRef = useRef(null);
 
-  const navbarRef = useRef(null)
-  const notificationsRef = useRef(null)
-  const profileRef = useRef(null)
-
-  const toggleProfileDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen)
-    setIsNotificationsOpen(false) // Close notifications when profile opens
-  }
-
-  const toggleNotificationsDropdown = () => {
-    setIsNotificationsOpen(!isNotificationsOpen)
-    setIsDropdownOpen(false) // Close profile when notifications open
-  }
-
+  // Close dropdowns when clicking outside
   const handleClickOutside = (event) => {
-    if (
-      navbarRef.current &&
-      !navbarRef.current.contains(event.target) &&
-      !notificationsRef.current.contains(event.target) &&
-      !profileRef.current.contains(event.target)
-    ) {
-      setIsDropdownOpen(false)
-      setIsNotificationsOpen(false)
+    if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+      setActiveDropdown(null);
     }
-  }
+  };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [])
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Initialize ScrollReveal animation
+  useEffect(() => {
+    ScrollReveal().reveal(".navbar", {
+      origin: "top",
+      distance: "50px",
+      duration: 1000,
+      easing: "ease-in-out",
+      reset: false,
+    });
+  }, []);
 
   return (
     <nav
       ref={navbarRef}
-      className='fixed top-0 w-full bg-gradient-to-r from-[#37AFE1] to-[#E5D9F2] text-textColor shadow-md z-50'
+      className="navbar bg-base-100 shadow-md fixed top-4 left-4 right-4 w-[calc(100%-2rem)] z-50 rounded-lg flex justify-between px-6 py-3 items-center"
     >
-      <div className='max-w-screen-xl flex items-center justify-between mx-auto px-6 py-3'>
-        {/* Logo */}
-        <Link to='/' className='text-2xl font-semibold tracking-wide'>
+      <div className="navbar-start flex items-center">
+        {/* Mobile Menu Button */}
+        <div className="dropdown lg:hidden">
+          <label tabIndex={0} className="btn btn-ghost">
+            <FaBars size={22} />
+          </label>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-50"
+          >
+            {["Home", "About", "Contact"].map((item) => (
+              <li key={item}>
+                <Link to={`/${item.toLowerCase()}`} className="hover:text-accent">
+                  {item}
+                </Link>
+              </li>
+            ))}
+            {/* Services Dropdown (Mobile) */}
+            <li>
+              <details>
+                <summary className="hover:text-accent">Services</summary>
+                <ul className="p-2 bg-base-100 shadow-md rounded-box">
+                  <li><Link to="/services/web-development" className="hover:text-accent">Web Development</Link></li>
+                  <li><Link to="/services/ui-ux" className="hover:text-accent">UI/UX Design</Link></li>
+                  <li><Link to="/services/mobile-apps" className="hover:text-accent">Mobile App Development</Link></li>
+                </ul>
+              </details>
+            </li>
+          </ul>
+        </div>
+        <Link to="/" className="text-xl font-bold text-primary">
           iCAPE
         </Link>
-
-        {/* Desktop Navigation */}
-        <div className='hidden md:flex space-x-6'>
-          {["", "About", "Services", "Projects", "Blogs", "Contact"].map(
-            (item) => (
-              <Link
-                key={item}
-                to={`/${item.toLowerCase()}`}
-                className='hover:text-gray-200 transition'
-              >
-                {item || "Home"}
-              </Link>
-            )
-          )}
-        </div>
-
-        {/* Icons & Mobile Menu */}
-        <div className='flex items-center space-x-6'>
-          {/* Notification Icon */}
-          <button
-            onClick={toggleNotificationsDropdown}
-            className='relative'
-            ref={notificationsRef}
-          >
-            <FaBell size={22} />
-            {notificationCount > 0 && (
-              <span className='absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full px-1.5'>
-                {notificationCount}
-              </span>
-            )}
-          </button>
-
-          {/* Notifications Dropdown */}
-          {isNotificationsOpen && (
-            <div className='absolute right-16 mt-64 w-60 bg-white text-gray-800 border rounded-lg shadow-md'>
-              <ul className='py-2 text-sm'>
-                <li className='px-4 py-2 border-b'>New message received!</li>
-                <li className='px-4 py-2 border-b'>
-                  Project update available.
-                </li>
-                <li className='px-4 py-2'>New comment on your post.</li>
-              </ul>
-            </div>
-          )}
-
-          {/* Profile Icon */}
-          <button onClick={toggleProfileDropdown} ref={profileRef}>
-            <FaUserCircle size={26} />
-          </button>
-
-          {/* Profile Dropdown */}
-          {isDropdownOpen && (
-            <div className='absolute right-10 mt-64 w-48 bg-white text-gray-800 border rounded-lg shadow-md'>
-              <Link to='/profile' className='block px-4 py-2 hover:bg-gray-100'>
-                Profile
-              </Link>
-              <Link
-                to='/settings'
-                className='block px-4 py-2 hover:bg-gray-100'
-              >
-                Settings
-              </Link>
-              <Link
-                to='/messages'
-                className='block px-4 py-2 hover:bg-gray-100'
-              >
-                Messages
-              </Link>
-              <Link
-                to='/download'
-                className='block px-4 py-2 hover:bg-gray-100'
-              >
-                Download
-              </Link>
-            </div>
-          )}
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className='md:hidden'
-          >
-            <FaBars size={22} />
-          </button>
-        </div>
       </div>
 
-      {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <div className='md:hidden bg-gray-800 text-white py-3 px-4'>
-          {["Home", "About", "Services", "Projects", "Blogs", "Contact"].map(
-            (item) => (
-              <Link
-                key={item}
-                to={`/${item.toLowerCase()}`}
-                className='block py-2 border-b border-gray-600'
-              >
-                {item}
-              </Link>
-            )
-          )}
-        </div>
-      )}
-    </nav>
-  )
-}
+      {/* Desktop Navigation */}
+      <div className="hidden lg:flex navbar-center">
+        <ul className="menu menu-horizontal px-1 space-x-6">
+          <li><Link to="/" className="hover:text-accent">Home</Link></li>
+          <li><Link to="/about" className="hover:text-accent">About</Link></li>
 
-export default Navbar
+          {/* Services Dropdown (Fixed) */}
+          <li
+            className="relative"
+            onMouseEnter={() => setActiveDropdown("services")}
+            onMouseLeave={() => setActiveDropdown(null)}
+          >
+            <button className="hover:text-accent">Services ▾</button>
+            {activeDropdown === "services" && (
+              <ul className="absolute left-0 top-10 mt-2 w-48 bg-white shadow-lg rounded-box p-2 z-50">
+                <li><Link to="/services/web-development" className="block px-4 py-2 hover:bg-gray-100">Web Development</Link></li>
+                <li><Link to="/services/ui-ux" className="block px-4 py-2 hover:bg-gray-100">UI/UX Design</Link></li>
+                <li><Link to="/services/mobile-apps" className="block px-4 py-2 hover:bg-gray-100">Mobile App Development</Link></li>
+              </ul>
+            )}
+          </li>
+
+          {/* Projects Dropdown (Fixed) */}
+          <li
+            className="relative"
+            onMouseEnter={() => setActiveDropdown("projects")}
+            onMouseLeave={() => setActiveDropdown(null)}
+          >
+            <button className="hover:text-accent">Projects ▾</button>
+            {activeDropdown === "projects" && (
+              <ul className="absolute left-0 top-10 mt-2 w-48 bg-white shadow-lg rounded-box p-2 z-50">
+                <li><Link to="/projects/completed" className="block px-4 py-2 hover:bg-gray-100">Completed</Link></li>
+                <li><Link to="/projects/ongoing" className="block px-4 py-2 hover:bg-gray-100">Ongoing</Link></li>
+                <li><Link to="/projects/upcoming" className="block px-4 py-2 hover:bg-gray-100">Upcoming</Link></li>
+              </ul>
+            )}
+          </li>
+
+          <li><Link to="/contact" className="hover:text-accent">Contact</Link></li>
+        </ul>
+      </div>
+
+      {/* Right Side (CTA Button) */}
+      <div className="navbar-end flex items-center">
+        <Link
+          to="/contact"
+          className="btn btn-primary px-6 py-2 text-white font-semibold rounded-full bg-accent hover:bg-primary transition duration-300"
+        >
+          Get Started
+        </Link>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;

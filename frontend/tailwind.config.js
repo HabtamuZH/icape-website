@@ -14,8 +14,21 @@ export default {
       fontFamily: {
         heading: ["DM Serif Display", "sans-serif"], // Headings
         body: ["Montserrat", "sans-serif"] // Body text
-      }
+      },
+      keyframes: {
+        gradient: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
+        },
+      },
+      animation: {
+        gradient: 'gradient 8s linear infinite'
+      },
     }
   },
-  plugins: []
+  plugins: [
+
+    require('daisyui'),
+  ]
 }
