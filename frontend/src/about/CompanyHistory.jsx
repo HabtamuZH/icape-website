@@ -21,7 +21,7 @@ const CompanyHistory = () => {
   }, [])
 
   return (
-    <section className='relative py-20 bg-gray-900 text-white'>
+    <section className='relative py-20 pt-32 bg-gray-900 text-white'>
       <div className='max-w-6xl mx-auto px-6'>
         {/* Section Title */}
         <div className='text-center mb-16 reveal '>

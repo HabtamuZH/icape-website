@@ -108,7 +108,8 @@ const Navbar = () => {
             )}
           </li>
 
-          <li><Link to="/contact" className="hover:text-accent">Contact</Link></li>
+          <li><Link to="/blog" className="hover:text-accent">Blogs</Link></li>
+          <li><Link to="/contactus" className="hover:text-accent">Contact</Link></li>
         </ul>
       </div>
 

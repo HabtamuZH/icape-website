@@ -224,7 +224,7 @@ const Blog = () => {
   const categories = ["All", ...new Set(blogs.map((blog) => blog.category))];
 
   return (
-    <div className="bg-gradient-to-b from-gray-800 via-gray-900 to-black min-h-screen text-white py-12 px-6">
+    <div className="bg-gradient-to-b from-gray-800 via-gray-900 to-black min-h-screen text-white py-12 pt-32 px-6">
       <div className="w-full max-w-7xl mx-auto flex flex-col gap-8 blog-section">
         <h2 className="text-5xl font-extrabold text-center text-gradient bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-white">
           Latest Architectural Projects
@@ -285,21 +285,7 @@ const Blog = () => {
         </div>
 
         {/* Modal */}
-       
 
-        {/* Footer */}
-        <footer className="w-full mt-14 py-6 bg-gradient-to-r from-gray-800 to-gray-700 text-center text-gray-300">
-          <p>
-            &copy; 2025 Architecture Firm. All rights reserved. |{" "}
-            <a href="#" className="hover:text-gray-400">
-              Privacy Policy
-            </a>{" "}
-            |{" "}
-            <a href="#" className="hover:text-gray-400">
-              Contact
-            </a>
-          </p>
-        </footer>
       </div>
       {isModalOpen && selectedBlog && (
           <div className="modal-overlay backdrop-blur-sm inset-0 max-h-screen fixed bg-black bg-opacity-50 flex justify-center items-center z-50">

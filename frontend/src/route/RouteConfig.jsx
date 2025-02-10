@@ -3,6 +3,8 @@ import Home from "../pages/Home.jsx"
 import Navbar from "../common/NavBar.jsx"
 import Footer from "../common/Footer.jsx"
 import About from "../pages/About.jsx"
+import ContactUs from "../pages/Contact.jsx"
+import Blogs from "../pages/Blogs.jsx"
 
 const RouteConfig = () => {
   return (
@@ -10,11 +12,11 @@ const RouteConfig = () => {
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<SignUp />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/contactus' element={<ContactUs />} />
+        <Route path='/blog' element={<Blogs />} />
       </Routes>
 
-      {/* landing routes */}
       <Routes>
         
       </Routes>

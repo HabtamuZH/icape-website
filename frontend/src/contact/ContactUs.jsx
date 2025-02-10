@@ -72,7 +72,7 @@ const Contact = () => {
   }, []);
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 via-black to-gray-800 py-10 px-4">
+    <div className="w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 via-black to-gray-800 py-10 pt-36 px-4">
       <div className="w-full max-w-6xl bg-gradient-to-r from-gray-800 to-gray-900 bg-opacity-90 shadow-2xl rounded-3xl p-10 text-white flex flex-col md:flex-row gap-10 contact-section">
         {/* Left Section - Address & Contact Info */}
         <div className="flex-1 space-y-6 contact-card">
