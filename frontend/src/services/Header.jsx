@@ -18,7 +18,7 @@ const Header = () => {
         duration: 800,
         origin: "bottom",
         distance: "50px",
-        delay: 200 + index * 100,
+        delay: 200 + index * 200,
         easing: "ease-in-out",
       });
     });
@@ -48,7 +48,7 @@ const Header = () => {
           {services.map((service, index) => (
             <div
               key={index}
-              className={`bg-[#1b2944] rounded-lg shadow-lg p-6 flex flex-col items-center transform hover:scale-105 transition-transform duration-300 reveal-${index}`}
+              className={`bg-[#1b2944] rounded-lg shadow-lg p-6 flex flex-col items-center transform hover:scale-105 reveal-${index}`}
             >
               {/* Optional Icon */}
               {service.icon && (
