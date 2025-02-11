@@ -6,6 +6,7 @@ import About from "../pages/About.jsx"
 import ContactUs from "../pages/Contact.jsx"
 import Blogs from "../pages/Blogs.jsx"
 import Services from './../pages/Services';
+import Layout from "../admin/Layout.jsx"
 
 const RouteConfig = () => {
   return (
@@ -17,6 +18,7 @@ const RouteConfig = () => {
         <Route path='/contactus' element={<ContactUs />} />
         <Route path='/blog' element={<Blogs />} />
         <Route path='/services' element={<Services />} />
+        <Route path='/admin' element={<Layout />} />
       </Routes>
       <Footer />
     </>
