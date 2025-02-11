@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import image7 from './images/image7.jpg';
 import image8 from './images/image8.jpg';
