@@ -33,7 +33,7 @@ const Navbar = () => {
   return (
     <nav
       ref={navbarRef}
-      className="navbar bg-base-100 bg-secondary shadow-md fixed top-4 left-4 right-4 w-[calc(100%-2rem)] z-50 rounded-lg flex justify-between px-6 py-3 items-center"
+      className="navbar bg-secondary shadow-md fixed top-4 left-4 right-4 w-[calc(100%-2rem)] z-50 rounded-lg flex justify-between px-6 py-3 items-center"
     >
       <div className="navbar-start flex items-center">
         {/* Mobile Menu Button */}
@@ -45,24 +45,45 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-50"
           >
-            {["Home", "About", "Contact"].map((item) => (
+            {["Home", "About", "Contact", "Services"].map((item) => (
               <li key={item}>
-                <Link to={`/${item.toLowerCase()}`} className="hover:text-accent">
+                <Link
+                  to={`/${item.toLowerCase()}`}
+                  className="hover:text-accent"
+                >
                   {item}
                 </Link>
               </li>
             ))}
-            {/* Services Dropdown (Mobile) */}
+            {/* Services Dropdown (Mobile) 
             <li>
               <details>
                 <summary className="hover:text-accent">Services</summary>
                 <ul className="p-2 bg-base-100 shadow-md rounded-box">
-                  <li><Link to="/services/web-development" className="hover:text-accent">Web Development</Link></li>
-                  <li><Link to="/services/ui-ux" className="hover:text-accent">UI/UX Design</Link></li>
-                  <li><Link to="/services/mobile-apps" className="hover:text-accent">Mobile App Development</Link></li>
+                  <li>
+                    <Link
+                      to="/services/web-development"
+                      className="hover:text-accent"
+                    >
+                      Web Development
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/services/ui-ux" className="hover:text-accent">
+                      UI/UX Design
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/services/mobile-apps"
+                      className="hover:text-accent"
+                    >
+                      Mobile App Development
+                    </Link>
+                  </li>
                 </ul>
               </details>
-            </li>
+            </li>*/}
           </ul>
         </div>
         <Link to="/" className="text-xl font-bold text-primary">
@@ -73,10 +94,23 @@ const Navbar = () => {
       {/* Desktop Navigation */}
       <div className="hidden lg:flex navbar-center text-black">
         <ul className="menu menu-horizontal px-1 space-x-6">
-          <li><Link to="/" className=" hover:text-accent">Home</Link></li>
-          <li><Link to="/about" className="hover:text-accent">About</Link></li>
+          <li>
+            <Link to="/" className=" hover:text-accent">
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link to="/about" className="hover:text-accent">
+              About
+            </Link>
+          </li>
+          <li>
+            <Link to="/services" className="hover:text-accent">
+              Services
+            </Link>
+          </li>
 
-          {/* Services Dropdown (Fixed) */}
+          {/* Services Dropdown (Fixed)
           <li
             className="relative"
             onMouseEnter={() => setActiveDropdown("services")}
@@ -91,7 +125,7 @@ const Navbar = () => {
               </ul>
             )}
           </li>
-
+ */}
           {/* Projects Dropdown (Fixed) */}
           <li
             className="relative"
@@ -101,14 +135,39 @@ const Navbar = () => {
             <button className="hover:text-accent">Projects ▾</button>
             {activeDropdown === "projects" && (
               <ul className="absolute left-0 top-5 mt-2 w-48 bg-white shadow-lg rounded-box p-2 z-50">
-                <li><Link to="/projects/completed" className="block px-4 py-2 hover:bg-gray-100">Completed</Link></li>
-                <li><Link to="/projects/ongoing" className="block px-4 py-2 hover:bg-gray-100">Ongoing</Link></li>
-                <li><Link to="/projects/upcoming" className="block px-4 py-2 hover:bg-gray-100">Upcoming</Link></li>
+                <li>
+                  <Link
+                    to="/projects/completed"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                  >
+                    Completed
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/projects/ongoing"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                  >
+                    Ongoing
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/projects/upcoming"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                  >
+                    Upcoming
+                  </Link>
+                </li>
               </ul>
             )}
           </li>
 
-          <li><Link to="/blog" className="hover:text-accent">Blogs</Link></li>
+          <li>
+            <Link to="/blog" className="hover:text-accent">
+              Blogs
+            </Link>
+          </li>
         </ul>
       </div>
 

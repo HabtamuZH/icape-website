@@ -14,14 +14,14 @@ const DetailSlider = ({ onClose, title, description }) => {
   }, []);
 
   return (
-    <div className="fixed top-0 right-0 lg:w-3/5 h-full bg-[#000e] shadow-lg z-20 p-6 overflow-y-auto slider-containers transition-all duration-200 ease-linear delay-[8000]">
+    <div className="fixed bottom-0 right-0 lg:w-3/5 h-3/4 bg-[#000e] shadow-lg z-20 p-6 overflow-y-auto slider-containers transition-all duration-200 ease-linear delay-700">
       <button
         onClick={onClose}
-        className="text-red-200 hover:text-red-300 absolute top-32  focus:outline-none"
+        className="text-red-200 hover:text-red-300 fixed top-40 focus:outline-none"
       >
         Close
       </button>
-      <h2 className="mt-40 mb-8 text-3xl text-yellow-600 text-center  font-bold">
+      <h2 className="my-8 text-3xl text-yellow-600 text-center  font-bold">
         {title}
       </h2>
       <div className="text-gray-200 space-y-4 ">
