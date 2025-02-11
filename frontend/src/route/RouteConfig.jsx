@@ -4,8 +4,8 @@ import About from "../pages/About";
 import ContactUs from "../pages/Contact";
 import Blogs from "../pages/Blogs";
 import Services from "./../pages/Services";
-import ProjectDetails from "../projects/ProjectDetails.jsx"
-import Projects from "../projects/Projects.jsx"
+import ProjectDetails from "../components/projects/ProjectDetails.jsx";
+import Projects from "../components/projects/Projects.jsx";
 
 import AdminLayout from "../layout/AdminLayout";
 import MainLayout from "../layout/MainLayout";
@@ -21,17 +21,15 @@ const RouteConfig = () => {
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/blog" element={<Blogs />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/projects/:projectId" element={<ProjectDetails />} />
+          <Route path="/projects/completed" element={<Projects />} />
+          <Route path="/projects/ongoing" element={<Projects />} />
+          <Route path="/projects/upcoming" element={<Projects />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Services />} />
           <Route path="dashboard" element={<AdminDashbord />} />
         </Route>
-        <Route path='/projects/:projectId' element={<ProjectDetails />} />
-        <Route path="/projects/completed" element={<Projects />} />
-        <Route path="/projects/ongoing" element={<Projects />} />
-        <Route path="/projects/upcoming" element={<Projects />} />
-
-        
       </Routes>
     </>
   );

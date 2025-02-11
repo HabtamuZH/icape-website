@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import image1 from "./images/image1.jpg";
 import image2 from "./images/image2.jpg";
@@ -47,7 +47,14 @@ const ProjectDetails = () => {
   }, [images.length]);
 
   return (
-    <div className="relative min-h-screen" style={{ backgroundImage: `url(${images[0]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div
+      className="relative min-h-screen"
+      style={{
+        backgroundImage: `url(${images[0]})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* Background Overlay */}
       <div className="absolute inset-0 bg-black bg-opacity-90"></div>
 
@@ -55,7 +62,11 @@ const ProjectDetails = () => {
       <div className="relative z-10 flex items-center justify-center min-h-screen">
         {/* Logo Section */}
         <div className="w-1/3 p-6 flex flex-col items-center justify-center">
-          <img src={icapeLogo} alt="Icape Logo" className="w-full h-auto mb-4" />
+          <img
+            src={icapeLogo}
+            alt="Icape Logo"
+            className="w-full h-auto mb-4"
+          />
           <h1 className="text-4xl font-bold bg-opacity-50 px-4 py-2">
             {projectId.toUpperCase()}
           </h1>
