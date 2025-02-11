@@ -6,6 +6,9 @@ import About from "../pages/About.jsx"
 import ContactUs from "../pages/Contact.jsx"
 import Blogs from "../pages/Blogs.jsx"
 import Services from './../pages/Services';
+import ProjectDetails from "../projects/ProjectDetails.jsx"
+import Projects from "../projects/Projects.jsx"
+
 
 const RouteConfig = () => {
   return (
@@ -17,6 +20,12 @@ const RouteConfig = () => {
         <Route path='/contactus' element={<ContactUs />} />
         <Route path='/blog' element={<Blogs />} />
         <Route path='/services' element={<Services />} />
+        <Route path='/projects/:projectId' element={<ProjectDetails />} />
+        <Route path="/projects/completed" element={<Projects />} />
+        <Route path="/projects/ongoing" element={<Projects />} />
+        <Route path="/projects/upcoming" element={<Projects />} />
+
+        
       </Routes>
       <Footer />
     </>
