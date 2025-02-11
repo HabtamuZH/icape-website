@@ -1,53 +1,46 @@
-import { motion } from "framer-motion";
 import { PropTypes } from "prop-types";
+import { useEffect } from "react";
+import ScrollReveal from "scrollreveal";
 
-const DetailSlider = ({ sliderVariants, onClose, title, description }) => (
-  <motion.div
-    className="fixed top-0 right-0 w-3/5 h-full bg-[#000e] shadow-lg z-20 p-6 overflow-y-auto"
-    variants={sliderVariants}
-    initial="hidden"
-    animate="visible"
-    exit="exit"
-    drag="x"
-    dragConstraints={{ left: 0, right: 0 }}
-    whileHover={{ scale: 1.02 }}
-  >
-    <div className="mt-32 text-gray-200 flex justify-between items-center mb-4">
-      <motion.h2
-        className="text-xl font-bold"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-      >
-        {title}
-      </motion.h2>
-      <motion.button
+const DetailSlider = ({ onClose, title, description }) => {
+  useEffect(() => {
+    ScrollReveal().reveal(".slider-container", {
+      duration: 800,
+      origin: "right",
+      distance: "50px",
+      delay: 200,
+      easing: "ease-in-out",
+    });
+  }, []);
+
+  return (
+    <div className="fixed top-0 right-0 lg:w-3/5 h-full bg-[#000e] shadow-lg z-20 p-6 overflow-y-auto slider-containers transition-all duration-200 ease-linear delay-[8000]">
+      <button
         onClick={onClose}
-        className="text-red-200 hover:text-red-300 focus:outline-none"
-        whileHover={{ scale: 1.2 }}
-        whileTap={{ scale: 0.9 }}
+        className="text-red-200 hover:text-red-300 absolute top-32  focus:outline-none"
       >
         Close
-      </motion.button>
+      </button>
+      <h2 className="mt-40 mb-8 text-3xl text-yellow-600 text-center  font-bold">
+        {title}
+      </h2>
+      <div className="text-gray-200 space-y-4 ">
+        {description.map((ds) => (
+          <>
+            <h2 className="me-1 text-yellow-400 font-[500] text-xl ">
+              {ds.subTitle}
+            </h2>
+            <p className="ms-2 ">{ds.content}</p>
+          </>
+        ))}
+      </div>
     </div>
-    <motion.div
-      className="text-gray-200 space-y-4"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      {description.map((ds, i) => (
-        <p key={i}>{ds}</p>
-      ))}
-    </motion.div>
-  </motion.div>
-);
-
-DetailSlider.propTypes = {
-  sliderVariants: PropTypes.object,
-  onClose: PropTypes.func,
-    description: PropTypes.object,
-  title: PropTypes.string,
+  );
 };
 
 export default DetailSlider;
+DetailSlider.propTypes = {
+  onClose: PropTypes.func,
+  description: PropTypes.array,
+  title: PropTypes.string,
+};

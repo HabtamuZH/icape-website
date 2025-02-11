@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 
-const DefaultBtn = ({ text, onClick, className, link }) => {
+const DefaultBtn = ({ text, onClick, className, link ,...props}) => {
 
   if (link) {
     return (

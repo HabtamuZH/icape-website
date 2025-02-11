@@ -1,24 +1,32 @@
 import { useState } from "react";
-import image from "./../../public/images/image14.jpg";
+import image from "./../../public/images/image15.jpg";
 import DetailSlider from "./DetailSlider";
-import { urbanPlanningDescription as description } from "../data/serviceDescription";
+import { interiorDesignDescriptions as description } from "../data/serviceDescription";
 
-const UrbanPlanning = () => {
+const InteriorDesign = () => {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
 
   return (
-    <div className="bg-gray-800 flex relative z-10 items-center overflow-hidden h-screen">
+    <div className="bg-gray-700 flex relative items-center overflow-hidden h-screen">
       <div className="container mx-auto px-6 flex relative py-16 flex-col lg:flex-row">
+        {/* Image Section */}
+        <div className="lg:w-4/5 flex justify-center items-center me-3">
+          <img
+            src={image}
+            alt="Interior Design"
+            className="w-full max-w-xs md:max-w-sm lg:max-w-full"
+          />
+        </div>
         {/* Text Section */}
-        <div className="lg:w-1/2 flex flex-col relative z-20">
-          <span className="w-20 h-2 bg-white mb-12"></span>
+        <div className="lg:w-1/2 flex flex-col relative ">
+          <span className="w-20 h-2 bg-white self-end mb-12"></span>
           <h1 className="font-bebas-neue uppercase text-6xl sm:text-6xl font-black flex flex-col leading-none text-white">
-            Urban Planning
+            Interior Design
           </h1>
           <p className="text-sm sm:text-base text-white mt-4">
-            Dimension of reality that makes change possible and understandable.
-            An indefinite and homogeneous environment in which natural events
-            and human existence take place.
+            We create elegant, functional, and comfortable interiors that
+            reflect your style. Our designs balance aesthetics and functionality
+            to transform spaces into timeless experiences.
           </p>
           <div className="flex mt-8">
             <button
@@ -29,19 +37,11 @@ const UrbanPlanning = () => {
             </button>
           </div>
         </div>
-        {/* Image Section */}
-        <div className="lg:w-4/5 flex justify-center items-center">
-          <img
-            src={image}
-            alt="Urban Planning"
-            className="w-full max-w-xs md:max-w-sm lg:max-w-full"
-          />
-        </div>
       </div>
 
       {isSliderOpen && (
         <DetailSlider
-          title="Urban Planning"
+          title="Interior Design"
           description={description}
           onClose={() => setIsSliderOpen(false)}
         />
@@ -50,4 +50,4 @@ const UrbanPlanning = () => {
   );
 };
 
-export default UrbanPlanning;
+export default InteriorDesign;
