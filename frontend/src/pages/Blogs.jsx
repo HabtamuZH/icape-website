@@ -1,4 +1,4 @@
-import Blog from "../Blogs/news"
+import Blog from "./../components/Blogs/news"
 
 const Blogs = () => {
     return(

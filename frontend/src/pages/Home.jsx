@@ -1,6 +1,4 @@
-import BlurText from "../common/BlurText.jsx";
-import GradientText from "../common/GraddientText.jsx"
-import { SmoothScrollHero } from "../Landing/ImageShow.jsx";
+import { SmoothScrollHero } from "./../components/Landing/ImageShow";
 
 const Home = () => {
   const handleAnimationComplete = () => {
@@ -9,8 +7,8 @@ const Home = () => {
 
   return (
     <>
-    <SmoothScrollHero/>
-      </>
+      <SmoothScrollHero />
+    </>
   );
 };
 

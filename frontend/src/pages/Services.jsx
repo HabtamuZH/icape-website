@@ -1,7 +1,7 @@
-import Header from "../services/Header"
-import ArchitecturalDesign from "../services/ArchitecturalDesign"
-import UrbanPlanning from "../services/UrbanPlanning"
-import InteriorDesign from "../services/InteriorDesign"
+import Header from "../components/services/Header";
+import ArchitecturalDesign from "../components/services/ArchitecturalDesign";
+import UrbanPlanning from "../components/services/UrbanPlanning";
+import InteriorDesign from "../components/services/InteriorDesign";
 
 const Services = () => {
   return (
@@ -11,7 +11,7 @@ const Services = () => {
       <UrbanPlanning />
       <InteriorDesign />
     </div>
-  )
-}
+  );
+};
 
-export default Services
+export default Services;

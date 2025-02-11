@@ -1,5 +1,7 @@
-import AppSidebar from "./AdminSidebar"
+import AppSidebar from "./AdminSidebar";
 
-export default function Layout() {
-  return <AppSidebar />
-}
+const Layout = () => {
+  return <AppSidebar />;
+};
+
+export default Layout;

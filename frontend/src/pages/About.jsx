@@ -1,9 +1,7 @@
-import React from "react"
-import CompanyHistory from "../about/CompanyHistory.jsx"
-import Mission from "../about/Mission.jsx"
-import Vision from "../about/Vision.jsx"
-import Team from "../about/TeamMembers.jsx"
-import SpotlightCard from "../about/SpotlightCard.jsx"
+import Mission from "./../components/about/Mission";
+import Vision from "./../components/about/Vision";
+import Team from "./../components/about/TeamMembers";
+import CompanyHistory from "./../components/about/CompanyHistory";
 
 const About = () => {
   return (
@@ -13,7 +11,7 @@ const About = () => {
       <Vision />
       <Team />
     </>
-  )
-}
+  );
+};
 
-export default About
+export default About;
