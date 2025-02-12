@@ -10,6 +10,7 @@ import Projects from "../components/projects/Projects.jsx";
 import AdminLayout from "../layout/AdminLayout";
 import MainLayout from "../layout/MainLayout";
 import AdminDashbord from "../admin/AdminDashbord";
+import ProjectsForm from "../admin/components/ProjectsForm";
 import Profile from "../admin/components/Profile.jsx";
 
 const RouteConfig = () => {
@@ -30,7 +31,6 @@ const RouteConfig = () => {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Services />} />
           <Route path="dashboard" element={<AdminDashbord />} />
-          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
     </>
