@@ -31,6 +31,7 @@ const RouteConfig = () => {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Services />} />
           <Route path="dashboard" element={<AdminDashbord />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
     </>
