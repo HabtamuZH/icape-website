@@ -36,10 +36,10 @@ const BlogForm = ({ onSubmit }) => {
     }
   };
 
-  const handleRemoveImage = () => {
-    setBlogData({ ...blogData, image: null });
-    setImagePreview(null);
-  };
+  // const handleRemoveImage = () => {
+  //   setBlogData({ ...blogData, image: null });
+  //   setImagePreview(null);
+  // };
 
   const validateField = (field, value) => {
     let fieldErrors = { ...errors };
