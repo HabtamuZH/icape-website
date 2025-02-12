@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FaArrowRight, FaChevronRight } from "react-icons/fa";
 import GradientText from "../common/GraddientText";
 import ScrollReveal from "scrollreveal";
-import img from "../../public/images/image11.jpg";
+import img from "/images/image11.jpg";
 
 const HeroSection = () => {
   useEffect(() => {
