@@ -135,7 +135,7 @@ const Contact = () => {
 
         {/* Right Section - Contact Form */}
         <div className="flex-1 bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-lg shadow-lg contact-card">
-          <h3 className="text-2xl font-semibold mb-4">Send a Message</h3>
+          <h3 className="text-2xl font-semibold mb-4">Give Your Feedbacks</h3>
           {submitted ? (
             <p className="text-green-400 font-medium">
               Your message has been sent successfully!
@@ -173,7 +173,7 @@ const Contact = () => {
                 type="submit"
                 className="w-full flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold text-lg shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105"
               >
-                Send Message <Send className="ml-2 w-5 h-5" />
+                Send your feedback <Send className="ml-2 w-5 h-5" />
               </button>
             </form>
           )}
