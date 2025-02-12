@@ -32,7 +32,7 @@ const RouteConfig = () => {
           <Route index element={<Services />} />
           <Route path="dashboard" element={<AdminDashbord />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="projects" element={<ProjectsForm />} />
+          <Route path="projects-form" element={<ProjectsForm />} />
         </Route>
       </Routes>
     </>
