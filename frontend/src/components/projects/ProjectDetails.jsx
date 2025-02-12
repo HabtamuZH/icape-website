@@ -21,7 +21,7 @@ import image18 from "./images/image18.jpg";
 import image19 from "./images/image19.jpg";
 import image20 from "./images/image20.jpg";
 import image21 from "./images/image21.jpg";
-import icapeLogo from "./images/icape_logo.png";
+import icapeLogo from "./images/icape_Logo.png";
 
 const projectImages = {
   apartment: [image1, image2, image3, image16, image17],
