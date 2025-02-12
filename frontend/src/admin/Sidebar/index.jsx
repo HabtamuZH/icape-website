@@ -1,6 +1,6 @@
-import Option from "./Option";
-import { motion } from "framer-motion";
-import TitleSection from "./Title";
+import Option from "./Option"
+import {motion} from "framer-motion"
+import TitleSection from "./Title"
 import {
   FiHome,
   FiDollarSign,
@@ -9,80 +9,82 @@ import {
   FiTag,
   FiBarChart,
   FiUsers,
-} from "react-icons/fi";
-import { useState } from "react";
-import ToggleClose from "./ToggleClose";
+  FiSettings
+} from "react-icons/fi"
+import {useState} from "react"
+import ToggleClose from "./ToggleClose"
+import {FaPen, FaProjectDiagram, FaUser} from "react-icons/fa"
+import {IoMdNotifications} from "react-icons/io"
+import {MdFeedback} from "react-icons/md"
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(true);
-  const [selected, setSelected] = useState("Dashboard");
+  const [open, setOpen] = useState(true)
+  const [selected, setSelected] = useState("Dashboard")
 
   return (
     <motion.nav
       layout
-      className="sticky top-0 h-screen shrink-0 border-r border-slate-300 bg-white p-2"
+      className='sticky top-0 h-screen shrink-0 border-r border-slate-300 bg-white p-2'
       style={{
-        width: open ? "225px" : "fit-content",
+        width: open ? "225px" : "fit-content"
       }}
     >
       <TitleSection open={open} />
 
-      <div className="space-y-1">
+      <div className='space-y-1'>
         <Option
           Icon={FiHome}
-          title="Dashboard"
+          title='Dashboard'
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
         <Option
-          Icon={FiDollarSign}
-          title="Profile"
-          selected={selected}
-          setSelected={setSelected}
-          open={open}
-          notifs={3}
-        />
-        <Option
-          Icon={FiMonitor}
-          title="Projects"
+          Icon={FaUser}
+          title='Profile'
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
         <Option
-          Icon={FiShoppingCart}
-          title="Products"
+          Icon={FaProjectDiagram}
+          title='Projects-form'
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
         <Option
-          Icon={FiTag}
-          title="Tags"
+          Icon={FaPen}
+          title='Blogs-post'
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
         <Option
-          Icon={FiBarChart}
-          title="Analytics"
+          Icon={MdFeedback}
+          title='View-feedbacks'
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
         <Option
-          Icon={FiUsers}
-          title="Members"
+          Icon={IoMdNotifications}
+          title='Notifications'
+          selected={selected}
+          setSelected={setSelected}
+          open={open}
+        />
+        <Option
+          Icon={FiSettings}
+          title='Settings'
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
       </div>
-
       <ToggleClose open={open} setOpen={setOpen} />
     </motion.nav>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar
