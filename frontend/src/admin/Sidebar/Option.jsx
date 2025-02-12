@@ -3,9 +3,10 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
+const Option = ({ Icon, title,link, selected, setSelected, open, notifs }) => {
+
   return (
-    <Link to={title.toLowerCase()}>
+    <Link to={link.toLowerCase()}>
       <motion.button
         layout
         onClick={() => setSelected(title)}
