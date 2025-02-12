@@ -45,7 +45,7 @@ const Sidebar = () => {
         />
         <Option
           Icon={FiMonitor}
-          title="View Site"
+          title="Projects"
           selected={selected}
           setSelected={setSelected}
           open={open}
