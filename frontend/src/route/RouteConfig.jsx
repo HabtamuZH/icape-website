@@ -31,8 +31,7 @@ const RouteConfig = () => {
           <Route path='/projects/upcoming' element={<Projects />} />
         </Route>
         <Route path='/admin' element={<AdminLayout />}>
-          <Route index element={<Services />} />
-          <Route path='dashboard' element={<AdminDashbord />} />
+          <Route index element={<AdminDashbord />} />
           <Route path='profile' element={<Profile />} />
           <Route path='projects-form' element={<ProjectsForm />} />
           <Route path='Blogs-post' element={<BlogForm />} />
