@@ -61,8 +61,8 @@ const HeroSection = () => {
       
       <div className="relative flex items-center justify-center flex-col gap-3 z-10 py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
         {/* Announcement Banner */}
-        <a
-          href="#"
+        <Link
+          to="/projects/completed"
           className="announcement-banner inline-flex items-center py-1 px-3 pr-4 text-sm text-black bg-accent rounded-full hover:bg-opacity-90 transition duration-300"
           role="alert"
         >
@@ -73,7 +73,7 @@ const HeroSection = () => {
             ICAPE's latest innovations
           </span>
           <FaChevronRight className="ml-2 md:w-5 md:h-5 h-3 w-3 text-dark" />
-        </a>
+        </Link>
 
         {/* Main Heading */}
         <h1 className="hero-title md:mb-4 text-3xl tracking-tight leading-none text-light lg:text-6xl font-bold">
@@ -85,7 +85,7 @@ const HeroSection = () => {
           colors={["#CccA6B", "#D1BFA7", "#C19b6B", "#D1BFA7"]}
           animationSpeed={10}
           showBorder={true}
-          className="hero-subtitle lg:text-5xl sm:text-3xl font-extrabold  "
+          className="hero-subtitle  lg:text-5xl sm:text-3xl text- font-extrabold  "
         >
           ICAPE Architectural Design
         </GradientText>
@@ -99,10 +99,10 @@ const HeroSection = () => {
         {/* Call-to-Action Button */}
         <div className="hero-button flex flex-col mb-4 md:mb-8 lg:mb-16 space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
           <Link
-            to="/projects"
+            to="/services"
             className="inline-flex justify-center items-center py-3 px-6 text-sm md:text-base font-medium text-white bg-accent rounded-lg hover:bg-opacity-80 transition duration-300"
           >
-            Explore Our Projects
+            Explore Our Services
             <FaArrowRight className="ml-2 w-5 h-5" />
           </Link>
         </div>
