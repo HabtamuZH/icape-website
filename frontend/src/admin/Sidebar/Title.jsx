@@ -11,7 +11,7 @@ const TitleSection = ({open}) => {
       <div className='flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-slate-100'>
         <div className='flex items-center gap-2'>
           {/* <Logo /> */}
-          <FaUserCircle className='mr-2' size={50} />
+          <FaUserCircle className='mr-2' size={20} />
           {open && (
             <motion.div
               layout
@@ -23,8 +23,8 @@ const TitleSection = ({open}) => {
               <span className='block text-xs text-slate-500'>Admin</span>
             </motion.div>
           )}
-        </div> 
-        <BiLogOut className='mr-2 text-red-600' size={30} />
+        </div>
+        <BiLogOut className='mr-2 text-red-600' />
       </div>
     </div>
   )

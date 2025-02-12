@@ -13,6 +13,7 @@ import AdminDashbord from "../admin/AdminDashbord";
 import ProjectsForm from "../admin/components/ProjectsForm";
 import Profile from "../admin/components/Profile.jsx";
 import BlogForm from "../admin/components/Blogpost.jsx";
+import Feedbacks from "../admin/components/Feedbacks.jsx";
 
 const RouteConfig = () => {
   return (
@@ -35,6 +36,7 @@ const RouteConfig = () => {
           <Route path="profile" element={<Profile />} />
           <Route path="projects-form" element={<ProjectsForm />} />
           <Route path="Blogs-post" element={<BlogForm />} />
+          <Route path="View-feedbacks" element={<Feedbacks />} />
 
         </Route>
       </Routes>
