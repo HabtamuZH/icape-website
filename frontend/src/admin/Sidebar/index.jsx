@@ -37,7 +37,7 @@ const Sidebar = () => {
         />
         <Option
           Icon={FiDollarSign}
-          title="Sales"
+          title="Profile"
           selected={selected}
           setSelected={setSelected}
           open={open}

@@ -197,9 +197,9 @@ const Profile = () => {
   }
 
   return (
-    <div className='bg-gray-50 min-h-screen'>
+    <div className='bg-gray-50 min-h-screen '>
       {/* Profile Header */}
-      <div className=''>
+      <div>
         <div className='bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg shadow-lg overflow-hidden'>
           <div className='relative h-48'>
             <img
