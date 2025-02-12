@@ -2,6 +2,7 @@
 // import { FiChevronDown } from "react-icons/fi";
 import {motion} from "framer-motion"
 import {FaUserCircle} from "react-icons/fa"
+import {BiLogOut} from "react-icons/bi"
 import Logo from "./Logo"
 
 const TitleSection = ({open}) => {
@@ -22,8 +23,8 @@ const TitleSection = ({open}) => {
               <span className='block text-xs text-slate-500'>Admin</span>
             </motion.div>
           )}
-        </div>
-        {/* {open && <FiChevronDown className="mr-2" />} */}
+        </div> 
+        <BiLogOut className='mr-2 text-red-600' size={30} />
       </div>
     </div>
   )
