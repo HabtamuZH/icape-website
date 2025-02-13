@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { HelmetProvider, Helmet } from "react-helmet-async";
 import "./index.css";
 import App from "./App";
 import { ToastContainer } from "react-toastify";
@@ -10,10 +9,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <HelmetProvider>
       {/* Meta Tags in the Head */}
-      <Helmet>
-        <meta charset="UTF-8" />
+        <meta charSet="UTF-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
@@ -76,10 +73,8 @@ root.render(
         <title>
           ICAP Architectural | Innovative Design & Sustainable Architecture
         </title>
-      </Helmet>
 
       <ToastContainer />
       <App />
-    </HelmetProvider>
   </React.StrictMode>
 );
