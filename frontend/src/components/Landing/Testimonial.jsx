@@ -41,67 +41,74 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="relative py-14 bg-primary/10">
-      <div className="relative z-10 max-w-screen-xl mx-auto px-4 md:px-8">
+    <section className='relative py-14 bg-primary/10'>
+      <div className='relative z-10 max-w-screen-xl mx-auto px-4 md:px-8'>
         {/* Section Heading */}
-        <div className="max-w-xl sm:text-center md:mx-auto">
-          <h3 className="testimonial-heading text-secondary text-3xl font-bold sm:text-4xl">
+        <div className='max-w-xl sm:text-center md:mx-auto'>
+          <h3 className='testimonial-heading text-secondary text-3xl font-bold sm:text-4xl'>
             Hear from our customers
           </h3>
-          <p className="mt-3 text-secondary text-lg">
+          <p className='mt-3 text-secondary text-lg'>
             Our clients trust us with their visions, and we deliver with
             excellence. Here's what they have to say.
           </p>
         </div>
 
         {/* Swiper Testimonials Slider */}
-        <div className="mt-12">
+        <div className='mt-12'>
           <Swiper
-            effect="coverflow"
+            effect='coverflow'
             grabCursor={true}
             centeredSlides={true}
-            slidesPerView="auto"
-            loop= {true}
+            slidesPerView='auto'
+            loop={true}
             coverflowEffect={{
               rotate: 50, // Rotate the slides
               stretch: 0, // Stretch space between slides (in pixels)
               depth: 100, // Depth offset for slides (in pixels)
               modifier: 1, // Effect multiplier
-              slideShadows: true, // Enable slide shadows
+              slideShadows: true // Enable slide shadows
             }}
-            pagination={{ clickable: true }}
+            autoplay={{
+              delay: 5000, // Auto-swap every 2.5 seconds
+              disableOnInteraction: false // Continue autoplay after user interaction
+            }}
+            pagination={{clickable: true}}
             modules={[EffectCoverflow, Pagination, Autoplay]} // Pass modules here
-            className="swiper-container"
+            className='swiper-container'
             breakpoints={{
               // Responsive breakpoints
               640: {
-                slidesPerView: 1,
+                slidesPerView: 1
               },
               768: {
-                slidesPerView: 2,
+                slidesPerView: 2
               },
               1024: {
-                slidesPerView: 3,
-              },
+                slidesPerView: 3
+              }
             }}
           >
             {testimonials.map((item, idx) => (
-              <SwiperSlide key={idx} className="testimonial-card bg-white rounded-xl border shadow-lg transition-all hover:shadow-2xl">
-                <div className="p-6">
-                  <FaQuoteLeft className="w-10 h-10 text-accent" />
+              <SwiperSlide
+                key={idx}
+                className='testimonial-card bg-white rounded-xl border shadow-lg transition-all hover:shadow-2xl'
+              >
+                <div className='p-6'>
+                  <FaQuoteLeft className='w-10 h-10 text-accent' />
                   <blockquote>
-                    <p className="text-gray-800 text-lg font-medium mt-4">
+                    <p className='text-gray-800 text-lg font-medium mt-4'>
                       {item.quote}
                     </p>
                   </blockquote>
                 </div>
-                <div className="flex items-center gap-x-4 p-4 mt-6 bg-secondary/10 rounded-b-xl">
-                  <FaUserCircle className="w-14 h-14 text-secondary" />
+                <div className='flex items-center gap-x-4 p-4 mt-6 bg-secondary/10 rounded-b-xl'>
+                  <FaUserCircle className='w-14 h-14 text-primary' />
                   <div>
-                    <span className="block text-gray-900 font-semibold">
+                    <span className='block text-gray-900 font-semibold'>
                       {item.name}
                     </span>
-                    <span className="block text-secondary text-sm mt-0.5">
+                    <span className='block text-secondary text-sm mt-0.5'>
                       {item.title}
                     </span>
                   </div>
@@ -111,9 +118,9 @@ const Testimonials = () => {
           </Swiper>
         </div>
       </div>
-      <div className="absolute top-0 w-full h-full"></div>
+      <div className='absolute top-0 w-full h-full'></div>
     </section>
-  );
+  )
 };
 
 export default Testimonials;

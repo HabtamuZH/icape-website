@@ -79,7 +79,7 @@ const HeroSection = () => {
         <h1 className="hero-title md:mb-4 text-3xl tracking-tight leading-none text-light lg:text-6xl font-bold">
           We Invest in the World’s Potential
         </h1>
-        <h1 className="hero-title md:mb-4 text-2xl tracking-tight leading-none text-accent lg:text-5xl font-bold border rounded-lg px-4 py-3">
+        <h1 className="hero-title md:mb-4 text-2xl tracking-tight leading-none text-accent lg:text-5xl font-bold sm:border rounded-lg px-4 py-3">
           Architecture + Planning + Engineering
         </h1>
 

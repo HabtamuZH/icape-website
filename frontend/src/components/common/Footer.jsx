@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { FaTwitter, FaFacebook, FaInstagram } from "react-icons/fa";
+import {Link} from "react-router-dom";
 import ScrollReveal from "scrollreveal";
 
 const Footer = () => {
@@ -29,22 +30,22 @@ const Footer = () => {
       <footer className="footer bg-primary text-secondary p-10 footer-nav">
         <nav>
           <h6 className="footer-title text-accent font-semibold">Services</h6>
-          <a className="link link-hover text-secondary">Architectural Design</a>
-          <a className="link link-hover text-secondary">Urban Planning</a>
-          <a className="link link-hover text-secondary">Interior Design</a>
+          <Link className="link link-hover text-secondary" to={"/services"}>Architectural Design</Link>
+          <Link className="link link-hover text-secondary"to={"/services"}>Urban Planning</Link>
+          <Link className="link link-hover text-secondary" to={"/services"}>Interior Design</Link>
         </nav>
         <nav>
           <h6 className="footer-title text-accent font-semibold">About us</h6>
-          <a className="link link-hover text-secondary">Our Journey</a>
-          <a className="link link-hover text-secondary">Our Mission</a>
-          <a className="link link-hover text-secondary">Our Vision</a>
-          <a className="link link-hover text-secondary">Meet Our Team</a>
+          <Link className="link link-hover text-secondary "to={"/about"}>Our Journey</Link>
+          <Link className="link link-hover text-secondary" to={"/about"}>Our Mission</Link>
+          <Link className="link link-hover text-secondary"to={"/about"}>Our Vision</Link>
+          <Link className="link link-hover text-secondary"to={"/about"}>Meet Our Team</Link>
         </nav>
         <nav>
           <h6 className="footer-title text-accent font-semibold">Legal</h6>
-          <a className="link link-hover text-secondary">Terms of use</a>
-          <a className="link link-hover text-secondary">Privacy policy</a>
-          <a className="link link-hover text-secondary">Cookie policy</a>
+          <Link className="link link-hover text-secondary" to={""}>Terms of use</Link>
+          <Link className="link link-hover text-secondary" to={""}>Privacy policy</Link>
+          <Link className="link link-hover text-secondary"to={""}>Cookie policy</Link>
         </nav>
       </footer>
       <footer className="footer bg-primary text-base-content border-base-300 border-t px-10 py-4">
