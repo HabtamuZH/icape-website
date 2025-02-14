@@ -12,6 +12,8 @@ import { useRef } from "react";
 import Navbar from "../common/NavBar";
 import Testimonials from "./Testimonial";
 import HeroSection from "./Hero";
+import Header from "../services/Header";
+import ExpVision from "./Vision";
 
 export const SmoothScrollHero = () => {
   return (
@@ -29,6 +31,8 @@ export const SmoothScrollHero = () => {
         <HeroSection />
         <Hero />
         {/* <Schedule /> */}
+        <Header/>
+        <ExpVision/>
         <Testimonials/>
       </ReactLenis>
     </div>

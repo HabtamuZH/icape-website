@@ -29,17 +29,16 @@ const Footer = () => {
       <footer className="footer bg-primary text-secondary p-10 footer-nav">
         <nav>
           <h6 className="footer-title text-accent font-semibold">Services</h6>
-          <a className="link link-hover text-secondary">Branding</a>
-          <a className="link link-hover text-secondary">Design</a>
-          <a className="link link-hover text-secondary">Marketing</a>
-          <a className="link link-hover text-secondary">Advertisement</a>
+          <a className="link link-hover text-secondary">Architectural Design</a>
+          <a className="link link-hover text-secondary">Urban Planning</a>
+          <a className="link link-hover text-secondary">Interior Design</a>
         </nav>
         <nav>
-          <h6 className="footer-title text-accent font-semibold">Company</h6>
-          <a className="link link-hover text-secondary">About us</a>
-          <a className="link link-hover text-secondary">Contact</a>
-          <a className="link link-hover text-secondary">Jobs</a>
-          <a className="link link-hover text-secondary">Press kit</a>
+          <h6 className="footer-title text-accent font-semibold">About us</h6>
+          <a className="link link-hover text-secondary">Our Journey</a>
+          <a className="link link-hover text-secondary">Our Mission</a>
+          <a className="link link-hover text-secondary">Our Vision</a>
+          <a className="link link-hover text-secondary">Meet Our Team</a>
         </nav>
         <nav>
           <h6 className="footer-title text-accent font-semibold">Legal</h6>
@@ -52,9 +51,9 @@ const Footer = () => {
         <aside className="footer-logo grid-flow-col items-center">
           <img src="/images/icape_Logo.png" className="h-20" alt="Logo" />
           <p className="text-secondary">
-            ACME Industries Ltd.
+            iCAPE Consulting
             <br />
-            Providing reliable tech since 1992
+            Architecture + Planning + Engineering
           </p>
         </aside>
         <nav className="md:place-self-center md:justify-self-end">

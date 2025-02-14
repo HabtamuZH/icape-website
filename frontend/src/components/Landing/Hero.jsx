@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FaArrowRight, FaChevronRight } from "react-icons/fa";
 import GradientText from "../common/GraddientText";
 import ScrollReveal from "scrollreveal";
-import img from "/images/image11.jpg";
+import img from "/bg.jpg";
 
 const HeroSection = () => {
   useEffect(() => {
@@ -79,16 +79,19 @@ const HeroSection = () => {
         <h1 className="hero-title md:mb-4 text-3xl tracking-tight leading-none text-light lg:text-6xl font-bold">
           We Invest in the World’s Potential
         </h1>
+        <h1 className="hero-title md:mb-4 text-2xl tracking-tight leading-none text-accent lg:text-5xl font-bold border rounded-lg px-4 py-3">
+          Architecture + Planning + Engineering
+        </h1>
 
-        {/* Gradient Text Component */}
+        {/* Gradient Text Component
         <GradientText
-          colors={["#CccA6B", "#D1BFA7", "#C19b6B", "#D1BFA7"]}
+          colors={["#CccA6B", "#C19b6B", "#D1BFA7"]}
           animationSpeed={10}
           showBorder={true}
-          className="hero-subtitle  lg:text-5xl sm:text-3xl text- font-extrabold  "
+          className="hero-subtitle  lg:text-5xl sm:text-3xl font-extrabold "
         >
           ICAPE Architectural Design
-        </GradientText>
+        </GradientText> */}
 
         {/* Subheading */}
         <p className="hero-subtitle md:mb-8 mb-4 text-xs sm:text-sm  md:text-lg font-normal text-center text-gray-300 lg:text-xl sm:px-16 xl:px-48">

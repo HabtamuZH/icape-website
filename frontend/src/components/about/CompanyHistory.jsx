@@ -12,6 +12,7 @@ const CompanyHistory = () => {
       delay: 100,
       reset: true
     })
+    window.scrollTo(0, 0);
 
     // Reveal each section with a different delay
     sr.reveal(".reveal", {opacity: 0, interval: 200})
