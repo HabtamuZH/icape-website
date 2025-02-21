@@ -25,9 +25,9 @@ const DetailSlider = ({ onClose, title, description }) => {
               </div>
             ))}
             {/* Dummy content to force scrolling for testing */}
-            <div className="h-[100vh] bg-gray-200 opacity-50 text-center">
+            {/* <div className="h-[100vh] bg-gray-200 opacity-50 text-center">
               Scroll Test Area (Remove this in production)
-            </div>
+            </div> */}
           </div>
         </div>
 
