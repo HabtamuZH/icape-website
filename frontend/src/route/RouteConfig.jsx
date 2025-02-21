@@ -14,6 +14,7 @@ import Profile from "../admin/components/Profile";
 import BlogForm from "../admin/components/Blogpost";
 import Feedbacks from "../admin/components/Feedbacks";
 import Dashboard from "./../admin/components/dashboard/Index";
+import Carrier from "../pages/Carrier";
 
 const RouteConfig = () => {
   return (
@@ -25,6 +26,7 @@ const RouteConfig = () => {
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/blog" element={<Blogs />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/carrier" element={<Carrier />} />
           <Route path="/projects/:projectId" element={<ProjectDetails />} />
           <Route path="/projects/completed" element={<Projects />} />
           <Route path="/projects/ongoing" element={<Projects />} />

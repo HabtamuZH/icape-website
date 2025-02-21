@@ -63,7 +63,7 @@ const HeroSection = () => {
         {/* Announcement Banner */}
         <Link
           to="/projects/completed"
-          className="announcement-banner inline-flex items-center py-1 px-3 pr-4 text-sm text-black bg-accent rounded-full hover:bg-opacity-90 transition duration-300"
+          className="announcement-banner inline-flex lg:mt-10 items-center py-1 px-3 pr-4 text-sm text-black bg-accent rounded-full hover:bg-opacity-90 transition duration-300"
           role="alert"
         >
           <span className="text-xs bg-dark rounded-full text-white px-2 py-1 md:px-4 md:py-1.5 mr-3">
@@ -103,7 +103,7 @@ const HeroSection = () => {
         <div className="hero-button flex flex-col mb-4 md:mb-8 lg:mb-16 space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
           <Link
             to="/services"
-            className="inline-flex justify-center items-center py-3 px-6 text-sm md:text-base font-medium text-white bg-accent rounded-lg hover:bg-opacity-80 transition duration-300"
+            className="inline-flex justify-center items-center py-3 px-6 text-sm md:text-base font-medium text-black bg-accent rounded-lg hover:bg-opacity-80 transition duration-300"
           >
             Explore Our Services
             <FaArrowRight className="ml-2 w-5 h-5" />
