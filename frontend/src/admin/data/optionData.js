@@ -16,18 +16,23 @@ const optionsData = [
   },
   {
     Icon: FaProjectDiagram,
-    title: "Projects-form",
+    title: "Post Projects",
     link: "projects-form",
   },
   {
     Icon: FaPen,
-    title: "Blogs-post",
+    title: "Post Blogs",
     link: "blogs-post",
   },
   {
     Icon: MdFeedback,
-    title: "View-feedbacks",
+    title: "View Feedbacks",
     link: "view-feedbacks",
+  },
+  {
+    Icon: MdFeedback,
+    title: "Post Career Opportunity",
+    link: "career-Post",
   },
   {
     Icon: IoMdNotifications,

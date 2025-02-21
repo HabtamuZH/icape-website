@@ -15,6 +15,8 @@ import BlogForm from "../admin/components/Blogpost";
 import Feedbacks from "../admin/components/Feedbacks";
 import Dashboard from "./../admin/components/dashboard/Index";
 import Carrier from "../pages/Carrier";
+import ApplicationForm from "../components/career/ApplicationForm"
+import CareerPost from "../admin/components/CareerPost"
 
 const RouteConfig = () => {
   return (
@@ -27,6 +29,8 @@ const RouteConfig = () => {
           <Route path="/blog" element={<Blogs />} />
           <Route path="/services" element={<Services />} />
           <Route path="/carrier" element={<Carrier />} />
+            <Route path="/application-forms" element={<ApplicationForm />} />
+             
           <Route path="/projects/:projectId" element={<ProjectDetails />} />
           <Route path="/projects/completed" element={<Projects />} />
           <Route path="/projects/ongoing" element={<Projects />} />
@@ -38,6 +42,7 @@ const RouteConfig = () => {
           <Route path="projects-form" element={<ProjectsForm />} />
           <Route path="Blogs-post" element={<BlogForm />} />
           <Route path="View-feedbacks" element={<Feedbacks />} />
+          <Route path="career-post" element={<CareerPost />} />
         </Route>
       </Routes>
     </>
