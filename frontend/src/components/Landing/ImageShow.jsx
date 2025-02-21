@@ -14,6 +14,7 @@ import Testimonials from "./Testimonial";
 import HeroSection from "./Hero";
 import Header from "../services/Header";
 import ExpVision from "./Vision";
+import HeroProject from "./HeroProject";
 
 export const SmoothScrollHero = () => {
   return (
@@ -23,13 +24,14 @@ export const SmoothScrollHero = () => {
         options={{
           // Learn more -> https://github.com/darkroomengineering/lenis?tab=readme-ov-file#instance-settings
           lerp: 0.05,
-          //   infinite: true,
-          //   syncTouch: true,
+            // infinite: true,
+            // syncTouch: true,
         }}
       >
         {/* <Navbar /> */}
         <HeroSection />
-        <Hero />
+        <HeroProject/>
+        {/* <Hero /> */}
         {/* <Schedule /> */}
         <Header/>
         <ExpVision/>
