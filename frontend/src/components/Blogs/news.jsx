@@ -65,7 +65,7 @@ const Blog = () => {
     <div className="min-h-screen bg-secondary py-12 pt-32 px-6">
       <div ref={blogSectionRef} className="max-w-7xl mx-auto flex flex-col gap-8">
         <h2 className="text-5xl font-heading font-bold text-center text-primary">
-          Latest Architectural Projects
+          Our Latest Blogs
         </h2>
 
         {/* Search and Filter Options */}

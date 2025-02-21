@@ -27,7 +27,7 @@ const UrbanPlanning = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-secondary">
+    <section name='urban-planning' className="relative min-h-screen flex items-center overflow-hidden bg-secondary">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
         {/* Text Section */}
         <div className="lg:w-2/5 flex flex-col items-start text-left z-10">

@@ -22,7 +22,7 @@ const ArchitecturalDesign = () => {
   }, []);
 
   return (
-    <section className="relative w-full min-h-screen overflow-hidden bg-secondary">
+    <section name='architectural-design' className="relative w-full min-h-screen overflow-hidden bg-secondary">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <img

@@ -18,6 +18,7 @@ import office from "../../../public/firstoffice.jpeg"
 import project from "../../../public/firstproject.jpg"
 import team from "../../../public/workteam.jpg"
 import companyBg from "../../../public/companyBg.jpeg"
+import {Link as ScrollLink} from 'react-scroll';
 
 const CompanyHistory = () => {
   useEffect(() => {
@@ -81,12 +82,12 @@ const CompanyHistory = () => {
               <p className='text-gray-300 mb-4 font-body'>
                 Passionate professionals driving innovation
               </p>
-              <Link
-                to='/team'
-                className='inline-flex items-center px-6 py-2 bg-accent rounded-lg hover:bg-opacity-80 transition-colors font-body'
+              <ScrollLink
+                to='teams'
+                className='inline-flex items-center px-6 py-2 bg-accent rounded-lg hover:bg-opacity-80 cursor-pointer transition-colors font-body'
               >
                 View Team <FaArrowRight className='ml-2' />
-              </Link>
+              </ScrollLink>
             </div>
           </div>
         </div>

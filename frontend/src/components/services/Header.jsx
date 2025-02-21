@@ -1,12 +1,14 @@
 import { useEffect } from "react";
 import ScrollReveal from "scrollreveal";
-import headerBg from "./../../../public/images/image4.jpg";
-import services from "../../data/serviceDescription";
+import headerBg from "./../../../public/images/image4.jpg"; // Verify path
+import services from "../../data/serviceDescription"; // Ensure this exports an array
+import { Link as ScrollLink } from "react-scroll";
+import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ home }) => {
   useEffect(() => {
     const sr = ScrollReveal({
-      reset: true, // Prevents re-animation on every scroll
+      reset: true,
       duration: 800,
       origin: "bottom",
       distance: "50px",
@@ -15,10 +17,10 @@ const Header = () => {
 
     sr.reveal(".reveal", { delay: 200 });
     services.forEach((_, index) => {
-      sr.reveal(`.reveal-${index}`, { delay: 300 + index * 150 }); // Staggered delays
+      sr.reveal(`.reveal-${index}`, { delay: 300 + index * 150 });
     });
 
-    return () => sr.destroy(); // Cleanup
+    return () => sr.destroy();
   }, []);
 
   return (
@@ -29,9 +31,9 @@ const Header = () => {
           src={headerBg}
           alt="Architecture Background"
           className="w-full h-full object-cover"
-          loading="lazy" // Improves performance
+          loading="lazy"
         />
-        <div className="absolute inset-0 bg-dark/60" /> {/* Dark overlay for contrast */}
+        <div className="absolute inset-0 bg-dark/60" />
       </div>
 
       {/* Content Container */}
@@ -43,31 +45,56 @@ const Header = () => {
 
         {/* Service Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-12 lg:mt-16">
-          {services.map((service, index) => (
-            <div
-              key={index}
-              className={`reveal-${index} bg-light rounded-xl shadow-lg p-6 flex flex-col items-center border border-border transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1`}
-            >
-              {/* Icon */}
-              {service.icon && (
-                <div className="mb-4 p-2 bg-accent/20 rounded-full">
-                  <img
-                    src={service.icon}
-                    alt={`${service.title} Icon`}
-                    className="w-12 h-12 object-contain"
-                  />
-                </div>
-              )}
-              {/* Title */}
-              <h2 className="text-xl lg:text-2xl font-heading font-semibold text-primary mb-3 text-center">
-                {service.title}
-              </h2>
-              {/* Description */}
-              <p className="text-primary/80 text-sm lg:text-base font-body text-center leading-relaxed">
-                {service.description}
-              </p>
-            </div>
-          ))}
+          {services.map((service, index) => {
+            const sectionId = service.title.toLowerCase().trim().replace(/\s+/g, "-");
+            return (
+              <div
+                key={index}
+                className={`reveal-${index} bg-light rounded-xl shadow-lg p-6 flex flex-col items-center border border-border transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1`}
+              >
+                {/* Icon */}
+                {service.icon && (
+                  <div className="mb-4 p-2 bg-accent/20 rounded-full">
+                    <img
+                      src={service.icon}
+                      alt={`${service.title} Icon`}
+                      className="w-12 h-12 object-contain"
+                    />
+                  </div>
+                )}
+                {/* Title */}
+                <h2 className="text-xl lg:text-2xl font-heading font-semibold text-primary mb-3 text-center">
+                  {service.title}
+                </h2>
+                {/* Description */}
+                <p className="text-primary/80 text-sm lg:text-base font-body text-center leading-relaxed">
+                  {service.description}
+                </p>
+                {/* Navigation Link */}
+                {home ? (
+                  <Link
+                    to={{
+                      pathname: "/services",
+                      state: { scrollTo: sectionId }, // Pass section ID via state
+                    }}
+                    className="mt-4 text-accent font-body text-sm lg:text-base hover:text-accent/80 transition-colors"
+                  >
+                    Read More
+                  </Link>
+                ) : (
+                  <ScrollLink
+                    to={sectionId}
+                    smooth={true}
+                    duration={500}
+                    offset={-80}
+                    className="mt-4 text-accent font-body text-sm lg:text-base hover:text-accent/80 transition-colors cursor-pointer"
+                  >
+                    Learn More
+                  </ScrollLink>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

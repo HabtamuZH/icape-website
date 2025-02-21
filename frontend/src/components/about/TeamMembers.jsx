@@ -80,7 +80,7 @@ const TeamMembers = () => {
   }, [])
 
   return (
-    <section className='py-14 bg-secondary'>
+    <section name='teams' className='py-24 bg-secondary'>
       <div className='max-w-screen-xl mx-auto px-6 text-center'>
         <div className='max-w-2xl mx-auto mb-12 sr-community-empowerment'>
           <h3 className='text-primary text-3xl font-bold sm:text-5xl font-heading'>

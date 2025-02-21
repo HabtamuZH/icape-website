@@ -142,7 +142,7 @@ const AwardDetails = () => {
               to='/about'
               className='inline-flex items-center px-6 py-3 border border-transparent text-base font-body font-medium rounded-md text-light bg-accent hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent transition-colors duration-200'
             >
-              Learn More About iCAPE
+              More About iCAPE
               <svg
                 className='ml-2 w-5 h-5'
                 fill='none'

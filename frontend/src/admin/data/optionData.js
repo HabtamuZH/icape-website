@@ -51,11 +51,11 @@ const optionsData = [
     link: "notifications",
     notify: 5 // Kept the notification count
   },
-  {
-    Icon: FiSettings,
-    title: "Settings",
-    link: "admin-setting"
-  }
+  // {
+  //   Icon: FiSettings,
+  //   title: "Settings",
+  //   link: "admin-setting"
+  // }
 ]
 
 export default optionsData
