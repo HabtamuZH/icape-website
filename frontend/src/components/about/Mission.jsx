@@ -34,7 +34,7 @@ const Mission = () => {
           </h2>
 
           <div className='mt-12 max-w-3xl mx-auto mission-element'>
-            <div className='relative overflow-hidden group shadow-2xl rounded-lg bg-secondary'>
+            <div className='relative overflow-hidden group shadow-2xl rounded-lg bg-secondary border border-gray-300'>
               <div className="absolute inset-0 bg-[url('/texture.jpg')] opacity-10 group-hover:opacity-20 transition-opacity" />
               <div className='relative p-2 md:p-8 space-y-2 sm:space-y-4'>
                 <p className='text-sm sm:text-xl md:text-2xl text-gray-600 font-light leading-relaxed font-body'>

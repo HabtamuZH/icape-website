@@ -33,7 +33,7 @@ const Vision = () => {
           </h2>
 
           <div className='mt-12 max-w-4xl mx-auto'>
-            <div className='relative overflow-hidden group p-8 shadow-2xl rounded-lg bg-secondary'>
+            <div className='relative overflow-hidden group p-8 shadow-2xl rounded-lg bg-secondary border border-gray-300'>
               <div className="absolute inset-0 bg-[url('/texture.jpg')] opacity-10 group-hover:opacity-20 transition-opacity" />
               <div className='relative space-y-4'>
                 <p className='text-sm sm:text-xl md:text-2xl text-gray-800 font-light leading-relaxed font-body'>
@@ -170,7 +170,6 @@ const Vision = () => {
               </div>
             </div>
           </div> */}
-
         </div>
 
         {/* Progress Section */}
