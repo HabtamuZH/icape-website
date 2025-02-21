@@ -21,7 +21,6 @@ import ApplicationView from "../admin/components/ApplicationsView";
 import Notifications from "../admin/components/Notifications";
 import AdminSettings from "../admin/components/AdminSeetting"
 import AwardDetails from "../components/about/AwardDetails";
-import Page from "./Page";
 
 const RouteConfig = () => {
   return (
@@ -29,7 +28,6 @@ const RouteConfig = () => {
       <Routes>
         <Route path='/' element={<MainLayout />}>
           <Route path='/' element={<Home />} />
-          <Route path='/page' element={<Page />} />
           <Route path='/about' element={<About />} />
             <Route path='/awards/:id' element={<AwardDetails />} />
 
