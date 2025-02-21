@@ -23,7 +23,7 @@ h {
 }
 
 
- *{
+ html{
   scroll-behavior: smooth;
 }
 

@@ -1,46 +1,74 @@
 import { PropTypes } from "prop-types";
-import { useEffect } from "react";
-import ScrollReveal from "scrollreveal";
 
 const DetailSlider = ({ onClose, title, description }) => {
-  useEffect(() => {
-    ScrollReveal().reveal(".slider-container", {
-      duration: 800,
-      origin: "right",
-      distance: "50px",
-      delay: 200,
-      easing: "ease-in-out",
-    });
-  }, []);
-
   return (
-    <div className="fixed bottom-0 right-0 lg:w-3/5 h-3/4 bg-[#000e] shadow-lg z-20 p-6 overflow-y-auto slider-containers transition-all duration-200 ease-linear delay-700">
-      <button
-        onClick={onClose}
-        className="text-red-200 text-2xl hover:text-red-300 fixed top-40 right-5 bg-[#737373cc] py-1 px-2 rounded-3xl"
+    <div
+      className="fixed inset-0 bg-dark bg-opacity-50 flex justify-center items-center z-50"
+      onClick={onClose}
+    >
+      <div
+        className="relative bg-light p-6 rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] flex flex-col"
+        onClick={(e) => e.stopPropagation()} // Prevents closing when clicking inside
       >
-        X
-      </button>
-      <h2 className="my-8 text-3xl text-yellow-600 text-center  font-bold">
-        {title}
-      </h2>
-      <div className="text-gray-200 space-y-4 ">
-        {description.map((ds) => (
-          <>
-            <h2 className="me-1 text-yellow-400 font-[500] text-xl ">
-              {ds.subTitle}
-            </h2>
-            <p className="ms-2 ">{ds.content}</p>
-          </>
-        ))}
+        {/* Scrollable Content */}
+        <div className="overflow-y-auto flex-grow">
+          <h2 className="text-2xl sm:text-3xl font-heading font-bold text-primary mb-3 text-center">
+            {title}
+          </h2>
+          <div className="space-y-6 text-primary/80 font-body">
+            {description.map((ds, index) => (
+              <div key={index}>
+                <h3 className="text-lg sm:text-xl font-heading text-accent font-semibold mb-2">
+                  {ds.subTitle}
+                </h3>
+                <p className="text-base leading-relaxed">{ds.content}</p>
+              </div>
+            ))}
+            {/* Dummy content to force scrolling for testing */}
+            <div className="h-[100vh] bg-gray-200 opacity-50 text-center">
+              Scroll Test Area (Remove this in production)
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Metadata */}
+        <div className="flex justify-between items-center text-primary text-sm mt-4 font-body shrink-0">
+          <div className="flex items-center space-x-2">
+            <span className="w-5 h-5 text-accent">📝</span>
+            <span>ICAPE Team</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <span className="w-5 h-5 text-accent">📅</span>
+            <span>February 20, 2025</span> {/* Example date */}
+          </div>
+          <div className="flex items-center space-x-2">
+            <span className="w-5 h-5 text-accent">🏷️</span>
+            <span>{title}</span>
+          </div>
+        </div>
+
+        {/* Close Button */}
+        <button
+          className="absolute top-2 right-2 text-primary text-2xl font-bold hover:text-accent"
+          onClick={onClose}
+          aria-label="Close slider"
+        >
+          ×
+        </button>
       </div>
     </div>
   );
 };
 
 export default DetailSlider;
+
 DetailSlider.propTypes = {
-  onClose: PropTypes.func,
-  description: PropTypes.array,
-  title: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
+  description: PropTypes.arrayOf(
+    PropTypes.shape({
+      subTitle: PropTypes.string,
+      content: PropTypes.string,
+    })
+  ).isRequired,
+  title: PropTypes.string.isRequired,
 };

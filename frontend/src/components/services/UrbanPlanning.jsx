@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ScrollReveal from "scrollreveal";
 import image from "./../../../public/images/image14.jpg";
 import DetailSlider from "./DetailSlider";
 import { urbanPlanningDescription as description } from "./../../data/serviceDescription";
@@ -6,39 +7,57 @@ import { urbanPlanningDescription as description } from "./../../data/serviceDes
 const UrbanPlanning = () => {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
 
+  useEffect(() => {
+    const sr = ScrollReveal({
+      reset: true, // Replays animation on every scroll into view
+      duration: 800,
+      easing: "ease-out",
+    });
+
+    // Text section animations
+    sr.reveal(".line-detail", { origin: "top", distance: "30px", delay: 200 });
+    sr.reveal(".section-heading", { origin: "bottom", distance: "50px", delay: 300 });
+    sr.reveal(".section-text", { origin: "bottom", distance: "50px", delay: 400 });
+    sr.reveal(".discover-button", { origin: "bottom", distance: "30px", delay: 500 });
+
+    // Image animation
+    sr.reveal(".image-section", { origin: "bottom", distance: "50px", delay: 200 });
+
+    return () => sr.destroy(); // Cleanup
+  }, []);
+
   return (
-    <div className="bg-gray-800 flex relative z-10 items-center overflow-hidden h-screen">
-      <div className="container mx-auto px-6 flex relative py-16 flex-col lg:flex-row">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-secondary">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
         {/* Text Section */}
-        <div className="lg:w-1/2 flex flex-col relative z-20">
-          <span className="w-20 h-2 bg-white mb-12"></span>
-          <h1 className="font-bebas-neue uppercase text-6xl sm:text-6xl font-black flex flex-col leading-none text-white">
+        <div className="lg:w-2/5 flex flex-col items-start text-left z-10">
+          <span className="line-detail w-16 h-1 bg-accent mb-6 self-start" />
+          <h1 className="section-heading text-4xl sm:text-5xl lg:text-6xl font-heading font-bold text-primary uppercase tracking-tight leading-tight mb-4">
             Urban Planning
           </h1>
-          <p className="text-sm sm:text-base text-white mt-4">
-            Dimension of reality that makes change possible and understandable.
-            An indefinite and homogeneous environment in which natural events
-            and human existence take place.
+          <p className="section-text text-primary/80 text-base sm:text-lg font-body max-w-lg leading-relaxed mb-8">
+            We envision cities as dynamic, sustainable ecosystems—blending innovative design with practical solutions to shape communities that thrive for generations.
           </p>
-          <div className="flex mt-8">
-            <button
-              className="uppercase py-2 px-4 rounded-lg bg-transparent border-2 border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white text-md"
-              onClick={() => setIsSliderOpen(true)}
-            >
-              Read more
-            </button>
-          </div>
+          <button
+            className="discover-button px-6 py-3 bg-accent text-primary font-body font-semibold text-base rounded-full border border-border shadow-md hover:bg-accent/80 hover:shadow-lg transition-all duration-300 uppercase"
+            onClick={() => setIsSliderOpen(true)}
+          >
+            Discover More
+          </button>
         </div>
+
         {/* Image Section */}
-        <div className="lg:w-4/5 flex justify-center items-center">
+        <div className="image-section lg:w-3/5 flex justify-center items-center">
           <img
             src={image}
-            alt="Urban Planning"
-            className="w-full max-w-xs md:max-w-sm lg:max-w-full"
+            alt="Urban Planning Showcase"
+            className="w-full max-w-xs sm:max-w-md lg:max-w-2xl h-auto object-cover rounded-lg shadow-lg"
+            loading="lazy" // Performance boost
           />
         </div>
       </div>
 
+      {/* Detail Slider */}
       {isSliderOpen && (
         <DetailSlider
           title="Urban Planning"
@@ -46,7 +65,7 @@ const UrbanPlanning = () => {
           onClose={() => setIsSliderOpen(false)}
         />
       )}
-    </div>
+    </section>
   );
 };
 

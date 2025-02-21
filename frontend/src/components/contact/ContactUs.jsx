@@ -39,77 +39,57 @@ const Contact = () => {
   };
 
   useEffect(() => {
-    // Initialize ScrollReveal
-    ScrollReveal().reveal(".contact-section", {
-      delay: 200,
-      duration: 1500,
-      easing: "ease-in-out",
-      distance: "40px",
-      opacity: 0,
-      origin: "bottom",
-      interval: 200,
+    const sr = ScrollReveal({
+      reset: true, // One-time animation
+      duration: 800,
+      easing: "ease-out",
     });
 
-    ScrollReveal().reveal(".contact-card", {
-      delay: 300,
-      duration: 1500,
-      easing: "ease-in-out",
-      distance: "30px",
-      opacity: 0,
-      origin: "right",
-      interval: 200,
-      rotate: { x: 20, y: 20 },
-    });
+    sr.reveal(".contact-section", { origin: "bottom", distance: "40px", delay: 200 });
+    sr.reveal(".contact-card", { origin: "bottom", distance: "30px", delay: 300, interval: 200 });
+    sr.reveal(".map-frame", { origin: "bottom", distance: "40px", delay: 400, scale: 0.95 });
 
-    ScrollReveal().reveal(".map-frame", {
-      delay: 400,
-      duration: 2000,
-      easing: "ease-in-out",
-      opacity: 0,
-      scale: 0.9,
-      origin: "top",
-    });
+    return () => sr.destroy(); // Cleanup
   }, []);
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 via-black to-gray-800 py-10 pt-36 px-4">
-      <div className="w-full max-w-6xl bg-gradient-to-r from-gray-800 to-gray-900 bg-opacity-90 shadow-2xl rounded-3xl p-10 text-white flex flex-col md:flex-row gap-10 contact-section">
+    <div className="w-full min-h-screen flex flex-col items-center justify-center bg-secondary py-10 pt-36 px-4">
+      <div className="w-full max-w-6xl bg-light shadow-xl rounded-2xl p-8 text-primary flex flex-col md:flex-row gap-8 contact-section">
         {/* Left Section - Address & Contact Info */}
         <div className="flex-1 space-y-6 contact-card">
-          <h2 className="text-4xl font-bold flex items-center gap-3">
-            <MapPin className="text-blue-500 w-9 h-9 animate-pulse" />
+          <h2 className="text-3xl sm:text-4xl font-heading font-bold flex items-center gap-3 text-primary">
+            <MapPin className="text-accent w-8 h-8" />
             Contact Us
           </h2>
-          <p className="text-lg text-gray-300">
-            We’d love to hear from you! Reach out to us via phone, email, or
-            visit our office.
+          <p className="text-base sm:text-lg font-body text-primary/80">
+            We’re here to connect with you! Reach out via phone, email, or visit our office.
           </p>
-          <div className="space-y-5">
+          <div className="space-y-4">
             {[
               {
-                icon: <Phone className="w-7 h-7 text-blue-400" />,
+                icon: <Phone className="w-6 h-6 text-accent" />,
                 text: "+251 912 345 678",
               },
               {
-                icon: <Mail className="w-7 h-7 text-blue-400" />,
+                icon: <Mail className="w-6 h-6 text-accent" />,
                 text: "info@artifactcompany.com",
               },
               {
-                icon: <Clock className="w-7 h-7 text-blue-400" />,
+                icon: <Clock className="w-6 h-6 text-accent" />,
                 text: "Mon - Fri: 9:00 AM - 6:00 PM",
               },
             ].map((item, index) => (
               <div
                 key={index}
-                className="flex items-center space-x-4 text-gray-300 hover:text-blue-400 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
+                className="flex items-center space-x-3 text-primary/80 hover:text-accent transition duration-300"
               >
                 {item.icon}
-                <span className="text-lg font-medium">{item.text}</span>
+                <span className="text-base font-body font-medium">{item.text}</span>
               </div>
             ))}
           </div>
           {/* Contact Buttons */}
-          <div className="mt-6 flex gap-4">
+          <div className="mt-6 flex flex-col sm:flex-row gap-4">
             {[
               {
                 href: "mailto:info@artifactcompany.com",
@@ -125,7 +105,7 @@ const Contact = () => {
               <a
                 key={index}
                 href={btn.href}
-                className="flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold text-lg shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105"
+                className="flex items-center justify-center bg-accent text-primary px-6 py-3 rounded-lg font-body font-semibold text-base border border-border shadow-md hover:bg-accent/80 hover:shadow-lg transition-all duration-300"
               >
                 {btn.text} {btn.icon}
               </a>
@@ -134,11 +114,13 @@ const Contact = () => {
         </div>
 
         {/* Right Section - Contact Form */}
-        <div className="flex-1 bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-lg shadow-lg contact-card">
-          <h3 className="text-2xl font-semibold mb-4">Give Your Feedbacks</h3>
+        <div className="flex-1 bg-secondary p-6 rounded-lg shadow-inner contact-card">
+          <h3 className="text-2xl font-heading font-semibold text-primary mb-4">
+            Share Your Thoughts
+          </h3>
           {submitted ? (
-            <p className="text-green-400 font-medium">
-              Your message has been sent successfully!
+            <p className="text-accent font-body font-medium">
+              Thank you! Your message has been sent successfully.
             </p>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -148,7 +130,7 @@ const Contact = () => {
                 placeholder="Your Name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none transition duration-300 transform hover:scale-105"
+                className="w-full p-3 rounded-lg bg-light text-primary border border-border focus:ring-2 focus:ring-accent outline-none transition duration-300"
                 required
               />
               <input
@@ -157,7 +139,7 @@ const Contact = () => {
                 placeholder="Your Email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none transition duration-300 transform hover:scale-105"
+                className="w-full p-3 rounded-lg bg-light text-primary border border-border focus:ring-2 focus:ring-accent outline-none transition duration-300"
                 required
               />
               <textarea
@@ -166,14 +148,14 @@ const Contact = () => {
                 rows="4"
                 value={formData.message}
                 onChange={handleChange}
-                className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none transition duration-300 transform hover:scale-105"
+                className="w-full p-3 rounded-lg bg-light text-primary border border-border focus:ring-2 focus:ring-accent outline-none transition duration-300"
                 required
-              ></textarea>
+              />
               <button
                 type="submit"
-                className="w-full flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold text-lg shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105"
+                className="w-full flex items-center justify-center bg-accent text-primary px-6 py-3 rounded-lg font-body font-semibold text-base shadow-md hover:bg-accent/80 hover:shadow-lg transition-all duration-300"
               >
-                Send your feedback <Send className="ml-2 w-5 h-5" />
+                Send Feedback <Send className="ml-2 w-5 h-5" />
               </button>
             </form>
           )}
@@ -181,14 +163,14 @@ const Contact = () => {
       </div>
 
       {/* Google Maps Embed */}
-      <div className="w-full max-w-6xl mt-10 h-80 rounded-xl overflow-hidden shadow-lg border border-gray-700 map-frame">
+      <div className="w-full max-w-6xl mt-10 h-80 rounded-xl overflow-hidden shadow-lg border border-border map-frame">
         <iframe
           title="Google Maps"
           className="w-full h-full"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345086167!2d144.95592831590452!3d-37.81720974202143!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d5df1f31a3b%3A0x3e7e62c92da83e01!2sMelbourne%20City%20Centre!5e0!3m2!1sen!2sau!4v1634567890123!5m2!1sen!2sau"
           allowFullScreen
           loading="lazy"
-        ></iframe>
+        />
       </div>
     </div>
   );

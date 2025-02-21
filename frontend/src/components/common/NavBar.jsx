@@ -54,17 +54,17 @@ const Navbar = () => {
   return (
     <nav
       ref={navbarRef}
-      className="navbar bg-white/10 backdrop-blur-[34px] shadow-lg fixed top-4 left-4 right-4 w-[calc(100%-2rem)] z-50 rounded-lg flex justify-between px-6 py-3 items-center border border-white/20"
+      className="navbar bg-secondary/70 backdrop-blur-[34px] shadow-lg fixed top-4 left-4 right-4 w-[calc(100%-2rem)] z-50 rounded-lg flex justify-between px-6 py-3 items-center border border-white/20"
     >
       {/* Logo */}
       <Link to="/" className="flex flex-col justify-start items-start">
       <div
-        className="text-xl font-bold text-white mix-blend-difference"
+        className="text-xl font-bold text-gray-900 "
         
       >
         iCAPE
       </div>
-      <span className="text-sm text-white mix-blend-difference font-light hidden sm:block" >
+      <span className="text-sm text-gray-700 font-normal hidden sm:block" >
     Architecture + Planning + Engineering
   </span>
     </Link>

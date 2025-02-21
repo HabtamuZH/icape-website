@@ -8,7 +8,7 @@ const blogs = [
     category: "Sustainability",
     fullText:
       "Sustainable architecture is revolutionizing the industry with innovative materials, energy-efficient designs, and eco-conscious urban planning...",
-    imageUrl: "/images/image.jpg",
+    imageUrl: "/bg.jpg",
   },
   {
     title: "Minimalist Architecture: Less is More",
@@ -19,10 +19,10 @@ const blogs = [
     category: "Minimalism",
     fullText:
       "Minimalist architecture focuses on simplicity, functionality, and the use of natural light. Architects worldwide are embracing clean lines, open spaces...Artificial intelligence is streamlining design processes, optimizing construction efficiency, and introducing new possibilities in generative design... Artificial intelligence is streamlining design processes, optimizing construction efficiency, and introducing new possibilities in generative design...Artificial intelligence is streamlining design processes, optimizing construction efficiency, and introducing new possibilities in generative design... Artificial intelligence is streamlining design processes, optimizing construction efficiency, and introducing new possibilities in generative design... Artificial intelligence is streamlining design processes, optimizing construction efficiency, and introducing new possibilities in generative design... Artificial intelligence is streamlining design processes, optimizing construction efficiency, and introducing new possibilities in generative design... Artificial intelligence is streamlining design processes, optimizing construction efficiency, and introducing new possibilities in generative design... Artificial intelligence is streamlining design processes, optimizing construction efficiency, and introducing new possibilities in generative design...",
-    imageUrl: "/images/image1.jpg",
+    imageUrl: "/bg.jpg",
   },
   {
-    title: "/images/image2.jpg",
+    title: "/bg2.jpg",
     description:
       "How artificial intelligence is transforming architectural design and construction.",
     date: "Jan 15, 2025",
@@ -30,7 +30,7 @@ const blogs = [
     category: "Technology",
     fullText:
       "Artificial intelligence is streamlining design processes, optimizing construction efficiency, and introducing new possibilities in generative design...",
-    imageUrl: "/images/image3.jpg",
+    imageUrl: "/bg.jpg",
   },
   {
     title: "Biophilic Design: Bringing Nature Indoors",

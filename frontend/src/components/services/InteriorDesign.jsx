@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ScrollReveal from "scrollreveal";
 import image from "./../../../public/images/image15.jpg";
 import DetailSlider from "./DetailSlider";
 import { interiorDesignDescriptions as description } from "../../data/serviceDescription";
@@ -6,39 +7,57 @@ import { interiorDesignDescriptions as description } from "../../data/serviceDes
 const InteriorDesign = () => {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
 
+  useEffect(() => {
+    const sr = ScrollReveal({
+      reset: true, // Prevents re-animation on every scroll
+      duration: 800,
+      easing: "ease-out",
+    });
+
+    // Image animation
+    sr.reveal(".image-section", { origin: "left", distance: "50px", delay: 200 });
+
+    // Text section animations
+    sr.reveal(".line-detail", { origin: "top", distance: "30px", delay: 300 });
+    sr.reveal(".section-heading", { origin: "bottom", distance: "50px", delay: 400 });
+    sr.reveal(".section-text", { origin: "bottom", distance: "50px", delay: 500 });
+    sr.reveal(".discover-button", { origin: "bottom", distance: "30px", delay: 600 });
+
+    return () => sr.destroy(); // Cleanup
+  }, []);
+
   return (
-    <div className="bg-gray-700 flex relative items-center overflow-hidden h-screen">
-      <div className="container mx-auto px-6 flex relative py-16 flex-col lg:flex-row">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-secondary">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
         {/* Image Section */}
-        <div className="lg:w-4/5 flex justify-center items-center me-3">
+        <div className="image-section lg:w-3/5 flex justify-center items-center">
           <img
             src={image}
-            alt="Interior Design"
-            className="w-full max-w-xs md:max-w-sm lg:max-w-full"
+            alt="Interior Design Showcase"
+            className="w-full max-w-xs sm:max-w-md lg:max-w-2xl h-auto object-cover rounded-lg shadow-lg"
+            loading="lazy" // Performance boost
           />
         </div>
+
         {/* Text Section */}
-        <div className="lg:w-1/2 flex flex-col relative ">
-          <span className="w-20 h-2 bg-white self-end mb-12"></span>
-          <h1 className="font-bebas-neue uppercase text-6xl sm:text-6xl font-black flex flex-col leading-none text-white">
+        <div className="lg:w-2/5 flex flex-col items-start text-left">
+          <span className="line-detail w-16 h-1 bg-accent mb-6 self-start" />
+          <h1 className="section-heading text-4xl sm:text-5xl lg:text-6xl font-heading font-bold text-primary uppercase tracking-tight leading-tight mb-4">
             Interior Design
           </h1>
-          <p className="text-sm sm:text-base text-white mt-4">
-            We create elegant, functional, and comfortable interiors that
-            reflect your style. Our designs balance aesthetics and functionality
-            to transform spaces into timeless experiences.
+          <p className="section-text text-primary/80 text-base sm:text-lg font-body max-w-lg leading-relaxed mb-8">
+            We craft interiors that blend elegance, comfort, and functionality—transforming spaces into timeless reflections of your unique style and vision.
           </p>
-          <div className="flex mt-8">
-            <button
-              className="uppercase py-2 px-4 rounded-lg bg-transparent border-2 border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white text-md"
-              onClick={() => setIsSliderOpen(true)}
-            >
-              Read more
-            </button>
-          </div>
+          <button
+            className="discover-button px-6 py-3 bg-accent text-primary font-body font-semibold text-base rounded-full border border-border shadow-md hover:bg-accent/80 hover:shadow-lg transition-all duration-300 uppercase"
+            onClick={() => setIsSliderOpen(true)}
+          >
+            Discover More
+          </button>
         </div>
       </div>
 
+      {/* Detail Slider */}
       {isSliderOpen && (
         <DetailSlider
           title="Interior Design"
@@ -46,7 +65,7 @@ const InteriorDesign = () => {
           onClose={() => setIsSliderOpen(false)}
         />
       )}
-    </div>
+    </section>
   );
 };
 

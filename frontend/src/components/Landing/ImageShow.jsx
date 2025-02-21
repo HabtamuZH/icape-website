@@ -19,16 +19,11 @@ import HeroProject from "./HeroProject";
 export const SmoothScrollHero = () => {
   return (
     <div className="bg-zinc-950">
-      <ReactLenis
-        root
-        options={{
-          // Learn more -> https://github.com/darkroomengineering/lenis?tab=readme-ov-file#instance-settings
-          lerp: 0.05,
-            // infinite: true,
-            // syncTouch: true,
-        }}
-      >
         {/* <Navbar /> */}
+        <ReactLenis root option={{
+          lerp:0.05,
+          duration: 1.5,
+        }}>
         <HeroSection />
         <HeroProject/>
         {/* <Hero /> */}
@@ -36,7 +31,7 @@ export const SmoothScrollHero = () => {
         <Header/>
         <ExpVision/>
         <Testimonials/>
-      </ReactLenis>
+          </ReactLenis> 
     </div>
   );
 };

@@ -196,7 +196,44 @@ const HeroProject = () => {
         "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=400&fit=crop",
       ],
     },
-    // Add more projects as needed
+    { 
+      id: "modern-villa", // Unique ID for each project
+      name: "Modern Villa", 
+      role: "Residential Design", 
+      imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop", 
+      description: "A modern villa with sleek design and sustainable features.",
+      images: [
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
+      ],
+    },
+    { 
+      id: "urban-skyscraper", 
+      name: "Urban Skyscraper", 
+      role: "Commercial Architecture", 
+      imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop", 
+      description: "A towering skyscraper in the heart of the city.",
+      images: [
+        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=400&fit=crop",
+      ],
+    },
+    { 
+      id: "modern-villa", // Unique ID for each project
+      name: "Modern Villa", 
+      role: "Residential Design", 
+      imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop", 
+      description: "A modern villa with sleek design and sustainable features.",
+      images: [
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
+      ],
+    },
+
   ];
 
   useEffect(() => {
