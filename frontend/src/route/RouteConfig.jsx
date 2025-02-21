@@ -17,36 +17,42 @@ import Dashboard from "./../admin/components/dashboard/Index";
 import Carrier from "../pages/Carrier";
 import ApplicationForm from "../components/career/ApplicationForm"
 import CareerPost from "../admin/components/CareerPost"
+import ApplicationView from "../admin/components/ApplicationsView";
+import Notifications from "../admin/components/Notifications";
+import AdminSettings from "../admin/components/AdminSeetting"
 
 const RouteConfig = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contactus" element={<ContactUs />} />
-          <Route path="/blog" element={<Blogs />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/carrier" element={<Carrier />} />
-            <Route path="/application-forms" element={<ApplicationForm />} />
-             
-          <Route path="/projects/:projectId" element={<ProjectDetails />} />
-          <Route path="/projects/completed" element={<Projects />} />
-          <Route path="/projects/ongoing" element={<Projects />} />
-          <Route path="/projects/upcoming" element={<Projects />} />
+        <Route path='/' element={<MainLayout />}>
+          <Route path='/' element={<Home />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/contactus' element={<ContactUs />} />
+          <Route path='/blog' element={<Blogs />} />
+          <Route path='/services' element={<Services />} />
+          <Route path='/carrier' element={<Carrier />} />
+          <Route path='/application-forms' element={<ApplicationForm />} />
+
+          <Route path='/projects/:projectId' element={<ProjectDetails />} />
+          <Route path='/projects/completed' element={<Projects />} />
+          <Route path='/projects/ongoing' element={<Projects />} />
+          <Route path='/projects/upcoming' element={<Projects />} />
         </Route>
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route path='/admin' element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="projects-form" element={<ProjectsForm />} />
-          <Route path="Blogs-post" element={<BlogForm />} />
-          <Route path="View-feedbacks" element={<Feedbacks />} />
-          <Route path="career-post" element={<CareerPost />} />
+          <Route path='profile' element={<Profile />} />
+          <Route path='projects-form' element={<ProjectsForm />} />
+          <Route path='Blogs-post' element={<BlogForm />} />
+          <Route path='View-feedbacks' element={<Feedbacks />} />
+          <Route path='career-post' element={<CareerPost />} />
+          <Route path='application-views' element={<ApplicationView />} />
+          <Route path='notifications' element={<Notifications />} />
+          <Route path='admin-setting' element={<AdminSettings />} />
         </Route>
       </Routes>
     </>
-  );
+  )
 };
 
 export default RouteConfig;

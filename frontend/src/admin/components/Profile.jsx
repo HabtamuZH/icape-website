@@ -272,17 +272,6 @@ const Profile = () => {
                 <FaLock className='inline mr-2' />
                 Security
               </button>
-              <button
-                className={`py-2 px-4 rounded-lg font-semibold ${
-                  activeTab === "notifications"
-                    ? "bg-indigo-600 text-white"
-                    : "text-gray-700 hover:bg-gray-100"
-                }`}
-                onClick={() => handleTabClick("notifications")}
-              >
-                <FaBell className='inline mr-2' />
-                Notifications
-              </button>
             </div>
           </div>
         </div>

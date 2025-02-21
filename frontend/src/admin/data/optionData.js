@@ -1,50 +1,55 @@
-import { FiHome, FiSettings } from "react-icons/fi";
-import { FaPen, FaProjectDiagram, FaUser } from "react-icons/fa";
-import { IoMdNotifications } from "react-icons/io";
-import { MdFeedback } from "react-icons/md";
+import {FiHome, FiSettings} from "react-icons/fi"
+import {FaPen, FaProjectDiagram, FaUser} from "react-icons/fa"
+import {IoMdNotifications} from "react-icons/io"
+import {MdFeedback} from "react-icons/md"
 
 const optionsData = [
   {
     Icon: FiHome,
     title: "Dashboard",
-    link: "/admin",
+    link: "/admin"
   },
   {
     Icon: FaUser,
     title: "Profile",
-    link: "profile",
+    link: "profile"
   },
   {
     Icon: FaProjectDiagram,
     title: "Post Projects",
-    link: "projects-form",
+    link: "projects-form"
   },
   {
     Icon: FaPen,
     title: "Post Blogs",
-    link: "blogs-post",
+    link: "blogs-post"
   },
   {
     Icon: MdFeedback,
     title: "View Feedbacks",
-    link: "view-feedbacks",
+    link: "view-feedbacks"
   },
   {
     Icon: MdFeedback,
     title: "Post Career Opportunity",
-    link: "career-Post",
+    link: "career-Post"
+  },
+  {
+    Icon: MdFeedback,
+    title: "View Applications Form ",
+    link: "application-views"
   },
   {
     Icon: IoMdNotifications,
     title: "Notifications",
     link: "notifications",
+    notify: 5 //
   },
   {
     Icon: FiSettings,
     title: "Settings",
-    link: "settings",
-  },
-];
+    link: "admin-setting"
+  }
+]
 
-
-export default optionsData;
+export default optionsData
