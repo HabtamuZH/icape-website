@@ -1,5 +1,6 @@
 import {useEffect} from "react"
-import {FaLinkedin, FaTwitter} from "react-icons/fa"
+import {FaLinkedin, FaTwitter, FaAward, FaArrowRight} from "react-icons/fa"
+import {Link} from "react-router-dom"
 import ScrollReveal from "scrollreveal"
 import SpotlightCard from "./SpotlightCard"
 
@@ -79,13 +80,13 @@ const TeamMembers = () => {
   }, [])
 
   return (
-    <section className='py-14 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white'>
+    <section className='py-14 bg-secondary'>
       <div className='max-w-screen-xl mx-auto px-6 text-center'>
         <div className='max-w-2xl mx-auto mb-12 sr-community-empowerment'>
-          <h3 className='text-gray-100 text-3xl font-bold sm:text-5xl'>
+          <h3 className='text-primary text-3xl font-bold sm:text-5xl font-heading'>
             Meet Our Team
           </h3>
-          <p className='text-gray-100 mt-3 text-xl'>
+          <p className='text-gray-700 mt-3 text-xl font-body'>
             A passionate team committed to innovation and excellence.
           </p>
         </div>
@@ -95,22 +96,24 @@ const TeamMembers = () => {
               key={idx}
               className='team-card p-6 rounded-xl text-center transform hover:scale-105'
             >
-              <SpotlightCard>
-                <div className='w-24 h-24 mx-auto mb-4 overflow-hidden rounded-full border-4 border-indigo-200'>
+              <div className='shadow-2xl rounded-lg bg-secondary p-4'>
+                <div className='w-24 h-24 mx-auto mb-4 overflow-hidden rounded-full border-4 border-accent'>
                   <img
                     src={member.avatar}
                     className='w-full h-full object-cover'
                     alt={member.name}
                   />
                 </div>
-                <h4 className='text-gray-100 text-lg font-semibold'>
+                <h4 className='text-primary text-lg font-semibold font-heading'>
                   {member.name}
                 </h4>
-                <p className='text-fuchsia-700 text-sm font-medium'>
+                <p className='text-accent text-sm font-medium font-body'>
                   {member.title}
                 </p>
-                <p className='text-gray-200 mt-3 text-sm'>{member.desc}</p>
-                <div className='mt-4 flex justify-center gap-4 text-gray-400'>
+                <p className='text-gray-700 mt-3 text-sm font-body'>
+                  {member.desc}
+                </p>
+                <div className='mt-4 flex justify-center gap-4 text-gray-600'>
                   <a
                     href={member.twitter}
                     target='_blank'
@@ -128,9 +131,24 @@ const TeamMembers = () => {
                     <FaLinkedin size={20} />
                   </a>
                 </div>
-              </SpotlightCard>
+              </div>
             </div>
           ))}
+        </div>
+
+        {/* CTA Section */}
+        <div className='mt-20 text-center reveal'>
+          <h3 className='text-2xl font-bold text-primary mb-4 font-heading'>
+            Shape Spaces That Inspire!
+          </h3>
+          <div className='flex justify-center gap-4'>
+            <Link
+              to='/career'
+              className='px-4 md:px-8 py-2 md:py-3 text-gray-800 bg-accent hover:bg-opacity-80 rounded-lg flex items-center gap-2 transition-colors font-body'
+            >
+              Join Our Team <FaArrowRight />
+            </Link>
+          </div>
         </div>
       </div>
     </section>
