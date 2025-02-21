@@ -20,6 +20,7 @@ import CareerPost from "../admin/components/CareerPost"
 import ApplicationView from "../admin/components/ApplicationsView";
 import Notifications from "../admin/components/Notifications";
 import AdminSettings from "../admin/components/AdminSeetting"
+import AwardDetails from "../components/about/AwardDetails";
 
 const RouteConfig = () => {
   return (
@@ -28,6 +29,8 @@ const RouteConfig = () => {
         <Route path='/' element={<MainLayout />}>
           <Route path='/' element={<Home />} />
           <Route path='/about' element={<About />} />
+            <Route path='/awards/:id' element={<AwardDetails />} />
+
           <Route path='/contactus' element={<ContactUs />} />
           <Route path='/blog' element={<Blogs />} />
           <Route path='/services' element={<Services />} />

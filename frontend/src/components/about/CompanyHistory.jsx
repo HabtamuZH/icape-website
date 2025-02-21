@@ -7,9 +7,9 @@ import {
   FaArrowRight
 } from "react-icons/fa"
 import ScrollReveal from "scrollreveal"
-import SpotlightCard from "./SpotlightCard"
+import SpotlightCard from "./SpotlightCard" // Ensure this component exists or remove if unused
 import {Link} from "react-router-dom"
-import teamImage from "../../../public/teamimages.jpg" // Verify image path
+import teamImage from "../../../public/teamimages.jpg" // Verify paths
 import award1 from "../../../public/award.jpeg"
 import award2 from "../../../public/award1.jpeg"
 import award3 from "../../../public/award 2.jpeg"
@@ -34,6 +34,23 @@ const CompanyHistory = () => {
     sr.reveal(".reveal-3", {opacity: 0, interval: 400})
     sr.reveal(".reveal-4", {opacity: 0, interval: 500})
   }, [])
+
+  // Award data to pass to AwardDetails
+  const awardData = {
+    title: "IKKA Award for Architectural Excellence",
+    issuer: "IKKA Foundation",
+    date: "October 20, 2024",
+    description:
+      "Recognized for outstanding innovation in sustainable architectural design, this award highlights iCAPE’s commitment to blending aesthetics with eco-friendly functionality. Our team’s groundbreaking approach to urban planning and architectural solutions has been celebrated as a model for future development.",
+    category: "Sustainable Architecture",
+    recipient: "iCAPE Consulting Architects and Engineers PLC",
+    imageUrl: award2, // Using the imported image
+    achievements: [
+      "Pioneered sustainable urban planning for 5+ Ethiopian towns",
+      "Reduced project carbon footprint by 30% through innovative design",
+      "Won multiple design competitions for eco-conscious structures"
+    ]
+  }
 
   return (
     <section className='relative py-20 pt-32 bg-secondary text-primary'>
@@ -84,7 +101,6 @@ const CompanyHistory = () => {
                 Introduction
               </h3>
             </div>
-            {/* <SpotlightCard> */}
             <div className='md:p-6 space-y-1 md:space-y-4 p-1 shadow-2xl rounded-lg bg-secondary'>
               <p className='text-gray-700 xs:text-sm lg:text-lg md:text-xl font-body'>
                 iCAPE Consulting Architects and Engineers PLC (iCAPE Consulting
@@ -118,10 +134,9 @@ const CompanyHistory = () => {
                 </div>
               </div>
             </div>
-            {/* </SpotlightCard> */}
           </div>
 
-          {/* Foundation Section with Image Timeline */}
+          {/* Foundation Section */}
           <div className='flex flex-col md:flex-row-reverse items-center gap-8 reveal-2 group'>
             <div className='flex flex-col items-center text-center md:text-left md:items-start'>
               <FaBuilding className='text-accent text-6xl mb-4 hover:scale-110 transition-transform' />
@@ -129,9 +144,7 @@ const CompanyHistory = () => {
                 Foundation
               </h3>
             </div>
-
             <SpotlightCard className='hover:border-accent transition-colors p-0 overflow-hidden relative'>
-              {/* Background Image with Overlay */}
               <div className='absolute inset-0'>
                 <img
                   src={companyBg}
@@ -140,16 +153,12 @@ const CompanyHistory = () => {
                 />
                 <div className='absolute inset-0 bg-gradient-to-t from-dark via-transparent to-transparent' />
               </div>
-
               <div className='relative z-10 p-6'>
-                {/* Main Content */}
                 <p className='text-gray-200 text-lg md:text-xl mb-4 font-body'>
                   Established with a vision to seamlessly blend aesthetics and
                   functionality, iCAPE has been at the forefront of
                   architectural evolution in Ethiopia.
                 </p>
-
-                {/* Image Timeline */}
                 <div className='grid grid-cols-3 gap-4 mt-6'>
                   <div className='relative group cursor-pointer'>
                     <img
@@ -182,8 +191,6 @@ const CompanyHistory = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* Milestone Badges */}
                 <div className='flex gap-3 mt-6 flex-wrap'>
                   <div className='px-3 py-1 bg-accent/20 rounded-full text-sm text-accent flex items-center font-body'>
                     <span className='mr-2'>🏛️</span>2013
@@ -199,7 +206,7 @@ const CompanyHistory = () => {
             </SpotlightCard>
           </div>
 
-          {/* Interactive Services Section */}
+          {/* Services Section */}
           <div className='relative flex flex-col md:flex-row items-center gap-8 reveal-2 group'>
             <div className='flex flex-col items-center text-center md:text-left md:items-start'>
               <FaProjectDiagram className='text-accent text-6xl mb-4 hover:animate-pulse' />
@@ -207,7 +214,6 @@ const CompanyHistory = () => {
                 Our Services
               </h3>
             </div>
-
             <div className='hover:border-accent transition-colors p-6 shadow-2xl rounded-lg bg-secondary'>
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                 {[
@@ -243,7 +249,6 @@ const CompanyHistory = () => {
                       />
                       <div className='absolute inset-0 bg-gradient-to-t from-dark/60 via-transparent to-transparent' />
                     </div>
-
                     <div className='absolute bottom-0 left-0 p-4 text-light'>
                       <h4 className='text-xl font-semibold mb-1 font-heading'>
                         {service.title}
@@ -252,7 +257,6 @@ const CompanyHistory = () => {
                         {service.description}
                       </p>
                     </div>
-
                     <div className='absolute top-2 right-2 bg-accent/80 text-light px-3 py-1 rounded-full text-sm font-body'>
                       <FaArrowRight className='inline-block mr-1' />
                       Explore
@@ -260,8 +264,6 @@ const CompanyHistory = () => {
                   </Link>
                 ))}
               </div>
-
-              {/* View All Button */}
               <div className='mt-6 text-center'>
                 <Link
                   to='/services'
@@ -274,7 +276,7 @@ const CompanyHistory = () => {
             </div>
           </div>
 
-          {/* Awards Section with Image Gallery */}
+          {/* Awards Section with Redirect */}
           <div className='flex flex-col md:flex-row-reverse items-center gap-8 reveal-4'>
             <div className='flex flex-col items-center text-center md:text-left md:items-start'>
               <FaAward className='text-accent text-6xl mb-4 hover:rotate-[30deg] transition-transform' />
@@ -282,27 +284,21 @@ const CompanyHistory = () => {
                 Recognition
               </h3>
             </div>
-
             <div className='hover:shadow-accent/20 relative overflow-hidden group shadow-2xl rounded-lg bg-secondary w-full'>
               <div className='p-1 sm:p-6 relative z-10'>
-                {/* Single Award Highlight */}
                 <div className='relative aspect-video rounded-lg overflow-hidden hover:scale-105 transition-transform'>
                   <img
-                    src={award2} // Your IKKA Award image
-                    alt='IKKA Award for Architectural Excellence'
+                    src={award2}
+                    alt={awardData.title}
                     className='w-full h-full object-cover'
                   />
                   <div className='absolute inset-0 bg-accent/20 hover:bg-transparent transition-colors' />
                 </div>
-
-                {/* Text Overlay */}
                 <div className='relative bg-dark/90 backdrop-blur-sm p-4 rounded-lg mt-4'>
                   <p className='text-light text-lg md:text-xl font-body'>
                     Honored with the prestigious:
                     <ul className='list-disc list-inside mt-2 space-y-1'>
-                      <li className='text-accent'>
-                        IKKA Award for Architectural Excellence
-                      </li>
+                      <li className='text-accent'>{awardData.title}</li>
                     </ul>
                     <p className='mt-3 mb-3 text-gray-300 text-sm'>
                       Recognizing outstanding innovation in sustainable
@@ -311,8 +307,6 @@ const CompanyHistory = () => {
                   </p>
                 </div>
               </div>
-
-              {/* Background Pattern */}
               <div className='absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity'>
                 <img
                   src={awardBg}
@@ -320,12 +314,12 @@ const CompanyHistory = () => {
                   className='w-full h-full object-cover'
                 />
               </div>
-
-              {/* View Details Button */}
               <Link
-                to='/awards/ikka'
-                className='absolute z-50 bottom-2 right-2 md:bottom-12 md:right-8 flex items-center 
-      gap-2 px-2 sm:px-4 py-1 sm:py-2 bg-accent/80 hover:bg-accent rounded-full transition-colors font-body'
+                to={{
+                  pathname: "/awards/ikka-award"
+                  // state: { award: awardData } // No longer needed
+                }}
+                className='absolute z-50 bottom-2 right-2 md:bottom-12 md:right-8 flex items-center gap-2 px-2 sm:px-4 py-1 sm:py-2 bg-accent/80 hover:bg-accent rounded-full transition-colors font-body'
               >
                 <span className='text-xs sm:text-sm font-medium'>
                   View Details
