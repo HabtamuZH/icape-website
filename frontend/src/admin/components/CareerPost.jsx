@@ -38,8 +38,8 @@ const OpportunityForm = () => {
   }
 
   return (
-    <section className='py-16 bg-secondary min-h-screen'>
-      <div className='w-full mx-auto px-4 sm:px-6 lg:px-8'>
+    <section className='py-16 bg-secondary min-h-screen flex items-center justify-center'>
+      <div className='bg-light p-6 sm:p-8 mx-auto my-8 rounded-xl w-full max-w-3xl shadow-lg border border-border px-4 sm:px-6 lg:px-8'>
         <div className=''>
           <h2 className='text-3xl font-heading font-extrabold text-primary mb-6 text-center'>
             Post New Career Opportunity

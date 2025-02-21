@@ -1,6 +1,6 @@
-import { useState } from "react";
+import {useState} from "react"
 
-const BlogForm = ({ onSubmit }) => {
+const BlogForm = ({onSubmit}) => {
   const [blogData, setBlogData] = useState({
     title: "",
     description: "",
@@ -8,215 +8,291 @@ const BlogForm = ({ onSubmit }) => {
     author: "",
     category: "",
     fullText: "",
-    image: null,
-  });
-  const [imagePreview, setImagePreview] = useState(null);
-  const [errors, setErrors] = useState({});
+    image: null
+  })
+  const [imagePreview, setImagePreview] = useState(null)
+  const [errors, setErrors] = useState({})
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setBlogData({ ...blogData, [name]: value });
-    validateField(name, value);
-  };
+    const {name, value} = e.target
+    setBlogData({...blogData, [name]: value})
+    validateField(name, value)
+  }
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]
     if (file) {
-      if (file.size > 10 * 1024 * 1024) {
-        setErrors({ ...errors, image: "File size must be less than 5MB." });
-        return;
+      if (file.size > 5 * 1024 * 1024) {
+        // 5MB limit
+        setErrors({...errors, image: "File size must be less than 5MB."})
+        return
       }
       if (!file.type.startsWith("image/")) {
-        setErrors({ ...errors, image: "Only image files are allowed." });
-        return;
+        setErrors({...errors, image: "Only image files are allowed."})
+        return
       }
-      setBlogData({ ...blogData, image: file });
-      setImagePreview(URL.createObjectURL(file));
-      setErrors({ ...errors, image: "" });
+      setBlogData({...blogData, image: file})
+      setImagePreview(URL.createObjectURL(file))
+      setErrors({...errors, image: ""})
     }
-  };
+  }
 
-  // const handleRemoveImage = () => {
-  //   setBlogData({ ...blogData, image: null });
-  //   setImagePreview(null);
-  // };
+  const handleRemoveImage = () => {
+    setBlogData({...blogData, image: null})
+    setImagePreview(null)
+    setErrors({...errors, image: ""})
+  }
 
   const validateField = (field, value) => {
-    let fieldErrors = { ...errors };
+    let fieldErrors = {...errors}
     if (!value && field !== "image") {
       fieldErrors[field] = `${
         field.charAt(0).toUpperCase() + field.slice(1)
-      } is required.`;
+      } is required.`
     } else {
-      fieldErrors[field] = "";
+      fieldErrors[field] = ""
     }
-    setErrors(fieldErrors);
-  };
+    setErrors(fieldErrors)
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    let isValid = true;
-    const finalErrors = {};
+    e.preventDefault()
+    let isValid = true
+    const finalErrors = {}
     Object.keys(blogData).forEach((key) => {
       if (!blogData[key] && key !== "image") {
         finalErrors[key] = `${
           key.charAt(0).toUpperCase() + key.slice(1)
-        } is required.`;
-        isValid = false;
+        } is required.`
+        isValid = false
       }
-    });
+    })
     if (!blogData.image) {
-      finalErrors.image = "Image is required.";
-      isValid = false;
+      finalErrors.image = "Image is required."
+      isValid = false
     }
 
     if (isValid) {
-      onSubmit(blogData);
+      onSubmit(blogData)
     } else {
-      setErrors(finalErrors);
+      setErrors(finalErrors)
     }
-  };
+  }
 
   return (
-    <section className="bg-white min-h-screen flex items-center justify-center">
-      <div className="py-8 px-6 mx-auto max-w-6xl w-full lg:py-16">
-        <h2 className="mb-4 text-xl font-bold text-gray-900">
-          Publish Your Blog
+    <section className='py-16 bg-secondary min-h-screen flex items-center justify-center'>
+      <div className='bg-light p-6 sm:p-8 mx-auto my-8 rounded-xl w-full max-w-3xl shadow-lg border border-border'>
+        <h2 className='mb-6 text-3xl font-heading font-extrabold text-primary text-center'>
+          Publish a New Blog Post
         </h2>
-        <form onSubmit={handleSubmit} className="w-full">
-          <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div className="sm:col-span-2">
+        <p className='text-primary font-body text-center mb-8'>
+          Share your insights and stories with the iCAPE community.
+        </p>
+
+        <form onSubmit={handleSubmit} className='space-y-6'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
+            {/* Blog Title */}
+            <div className='sm:col-span-2'>
               <label
-                htmlFor="title"
-                className="block mb-2 text-sm font-medium text-gray-900"
+                htmlFor='title'
+                className='block mb-2 text-sm font-body font-medium text-primary'
               >
                 Blog Title
               </label>
               <input
-                type="text"
-                name="title"
-                id="title"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                placeholder="Type blog title"
+                type='text'
+                name='title'
+                id='title'
+                className='w-full px-4 py-3 rounded-md border border-border bg-light text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent'
+                placeholder='Enter the blog title'
                 value={blogData.title}
                 onChange={handleChange}
                 required
               />
+              {errors.title && (
+                <span className='text-red-500 text-xs mt-1 block'>
+                  {errors.title}
+                </span>
+              )}
             </div>
-            <div className="w-full">
+
+            {/* Author Name */}
+            <div>
               <label
-                htmlFor="author"
-                className="block mb-2 text-sm font-medium text-gray-900"
+                htmlFor='author'
+                className='block mb-2 text-sm font-body font-medium text-primary'
               >
                 Author Name
               </label>
               <input
-                type="text"
-                name="author"
-                id="author"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                placeholder="Author name"
+                type='text'
+                name='author'
+                id='author'
+                className='w-full px-4 py-3 rounded-md border border-border bg-light text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent'
+                placeholder='Enter author name'
                 value={blogData.author}
                 onChange={handleChange}
                 required
               />
+              {errors.author && (
+                <span className='text-red-500 text-xs mt-1 block'>
+                  {errors.author}
+                </span>
+              )}
             </div>
+
+            {/* Category */}
             <div>
               <label
-                htmlFor="category"
-                className="block mb-2 text-sm font-medium text-gray-900"
+                htmlFor='category'
+                className='block mb-2 text-sm font-body font-medium text-primary'
               >
                 Category
               </label>
               <input
-                type="text"
-                name="category"
-                id="category"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                placeholder="Category"
+                type='text'
+                name='category'
+                id='category'
+                className='w-full px-4 py-3 rounded-md border border-border bg-light text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent'
+                placeholder='e.g., Architecture, Technology'
                 value={blogData.category}
                 onChange={handleChange}
                 required
               />
+              {errors.category && (
+                <span className='text-red-500 text-xs mt-1 block'>
+                  {errors.category}
+                </span>
+              )}
             </div>
-            <div className="sm:col-span-2">
+
+            {/* Date */}
+            <div>
               <label
-                htmlFor="description"
-                className="block mb-2 text-sm font-medium text-gray-900"
+                htmlFor='date'
+                className='block mb-2 text-sm font-body font-medium text-primary'
+              >
+                Publication Date
+              </label>
+              <input
+                type='date'
+                name='date'
+                id='date'
+                className='w-full px-4 py-3 rounded-md border border-border bg-light text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent'
+                value={blogData.date}
+                onChange={handleChange}
+                required
+              />
+              {errors.date && (
+                <span className='text-red-500 text-xs mt-1 block'>
+                  {errors.date}
+                </span>
+              )}
+            </div>
+
+            {/* Short Description */}
+            <div className='sm:col-span-2'>
+              <label
+                htmlFor='description'
+                className='block mb-2 text-sm font-body font-medium text-primary'
               >
                 Short Description
               </label>
               <textarea
-                id="description"
-                rows="2"
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
-                placeholder="Short description"
+                id='description'
+                name='description'
+                rows='3'
+                className='w-full px-4 py-3 rounded-md border border-border bg-light text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent'
+                placeholder='Provide a brief summary of the blog post...'
                 value={blogData.description}
                 onChange={handleChange}
                 required
-              ></textarea>
+              />
+              {errors.description && (
+                <span className='text-red-500 text-xs mt-1 block'>
+                  {errors.description}
+                </span>
+              )}
             </div>
-            <div className="sm:col-span-2">
+
+            {/* Full Blog Content */}
+            <div className='sm:col-span-2'>
               <label
-                htmlFor="fullText"
-                className="block mb-2 text-sm font-medium text-gray-900"
+                htmlFor='fullText'
+                className='block mb-2 text-sm font-body font-medium text-primary'
               >
                 Full Blog Content
               </label>
               <textarea
-                id="fullText"
-                rows="4"
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
-                placeholder="Full blog content"
+                id='fullText'
+                name='fullText'
+                rows='6'
+                className='w-full px-4 py-3 rounded-md border border-border bg-light text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent'
+                placeholder='Write the full blog content here...'
                 value={blogData.fullText}
                 onChange={handleChange}
                 required
-              ></textarea>
+              />
+              {errors.fullText && (
+                <span className='text-red-500 text-xs mt-1 block'>
+                  {errors.fullText}
+                </span>
+              )}
             </div>
-            <div className="sm:col-span-2">
-              <label className="block mb-2 text-sm font-medium text-gray-900">
-                Upload Image
+
+            {/* Image Upload */}
+            <div className='sm:col-span-2'>
+              <label
+                htmlFor='image'
+                className='block mb-2 text-sm font-body font-medium text-primary'
+              >
+                Upload Blog Image (Max 5MB)
               </label>
               <input
-                type="file"
-                accept="image/*"
+                type='file'
+                id='image'
+                accept='image/*'
                 onChange={handleImageChange}
-                className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                className='w-full px-4 py-3 rounded-md border border-border bg-light text-primary font-body text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-body file:bg-accent file:text-light hover:file:bg-opacity-80'
                 required
               />
-              {/* {imagePreview && (
-                <div className="mt-4 relative">
+              {imagePreview && (
+                <div className='mt-4 relative inline-block'>
                   <img
                     src={imagePreview}
-                    alt="Preview"
-                    className="w-36 h-36 object-cover rounded-lg"
+                    alt='Preview'
+                    className='w-40 h-40 object-cover rounded-md'
                   />
                   <button
-                    type="button"
+                    type='button'
                     onClick={handleRemoveImage}
-                    className="absolute top-0 right-0 bg-red-500 text-white text-xs p-1 rounded-full"
+                    className='absolute top-0 right-0 bg-red-500 text-light text-xs p-1 rounded-full transform translate-x-1/2 -translate-y-1/2'
                   >
-                    X
+                    ✕
                   </button>
                 </div>
-              )} */}
+              )}
               {errors.image && (
-                <span className="text-red-500 text-xs mt-2 block">
+                <span className='text-red-500 text-xs mt-2 block'>
                   {errors.image}
                 </span>
               )}
             </div>
           </div>
-          <button
-            type="submit"
-            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-          >
-            Publish Blog
-          </button>
+
+          {/* Submit Button */}
+          <div className='text-center'>
+            <button
+              type='submit'
+              className='w-full sm:w-auto px-6 py-3 border border-transparent text-base font-body font-medium rounded-md text-light bg-accent hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent transition-colors duration-200'
+            >
+              Publish Blog
+            </button>
+          </div>
         </form>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default BlogForm;
+export default BlogForm
