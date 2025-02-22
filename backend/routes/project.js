@@ -1,5 +1,5 @@
 import express from "express"
-import Project from "../Models/project.js" // Use .js extension for module imports
+import Project from "../models/project.js" // Use .js extension for module imports
 import mongoose from "mongoose" // Import mongoose for ObjectId validation
 const router = express.Router()
 
