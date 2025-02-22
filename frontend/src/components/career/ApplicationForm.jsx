@@ -26,11 +26,11 @@ const ApplicationForm = () => {
     sr.reveal(".form-header", { origin: "top", distance: "40px", delay: 200 });
 
     // Form fields animation
-    sr.reveal(".form-field", { 
-      origin: "bottom", 
-      distance: "30px", 
-      delay: 300, 
-      interval: 100 // Staggered effect for each field
+    sr.reveal(".form-field", {
+      origin: "bottom",
+      distance: "30px",
+      delay: 300,
+      interval: 100, // Staggered effect for each field
     });
 
     return () => sr.destroy(); // Cleanup
