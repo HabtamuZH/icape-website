@@ -75,7 +75,7 @@ const ApplicationDetailsModal = ({application, onClose}) => {
           <p>
             <strong>CV:</strong>{" "}
             <a
-              href={`/uploads/${application.cv}`}
+              href={`${application.cv}`}
               target='_blank'
               rel='noopener noreferrer'
               className='text-accent underline hover:text-opacity-80'

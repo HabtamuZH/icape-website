@@ -13,7 +13,6 @@ import ProjectsForm from "../admin/components/ProjectsForm"
 import Profile from "../admin/components/Profile"
 import BlogForm from "../admin/components/Blogpost"
 import Dashboard from "../admin/components/dashboard/Index"
-import Carrier from "../pages/Carrier"
 import OpportunityForm from "../admin/components/careerOpportunity/OpportunityForm"
 import ApplicationView from "../admin/components/ApplicationsView"
 import Notifications from "../admin/components/Notifications"
@@ -21,9 +20,10 @@ import AdminSettings from "../admin/components/AdminSeetting"
 import AwardDetails from "../components/about/AwardDetails"
 import FeedbackDashboard from "../admin/components/feedback/FeedbackDashboard"
 import Login from "../admin/components/login/Login"
-import LoadingSpinner from "../components/common/LoadingSpinner" // Import your spinner
+import LoadingSpinner from "../components/common/LoadingSpinner"
 import InternshipApplicationForm from "../components/career/forms/InternshipApplicationForm"
-import CareerApplicationForm from "../components/career/forms/CareerApplicationForm"
+import CareerApplicationForm from "../components/career/forms/careerApplications /CareerApplicationForm"
+import Annoucement from "../components/career/Annoucement"
 
 // ProtectedRoute component to secure admin routes
 const ProtectedRoute = ({children}) => {
@@ -33,16 +33,13 @@ const ProtectedRoute = ({children}) => {
 
 const RouteConfig = () => {
   const [token, setToken] = useState(localStorage.getItem("token"))
-  const [loading, setLoading] = useState(true) // Add loading state
+  const [loading, setLoading] = useState(true)
 
-  // Simulate initial loading (e.g., token check)
   useEffect(() => {
     const checkAuth = async () => {
-      // Here you could add a token validation API call if needed
-      // For now, just simulate a quick check
       setTimeout(() => {
         setLoading(false)
-      }, 500) // Adjust delay as needed or replace with real auth check
+      }, 500)
     }
     checkAuth()
   }, [])
@@ -52,7 +49,6 @@ const RouteConfig = () => {
     setToken(null)
   }
 
-  // Show spinner while loading
   if (loading) {
     return <LoadingSpinner />
   }
@@ -68,9 +64,12 @@ const RouteConfig = () => {
         <Route path='/contactus' element={<ContactUs />} />
         <Route path='/blog' element={<Blogs />} />
         <Route path='/services' element={<Services />} />
-        <Route path='/carrier' element={<Carrier />} />
-        <Route path='/intern-form' element={<InternshipApplicationForm />} />
-        <Route path='/career-form' element={<CareerApplicationForm />} />
+        <Route path='/career' element={<Annoucement />}>
+          <Route index element={<Annoucement />} />{" "}
+          {/* Default view for /career */}
+          <Route path='intern-form' element={<InternshipApplicationForm />} />
+          <Route path='career-form' element={<CareerApplicationForm />} />
+        </Route>
         <Route path='/projects/:projectId' element={<ProjectDetails />} />
         <Route path='/projects/completed' element={<Projects />} />
         <Route path='/projects/ongoing' element={<Projects />} />

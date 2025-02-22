@@ -1,18 +1,16 @@
-// services/application-service.js
-import axios from "axios"
+// application-service.js
+import createHttpService from "./http-service.js"
 
-const applicationService = {
-  create: (data) => {
-    const formData = new FormData()
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value) // Handles both text and file fields
-    })
-    return axios.post("/api/applications", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    })
-  }
+// Create an instance of HttpService for the /api/applications endpoint
+const applicationService = createHttpService("/api/applications")
+
+// Extend the service with a custom create method for multipart/form-data
+applicationService.createMultipart = (data) => {
+  return applicationService.create(data, {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  })
 }
 
 export default applicationService

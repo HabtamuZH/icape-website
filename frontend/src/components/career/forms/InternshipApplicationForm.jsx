@@ -3,13 +3,13 @@ import ScrollReveal from "scrollreveal"
 import applicationService from "../../../services/application-service"
 import {toast} from "react-toastify"
 
-const CareerApplicationForm = () => {
+const InternshipApplicationForm = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phoneNumber: "",
-    opportunityType: "Professional Career Opportunities",
-    department: "",
+    opportunityType: "Internship Program 2025",
+    studentStatus: "",
     reason: "",
     skills: "",
     availability: "",
@@ -62,7 +62,7 @@ const CareerApplicationForm = () => {
     try {
       const res = await applicationService.create(formDataToSend)
       console.log("Success:", res.data)
-      toast.success("Career application submitted successfully!", {
+      toast.success("Internship application submitted successfully!", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -74,8 +74,8 @@ const CareerApplicationForm = () => {
         fullName: "",
         email: "",
         phoneNumber: "",
-        opportunityType: "Professional Career Opportunities",
-        department: "",
+        opportunityType: "Internship Program 2025",
+        studentStatus: "",
         reason: "",
         skills: "",
         availability: "",
@@ -96,11 +96,10 @@ const CareerApplicationForm = () => {
         {/* Header */}
         <div className='form-header text-center mb-6 sm:mb-8'>
           <h2 className='text-2xl sm:text-3xl md:text-4xl font-heading font-extrabold text-primary mb-4 sm:mb-6'>
-            Career Application - iCAPE
+            Internship Application - iCAPE 2025
           </h2>
           <p className='text-primary font-body text-sm sm:text-base md:text-lg'>
-            Apply for our Professional Career Opportunities and join our
-            innovative team.
+            Apply for our Internship Program 2025 and gain hands-on experience.
           </p>
         </div>
 
@@ -163,25 +162,24 @@ const CareerApplicationForm = () => {
             />
           </div>
 
-          {/* Department */}
+          {/* Student Status */}
           <div className='form-field'>
             <label
-              htmlFor='department'
+              htmlFor='studentStatus'
               className='block text-primary font-body font-medium mb-2 text-sm sm:text-base'
             >
-              Department
+              Student Status
             </label>
             <select
-              name='department'
-              value={formData.department}
+              name='studentStatus'
+              value={formData.studentStatus}
               onChange={handleChange}
-              className='w-full px-3 py-2 sm:px-4 sm:py-3 rounded-md border border-border bg-light text-primary font-body text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent'
+              className="w-full px-3 py-2 sm:px-4 sm:py-3 rounded-md border border-border bg-light text-primary font-body text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent appearance-none bg-[length:1.5rem_1.5rem] bg-no-repeat bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM5YTg4NjgiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cG9seWxpbmUgcG9pbnRzPSI2IDkgMTIgMTUgMTggOSI+PC9wb2x5bGluZT48L3N2Zz4=')] bg-[right_0.75rem_center]"
               required
             >
-              <option value=''>Select Department</option>
-              <option value='Engineering'>Engineering</option>
-              <option value='Product Development'>Product Development</option>
-              <option value='Business Operations'>Business Operations</option>
+              <option value=''>Select Status</option>
+              <option value='Current Student'>Current Student</option>
+              <option value='Recent Graduate'>Recent Graduate</option>
             </select>
           </div>
 
@@ -235,12 +233,12 @@ const CareerApplicationForm = () => {
               name='availability'
               value={formData.availability}
               onChange={handleChange}
-              className='w-full px-3 py-2 sm:px-4 sm:py-3 rounded-md border border-border bg-light text-primary font-body text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent'
+              className="w-full px-3 py-2 sm:px-4 sm:py-3 rounded-md border border-border bg-light text-primary font-body text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent appearance-none bg-[length:1.5rem_1.5rem] bg-no-repeat bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM5YTg4NjgiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cG9seWxpbmUgcG9pbnRzPSI2IDkgMTIgMTUgMTggOSI+PC9wb2x5bGluZT48L3N2Zz4=')] bg-[right_0.75rem_center]"
               required
             >
               <option value=''>Select Availability</option>
-              <option value='Full-time'>Full-time</option>
-              <option value='Part-time'>Part-time</option>
+              <option value='Summer 2025'>Summer 2025</option>
+              <option value='Fall 2025'>Fall 2025</option>
             </select>
           </div>
 
@@ -276,4 +274,4 @@ const CareerApplicationForm = () => {
   )
 }
 
-export default CareerApplicationForm
+export default InternshipApplicationForm

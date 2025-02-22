@@ -11,21 +11,21 @@ const Navbar = () => {
 
   // Navigation links configuration
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Services", path: "/services" },
-    { name: "Carrier", path: "/carrier" },
+    {name: "Home", path: "/"},
+    {name: "About", path: "/about"},
+    {name: "Services", path: "/services"},
+    {name: "Career", path: "/career"},
     {
       name: "Projects",
       dropdown: [
-        { name: "Completed", path: "/projects/completed" },
-        { name: "Ongoing", path: "/projects/ongoing" },
-        { name: "Upcoming", path: "/projects/upcoming" },
-        { name: "Admin", path: "/admin" },
-      ],
+        {name: "Completed", path: "/projects/completed"},
+        {name: "Ongoing", path: "/projects/ongoing"},
+        {name: "Upcoming", path: "/projects/upcoming"},
+        {name: "Admin", path: "/admin"}
+      ]
     },
-    { name: "Blogs", path: "/blog" },
-  ];
+    {name: "Blogs", path: "/blog"}
+  ]
 
   // Close dropdowns when clicking outside
   const handleClickOutside = (event) => {
