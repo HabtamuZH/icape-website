@@ -1,5 +1,6 @@
 // OpportunityForm.jsx
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
+import careerService from "../../services/careers-service"
 
 const OpportunityForm = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +11,6 @@ const OpportunityForm = () => {
     buttonText: "",
     buttonLink: ""
   })
-
   const handleInputChange = (e) => {
     const {name, value} = e.target
     setFormData((prev) => ({...prev, [name]: value}))
@@ -35,6 +35,10 @@ const OpportunityForm = () => {
     e.preventDefault()
     console.log("Form submitted:", formData)
     // Add your form submission logic here (e.g., API call)
+    careerService
+      .create(formData)
+      .then((res) => console.log("success :", res.data))
+      .catch((err) => console.log("Error :", err.message))
   }
 
   return (

@@ -8,6 +8,7 @@ import blog from "./routes/blog.js";
 import feedback from "./routes/feedback.js";
 import job from "./routes/job.js";
 import project from "./routes/project.js";
+import career from "./routes/career.js";
 
 dotenv.config();
 connectDB();
@@ -22,6 +23,7 @@ app.use("/api/blogs", blog);
 app.use("/api/feedbacks", feedback);
 app.use("/api/jobs", job);
 app.use("/api/projects", project);
+app.use("/api/careers", career);
 
 // Home route
 app.get("/", (req, res) => {

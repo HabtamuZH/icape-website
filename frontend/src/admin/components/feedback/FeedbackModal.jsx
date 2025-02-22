@@ -12,28 +12,9 @@ import {
 
 const FeedbackModal = ({
   selectedFeedback,
-  showReplyForm,
-  setShowReplyForm,
-  replyData,
-  setReplyData,
   closeDetails,
   handleDeleteFeedback,
 }) => {
-  const handleReplyToggle = () => setShowReplyForm(!showReplyForm);
-  const handleReplyChange = (e) => {
-    const { name, value } = e.target;
-    setReplyData((prev) => ({ ...prev, [name]: value }));
-  };
-  const handleReplySubmit = (e) => {
-    e.preventDefault();
-    const mailtoLink = `mailto:${selectedFeedback.email}?subject=${encodeURIComponent(
-      replyData.subject
-    )}&body=${encodeURIComponent(replyData.message)}`;
-    window.location.href = mailtoLink;
-    setShowReplyForm(false);
-    setReplyData({ subject: "", message: "" });
-  };
-
   return (
     <div className="fixed inset-0 bg-dark bg-opacity-50 flex justify-center items-center p-4 z-50">
       <div className="bg-light rounded-xl shadow-xl border border-border p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -80,14 +61,14 @@ const FeedbackModal = ({
           </div>
         </div>
 
-        <div className="mt-6 flex justify-between items-center">
-          <button
+        <div className="mt-6 flex justify-end items-center">
+          {/* <button
             onClick={handleReplyToggle}
             className="px-4 py-2 text-sm font-body text-accent border border-accent rounded-md hover:bg-accent hover:text-light transition-colors duration-200 flex items-center"
           >
             <FaReply className="mr-2" />
             {showReplyForm ? "Cancel Reply" : "Reply"}
-          </button>
+          </button> */}
           <button
             onClick={() => {
               handleDeleteFeedback(selectedFeedback._id);
@@ -98,62 +79,6 @@ const FeedbackModal = ({
             <FaTrash className="mr-2" /> Delete
           </button>
         </div>
-
-        {showReplyForm && (
-          <form onSubmit={handleReplySubmit} className="mt-6 space-y-4">
-            <div>
-              <label
-                htmlFor="subject"
-                className="block text-sm font-body font-medium text-primary mb-2"
-              >
-                Subject
-              </label>
-              <input
-                type="text"
-                id="subject"
-                name="subject"
-                value={replyData.subject}
-                onChange={handleReplyChange}
-                placeholder="e.g., Thank You for Your Feedback"
-                className="w-full px-4 py-3 rounded-md border border-border bg-light text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="message"
-                className="block text-sm font-body font-medium text-primary mb-2"
-              >
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={replyData.message}
-                onChange={handleReplyChange}
-                placeholder="Type your reply here..."
-                rows="4"
-                className="w-full px-4 py-3 rounded-md border border-border bg-light text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-                required
-              />
-            </div>
-            <div className="flex justify-end space-x-4">
-              <button
-                type="submit"
-                className="px-6 py-2 border border-transparent text-base font-body font-medium rounded-md text-light bg-accent hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent transition-colors duration-200"
-              >
-                Send Reply
-              </button>
-              <button
-                type="button"
-                onClick={handleReplyToggle}
-                className="px-6 py-2 border border-accent text-base font-body font-medium rounded-md text-accent hover:bg-accent hover:text-light transition-colors duration-200"
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        )}
       </div>
     </div>
   );
