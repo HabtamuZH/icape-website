@@ -38,7 +38,7 @@ const optionsData = [
   {
     Icon: FaBriefcase, // Changed from MdFeedback to FaBriefcase for career-related context
     title: "Post Career Opportunity",
-    link: "career-Post"
+    link: "opportunity-form"
   },
   {
     Icon: FaEnvelopeOpenText, // Changed from MdFeedback to FaEnvelopeOpenText for applications
@@ -50,7 +50,7 @@ const optionsData = [
     title: "Notifications",
     link: "notifications",
     notify: 5 // Kept the notification count
-  },
+  }
   // {
   //   Icon: FiSettings,
   //   title: "Settings",

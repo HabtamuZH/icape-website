@@ -1,14 +1,20 @@
 import RouteConfig from "./route/RouteConfig"
 import {BrowserRouter} from "react-router"
-import Test from "./Test"
+import {ToastContainer} from "react-toastify"
+import "react-toastify/dist/ReactToastify.css" // Import styles
+
 
 function App() {
   return (
     <>
-      {/* <BrowserRouter>
+      <ToastContainer
+        position='top-right'
+        autoClose={3000}
+        hideProgressBar={false}
+      />
+      <BrowserRouter>
         <RouteConfig />
-      </BrowserRouter> */}
-      <Test/>
+      </BrowserRouter>
     </>
   )
 }

@@ -42,9 +42,10 @@ const careerOpportunitySchema = new Schema({
   },
   buttonLink: {
     type: String,
-    required: [true, "Button link is required"],
-    trim: true,
-    match: [/^\/[a-zA-Z0-9\-\/]*$/, "Button link must be a valid URL path"]
+    // required: [true, "Button link is required"],
+    // trim: true,
+    // match: [/^\/[a-zA-Z0-9\-\/]*$/, "Button link must be a valid URL path"],
+    default:""
   },
   createdAt: {
     type: Date,

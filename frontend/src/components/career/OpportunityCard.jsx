@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ScrollReveal from "scrollreveal";
+// import ScrollReveal from "scrollreveal";
 
 const OpportunityCard = ({
   title,

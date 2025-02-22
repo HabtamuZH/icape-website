@@ -9,6 +9,7 @@ import feedback from "./routes/feedback.js";
 import job from "./routes/job.js";
 import project from "./routes/project.js";
 import career from "./routes/career.js";
+import application from "./routes/applications.js";
 
 dotenv.config();
 connectDB();
@@ -24,6 +25,8 @@ app.use("/api/feedbacks", feedback);
 app.use("/api/jobs", job);
 app.use("/api/projects", project);
 app.use("/api/careers", career);
+app.use("/api/applications", application)
+
 
 // Home route
 app.get("/", (req, res) => {
@@ -49,7 +52,7 @@ const createAdmin = async () => {
     console.error("Error creating admin:", error);
   }
 };
-// createAdmin();
+
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

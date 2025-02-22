@@ -6,15 +6,15 @@ import careerService from "../../services/careers-service"
 
 const Announcement = () => {
   const [opportunities, setOpportunities] = useState()
-  const [error ,setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     careerService
       .getAll()
       .then((res) => setOpportunities(res.data))
       .catch((err) => console.error(err))
-      .finally(()=>setLoading(false))
+      .finally(() => setLoading(false))
   }, [])
 
   useEffect(() => {
@@ -45,8 +45,8 @@ const Announcement = () => {
     return () => sr.destroy() // Cleanup
   }, [])
 
-  if(error) return <div>{error.message}</div>
-  if(loading) return <div>Loading...</div>
+  if (error) return <div>{error.message}</div>
+  if (loading) return <div>Loading...</div>
 
   return (
     <section className='py-32 bg-gradient-to-b from-secondary to-light'>
@@ -77,18 +77,6 @@ const Announcement = () => {
               buttonLink={opp.buttonLink}
             />
           ))}
-          {/* <OpportunityCard
-            title='Internship Program 2025'
-            description='Our internship program offers a unique opportunity for students and recent graduates to gain hands-on experience in a cutting-edge industry. Work alongside industry experts on real projects, develop professional skills, and build your network in a supportive, mentorship-driven environment.'
-            type='Paid Internship (Summer/Fall 2025)'
-            details={[
-              "Structured mentorship program",
-              "Real-world project experience",
-              "Potential for full-time opportunities"
-            ]}
-            buttonText='Apply for Internship'
-            buttonLink='/application-forms'
-          /> */}
         </div>
 
         {/* Additional CTA */}
