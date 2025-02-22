@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
 });
 
 // GET: Fetch all feedback (admin only)   authMiddleware,
-router.get("/",authMiddleware, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const feedback = await Feedback.find().sort({ date: -1 });
     res.status(200).json(feedback);
@@ -27,7 +27,7 @@ router.get("/",authMiddleware, async (req, res) => {
 });
 
 // DELETE: Remove feedback by ID (admin only)
-router.delete("/:id",authMiddleware, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     await Feedback.findByIdAndDelete(id);

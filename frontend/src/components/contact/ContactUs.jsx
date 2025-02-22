@@ -28,7 +28,7 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://cautious-giggle-jx9qv6grqgw35q6q-5001.app.github.dev/api/feedback", {
+      const response = await fetch("https://5001-idx-icape-websitegit-1740205892456.cluster-4ezwrnmkojawstf2k7vqy36oe6.cloudworkstations.dev/api/feedbacks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

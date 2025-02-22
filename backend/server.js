@@ -19,7 +19,7 @@ app.use(cors({ origin: true }));
 // Use routes
 app.use("/api/auth", auth);
 app.use("/api/blogs", blog);
-app.use("/api/feedback", feedback);
+app.use("/api/feedbacks", feedback);
 app.use("/api/jobs", job);
 app.use("/api/projects", project);
 

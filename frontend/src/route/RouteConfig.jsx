@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "../pages/Home";
 import About from "../pages/About";
@@ -22,6 +22,7 @@ import AdminSettings from "../admin/components/AdminSeetting";
 import AwardDetails from "../components/about/AwardDetails";
 import FeedbackDashboard from "../admin/components/feedback/FeedbackDashboard";
 import Login from "../admin/components/login/Login";
+import LoadingSpinner from "../components/common/LoadingSpinner"; // Import your spinner
 
 // ProtectedRoute component to secure admin routes
 const ProtectedRoute = ({ children }) => {
@@ -29,14 +30,31 @@ const ProtectedRoute = ({ children }) => {
   return token ? children : <Navigate to="/login" />;
 };
 
-// RouteConfig component with state for token
 const RouteConfig = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [loading, setLoading] = useState(true); // Add loading state
+
+  // Simulate initial loading (e.g., token check)
+  useEffect(() => {
+    const checkAuth = async () => {
+      // Here you could add a token validation API call if needed
+      // For now, just simulate a quick check
+      setTimeout(() => {
+        setLoading(false);
+      }, 500); // Adjust delay as needed or replace with real auth check
+    };
+    checkAuth();
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     setToken(null);
   };
+
+  // Show spinner while loading
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <Routes>

@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import authService from "../../../services/auth-service";
+
 const Login = ({ setToken }) => {
-  const [email, setEmail] = useState(""); // Changed from username to email
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Hook for navigation
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -12,7 +15,7 @@ const Login = ({ setToken }) => {
       setToken(token);
       localStorage.setItem("token", token);
       setError(null);
-
+      navigate("/admin"); // Redirect to FeedbackDashboard
     } catch (err) {
       setError(err || "Login failed");
     }
@@ -31,7 +34,7 @@ const Login = ({ setToken }) => {
               Email
             </label>
             <input
-              type="email" // Changed to email type
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full p-3 rounded-md border border-border bg-light text-primary font-body focus:outline-none focus:ring-2 focus:ring-accent"

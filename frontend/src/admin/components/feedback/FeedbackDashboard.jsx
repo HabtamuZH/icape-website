@@ -3,8 +3,9 @@ import SearchBar from "./SearchBar";
 import FeedbackTable from "./FeedbackTable";
 import Pagination from "./Pagination";
 import FeedbackModal from "./FeedbackModal";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "../../../components/common/LoadingSpinner";
 import ErrorMessage from "./ErrorMessage";
+import feedbackService from "../../../services/feedback-service";
 
 const FeedbackDashboard = () => {
   const [feedback, setFeedback] = useState([]);
@@ -19,20 +20,48 @@ const FeedbackDashboard = () => {
 
   // Fetch feedback from backend
   useEffect(() => {
-    const fetchFeedback = async () => {
-      try {
-        const response = await fetch("https://cautious-giggle-jx9qv6grqgw35q6q-5001.app.github.dev/api/feedback");
-        if (!response.ok) throw new Error("Failed to fetch feedback");
-        const data = await response.json();
-        setFeedback(data);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-    fetchFeedback();
+    feedbackService.getAll()
+      .then((res) =>
+        setFeedback(res.data)
+      )
+      .catch((err) =>
+        setError(err.message)
+      ).finally(() => setLoading(false));
   }, []);
+
+  // Filter feedback based on search query
+  useEffect(() => {
+    const fetchFeedback = async () => {
+
+      feedbackService.getAll()
+        .then((res) =>
+          setFeedback(res.data)
+        )
+        .catch((err) =>
+          setError(err.message)
+        ).finally(() => setLoading(false));
+    };
+
+    fetchFeedback();
+  }, [searchQuery]);
+
+  // // Handle page change
+  // useEffect(() => {
+  //   const fetchFeedback = async () => {
+
+  //     try {
+  //       const response = await fetch("https://cautious-giggle-jx9qv6grqgw35q6q-5001.app.github.dev/api/feedback");
+  //       if (!response.ok) throw new Error("Failed to fetch feedback");
+  //       const data = await response.json();
+  //       setFeedback(data);
+  //       setLoading(false);
+  //     } catch (err) {
+  //       setError(err.message);
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchFeedback();
+  // }, []);
 
   const filteredFeedback = feedback.filter(
     (item) =>
@@ -49,16 +78,12 @@ const FeedbackDashboard = () => {
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleDeleteFeedback = async (id) => {
-    try {
-      const response = await fetch(`https://cautious-giggle-jx9qv6grqgw35q6q-5001.app.github.dev/api/feedback/${id}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) throw new Error("Failed to delete feedback");
-      setFeedback((prev) => prev.filter((item) => item._id !== id));
-      if (selectedFeedback && selectedFeedback._id === id) closeDetails();
-    } catch (err) {
-      setError(err.message);
-    }
+
+    feedbackService.delete(id)
+      .then(() => {
+        setFeedback((prev) => prev.filter((item) => item._id !== id));
+        if (selectedFeedback && selectedFeedback._id === id) closeDetails();
+      }).catch((err) => setError(err.message))
   };
 
   const handleRowClick = (item) => setSelectedFeedback(item);
