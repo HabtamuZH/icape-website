@@ -1,5 +1,5 @@
 import express from "express"
-import Job from "../Models/job.js"
+import Job from "../models/job.js"
 const router = express.Router()
 
 // Create a new job listing

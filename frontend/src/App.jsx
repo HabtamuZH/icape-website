@@ -1,14 +1,12 @@
 import RouteConfig from "./route/RouteConfig"
 import {BrowserRouter} from "react-router"
-import ImageUpload from "./Test"
 
 function App() {
   return (
     <>
-      {/* <BrowserRouter>
+      <BrowserRouter>
         <RouteConfig />
-      </BrowserRouter> */}
-      <ImageUpload/>
+      </BrowserRouter>
     </>
   )
 }

@@ -70,10 +70,27 @@ const Navbar = () => {
     </Link>
       {/* Hamburger Menu (Mobile) */}
       <button
-        className="lg:hidden text-white text-2xl"
+        className="lg:hidden text-accent text-2xl focus:outline-none"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
       >
-        {isMenuOpen ? <IoClose /> : <FaBars />}
+        <span
+          className={`inline-block transition-all duration-300 ease-in-out ${
+            isMenuOpen
+              ? "rotate-90 opacity-0 scale-75"
+              : "rotate-0 opacity-100 scale-100"
+          }`}
+        >
+          <FaBars className={isMenuOpen ? "hidden" : "block"} />
+        </span>
+        <span
+          className={`inline-block transition-all duration-300 ease-in-out absolute  right-6 scale-150 ${
+            isMenuOpen
+              ? "rotate-0 opacity-100 scale-100"
+              : "-rotate-90 opacity-0 scale-75"
+          }`}
+        >
+          <IoClose className={isMenuOpen ? "block" : "hidden"} />
+        </span>
       </button>
 
       {/* Navigation (Desktop & Mobile) */}
@@ -129,6 +146,7 @@ const Navbar = () => {
         {/* Contact Button (Mobile & Desktop) */}
         { isMenuOpen ? <Link
         to="/contactus"
+        onClick={() => setIsMenuOpen(false)}
         className="btn btn-primary px-6 py-2 text-white font-semibold border-none rounded-full bg-accent hover:bg-primary transition duration-300 w-full lg:w-auto"
         >
         Contact Us
@@ -137,6 +155,7 @@ const Navbar = () => {
       <div className="hidden lg:block ">
         <Link
           to="/contactus"
+          
           className="btn btn-primary px-6 py-2 text-white font-semibold border-none rounded-full bg-accent hover:bg-primary transition duration-300 "
         >
           Contact Us

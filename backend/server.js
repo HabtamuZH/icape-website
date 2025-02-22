@@ -1,46 +1,55 @@
-import express from "express"
-import dotenv from "dotenv"
-import cors from "cors"
-import connectDB from "./Config/db.js"
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import connectDB from "./Config/db.js"; // Ensure correct case
+import User from "./models/User.js";
+import auth from "./routes/auth.js";
+import blog from "./routes/blog.js";
+import feedback from "./routes/feedback.js";
+import job from "./routes/job.js";
+import project from "./routes/project.js";
 
-dotenv.config()
-connectDB()
+dotenv.config();
+connectDB();
 
-const app = express()
-app.use(express.json())
-app.use(cors({origin: true}))
-
-// Import routes
-import authRoutes from "./routes/authRoutes.js"
-import blogRoutes from "./routes/blogRoutes.js"
-import contactRoutes from "./routes/contactRoutes.js"
-import jobRoutes from "./routes/jobRoutes.js"
-import projectRoutes from "./routes/projectRoutes.js"
+const app = express();
+app.use(express.json());
+app.use(cors({ origin: true }));
 
 // Use routes
-app.use("/api/auth", authRoutes)
-app.use("/api/blogs", blogRoutes)
-app.use("/api/contact", contactRoutes)
-app.use("/api/jobs", jobRoutes)
-app.use("/api/projects", projectRoutes)
+app.use("/api/auth", auth);
+app.use("/api/blogs", blog);
+app.use("/api/feedback", feedback);
+app.use("/api/jobs", job);
+app.use("/api/projects", project);
 
 // Home route
 app.get("/", (req, res) => {
-  res.send(`iCAPE Backend API is running...`)
-})
+  res.send(`iCAPE Backend API is running...`);
+});
 
-// Error handling middleware
-// app.use((err, req, res, next) => {
-//   const statusCode = res.statusCode === 200 ? 500 : res.statusCode
-//   res.status(statusCode)
-//   res.json({
-//     message: err.message,
-//     stack: process.env.NODE_ENV === "production" ? null : err.stack
-//   })
-// })
-
+// In server.js
+const createAdmin = async () => {
+  try {
+    const existingAdmin = await User.findOne({ email: "admin1@gmail.com" });
+    if (!existingAdmin) {
+      const admin = new User({
+        email: "admin1@gmail.com",
+        password: "admin123", // Will be hashed by pre-save hook
+        role: "admin",
+      });
+      await admin.save();
+      console.log("Admin created successfully");
+    } else {
+      console.log("Admin already exists");
+    }
+  } catch (error) {
+    console.error("Error creating admin:", error);
+  }
+};
+// createAdmin();
 // Start the server
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+  console.log(`Server running on port ${PORT}`);
+});
