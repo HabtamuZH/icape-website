@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 const Announcement = () => {
   useEffect(() => {
+    window.scrollTo(0, 0)
     const sr = ScrollReveal({
       reset: false, // One-time animation
       duration: 800,
