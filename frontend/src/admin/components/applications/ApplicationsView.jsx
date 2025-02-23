@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import ApplicationsTable from "./ApplicationsTable"
 import ApplicationDetailsModal from "./ApplicationDetailsModal"
-import applicationService from "../../services/application-service"
+import applicationService from "../../../services/application-service"
 
 const AdminApplicationsView = () => {
   const [applications, setApplications] = useState([])
