@@ -22,7 +22,7 @@ import FeedbackDashboard from "../admin/components/feedback/FeedbackDashboard"
 import Login from "../admin/components/login/Login"
 import LoadingSpinner from "../components/common/LoadingSpinner"
 import InternshipApplicationForm from "../components/career/forms/InternshipApplicationForm"
-import CareerApplicationForm from "../components/career/forms/careerApplications /CareerApplicationForm"
+import CareerApplicationForm from "../components/career/forms/careerApplications/CareerApplicationForm"
 import Annoucement from "../components/career/Annoucement"
 
 // ProtectedRoute component to secure admin routes
