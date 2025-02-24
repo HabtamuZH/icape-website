@@ -10,13 +10,13 @@ const internshipApplicationSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Email is required"],
-    trim: true,
+    trim: true
     // match: [/^\S+@\S+\.\S+$/, "Please provide a valid email"]
   },
   phoneNumber: {
     type: String,
     required: [true, "Phone number is required"],
-    trim: true,
+    trim: true
     // match: [/^\+?[1-9]\d{1,14}$/, "Please provide a valid phone number"]
   },
   opportunityType: {
@@ -54,6 +54,10 @@ const internshipApplicationSchema = new mongoose.Schema({
   submittedAt: {
     type: Date,
     default: Date.now
+  },
+  isRead: {
+    type: Boolean,
+    default: false
   }
 })
 

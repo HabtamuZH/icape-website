@@ -54,6 +54,10 @@ const careerApplicationSchema = new mongoose.Schema({
   submittedAt: {
     type: Date,
     default: Date.now
+  },
+  isRead: {
+    type: Boolean,
+    default: false
   }
 })
 
