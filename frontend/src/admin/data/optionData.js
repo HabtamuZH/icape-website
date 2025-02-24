@@ -33,7 +33,8 @@ const optionsData = [
   {
     Icon: MdFeedback,
     title: "View Feedbacks",
-    link: "view-feedbacks"
+    link: "view-feedbacks",
+    notify: ""
   },
   {
     Icon: FaBriefcase, // Changed from MdFeedback to FaBriefcase for career-related context
@@ -42,15 +43,16 @@ const optionsData = [
   },
   {
     Icon: FaEnvelopeOpenText, // Changed from MdFeedback to FaEnvelopeOpenText for applications
-    title: "View Applications Form",
-    link: "application-views"
-  },
-  {
-    Icon: IoMdNotifications,
-    title: "Notifications",
-    link: "notifications",
-    notify: 5 // Kept the notification count
+    title: "View Applications",
+    link: "application-views",
+    notify: ""
   }
+  // {
+  //   Icon: IoMdNotifications,
+  //   title: "Notifications",
+  //   link: "notifications",
+  //   notify: 5 // Kept the notification count
+  // }
   // {
   //   Icon: FiSettings,
   //   title: "Settings",
