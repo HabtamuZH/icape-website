@@ -1,19 +1,17 @@
-import React from "react";
-import { FaSearch } from "react-icons/fa";
+import React from "react"
 
-const SearchBar = ({ searchQuery, setSearchQuery }) => {
+const SearchBar = ({searchQuery, setSearchQuery}) => {
   return (
-    <div className="relative mb-6 max-w-md">
+    <div className=' sm:w-64 w-[90vw]'>
       <input
-        type="text"
-        placeholder="Search feedback by user, email, or message..."
+        type='text'
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-full px-4 py-3 pl-10 border border-border bg-light rounded-md text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+        placeholder='Search feedback...'
+        className='w-full sm:w-[70vw] px-3 py-2 rounded-md border border-border bg-light text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent'
       />
-      <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary opacity-70" />
     </div>
-  );
-};
+  )
+}
 
-export default SearchBar;
+export default SearchBar
