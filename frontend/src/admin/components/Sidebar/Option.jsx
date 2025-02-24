@@ -7,9 +7,9 @@ const Option = ({ Icon, title, link, selected, setSelected, open, notify }) => {
     <Link to={link.toLowerCase()}>
       <motion.button
         layout
-        onClick={() => setSelected(title)}
+        onClick={() => setSelected(link)}
         className={`relative flex w-full items-center rounded-md transition-colors ${
-          selected === title
+          selected === link
             ? "bg-accent text-light"
             : "text-primary hover:bg-secondary"
         } h-10`}

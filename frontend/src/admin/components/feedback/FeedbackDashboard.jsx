@@ -15,8 +15,7 @@ const FeedbackDashboard = () => {
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyData, setReplyData] = useState({ subject: "", message: "" });
-  const { feedbacks, setFeedbacks, loading, error, setError, setReload } =
-    useFeedback();
+  const { feedbacks, setFeedbacks, loading, error, setError, setReload } = useFeedback();
 
   const itemsPerPage = 5;
 

@@ -33,6 +33,7 @@ const useApplications = () => {
 
   if (notif === 0)
     return { applications, loading, error, notif: null, markAsRead };
+  
   return { applications, loading, error, notif, markAsRead };
 };
 

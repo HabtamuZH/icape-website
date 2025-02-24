@@ -7,10 +7,13 @@ import ToggleClose from "./ToggleClose";
 import optionsData from "../../data/optionData";
 import useApplications from "../../hooks/useApplications";
 import useFeedback from "../../hooks/useFeedbacks";
+import { useLocation } from "react-router-dom";
 
 const Sidebar = ({ unreadCount }) => {
+  const location = useLocation();
+  const path = location.pathname.split("/")[2];
   const [open, setOpen] = useState(true);
-  const [selected, setSelected] = useState("Dashboard");
+  const [selected, setSelected] = useState(path || "/admin");
 
   const { notif: appNotif } = useApplications();
   const { notif: feedbackNotif } = useFeedback();
