@@ -21,7 +21,7 @@ const useFeedback = () => {
 
   // setNotif(unread);
 
-  if (notif === 0) return { feedbacks, loading, error, notif: null, setReload };
+  if (notif === 0) return { feedbacks, loading, error,setError, notif: null, setReload };
   return {
     feedbacks,
     setFeedbacks,

@@ -51,13 +51,13 @@ const Vision = () => {
                 </p>
                 <div className='flex justify-center gap-4 mt-6 flex-wrap'>
                   <Link
-                    to='/projects'
+                    to='/projects/completed'
                     className='flex items-center px-6 py-3 bg-accent hover:bg-opacity-80 rounded-full transition-all text-sm sm:text-base font-body'
                   >
                     <FaChartLine className='mr-2' /> Explore Projects
                   </Link>
                   <Link
-                    to='/about'
+                    to='/services'
                     className='flex items-center text-gray-700 px-6 py-3 border border-primary hover:border-accent rounded-full transition-all text-sm sm:text-base font-body'
                   >
                     <FaHandshake className='mr-2' /> Our Services
