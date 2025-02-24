@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-// import ScrollReveal from "scrollreveal";
+/* eslint-disable react/prop-types */
 
 const OpportunityCard = ({
   title,
@@ -9,7 +8,7 @@ const OpportunityCard = ({
   buttonText,
   buttonLink,
 }) => {
-  // No separate useEffect needed here since it's handled in the parent
+ 
 
   return (
     <div className="opportunity-card bg-light rounded-xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 border border-border">

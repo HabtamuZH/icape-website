@@ -1,11 +1,11 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 const careerApplicationSchema = new mongoose.Schema({
   fullName: {
     type: String,
     required: [true, "Full name is required"],
     trim: true,
-    maxlength: [100, "Full name cannot exceed 100 characters"]
+    maxlength: [100, "Full name cannot exceed 100 characters"],
   },
   email: {
     type: String,
@@ -23,49 +23,49 @@ const careerApplicationSchema = new mongoose.Schema({
     type: String,
     required: [true, "Opportunity type is required"],
     enum: ["Professional Career Opportunities"],
-    default: "Professional Career Opportunities"
+    default: "Professional Career Opportunities",
   },
   department: {
     type: String,
     required: [true, "Department is required"],
-    enum: ["Engineering", "Product Development", "Business Operations"]
+    enum: ["Engineering", "Product Development", "Business Operations"],
   },
   reason: {
     type: String,
     required: [true, "Reason for applying is required"],
     trim: true,
-    maxlength: [1000, "Reason cannot exceed 1000 characters"]
+    maxlength: [1000, "Reason cannot exceed 1000 characters"],
   },
   skills: {
     type: String,
     required: [true, "Skills are required"],
     trim: true,
-    maxlength: [1000, "Skills cannot exceed 1000 characters"]
+    maxlength: [1000, "Skills cannot exceed 1000 characters"],
   },
   availability: {
     type: String,
     required: [true, "Availability is required"],
-    enum: ["Full-time", "Part-time"]
+    enum: ["Full-time", "Part-time"],
   },
   cv: {
     type: String, // Cloudinary URL
-    required: [true, "CV is required"]
+    required: [true, "CV is required"],
   },
   submittedAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   isRead: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-careerApplicationSchema.index({email: 1, submittedAt: -1})
+careerApplicationSchema.index({ email: 1, submittedAt: -1 });
 
 const CareerApplication = mongoose.model(
   "CareerApplication",
   careerApplicationSchema
-)
+);
 
-export default CareerApplication
+export default CareerApplication;

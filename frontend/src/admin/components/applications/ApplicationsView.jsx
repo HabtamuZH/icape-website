@@ -1,30 +1,17 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ApplicationsTable from "./ApplicationsTable";
 import ApplicationDetailsModal from "./ApplicationDetailsModal";
-import TableFilter from "./TableFilter"; // Adjust path
-import TableSearch from "./TableSearch"; // Adjust path
-import applicationService from "../../../services/application-service";
+import TableFilter from "./TableFilter";
+import TableSearch from "./TableSearch";
+import LoadingSpinner from "./../../../components/common/LoadingSpinner";
+import useApplications from "./../../hooks/useApplications";
 
 const ApplicationsView = () => {
-  const [applications, setApplications] = useState([]);
   const [filteredApplications, setFilteredApplications] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [filter, setFilter] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    const fetchApplications = async () => {
-      try {
-        const res = await applicationService.getAll();
-        setApplications(res.data);
-        setFilteredApplications(res.data); // Initially set to all applications
-      } catch (error) {
-        console.error("Error fetching applications:", error);
-      }
-    };
-
-    fetchApplications();
-  }, []);
+  const { applications, loading, error, markAsRead } = useApplications();
 
   useEffect(() => {
     // Apply filter and search logic
@@ -45,15 +32,29 @@ const ApplicationsView = () => {
           app.fullName.toLowerCase().includes(searchLower) ||
           app.email.toLowerCase().includes(searchLower) ||
           app.opportunityType.toLowerCase().includes(searchLower) ||
-          new Date(app.submittedAt).toLocaleDateString().toLowerCase().includes(searchLower)
+          new Date(app.submittedAt)
+            .toLocaleDateString()
+            .toLowerCase()
+            .includes(searchLower)
       );
     }
 
     setFilteredApplications(result);
   }, [filter, searchTerm, applications]);
 
+  if (loading) return <LoadingSpinner />;
+  if (error)
+    return (
+      <div className="h-screen w-full bg-secondary flex justify-center itemcenter">
+        <p className="text-red-500">
+          Error: {error || "😮Oops.. Something went wrong."}
+        </p>
+      </div>
+    );
+
   const handleViewDetails = (application) => {
     setSelectedApplication(application);
+    markAsRead(application._id);
   };
 
   const handleCloseDetails = () => {
@@ -70,7 +71,10 @@ const ApplicationsView = () => {
 
   const opportunityOptions = [
     { value: "", label: "All" },
-    { value: "Professional Career Opportunities", label: "Professional Career Opportunities" },
+    {
+      value: "Professional Career Opportunities",
+      label: "Professional Career Opportunities",
+    },
     { value: "Internship Program 2025", label: "Internship Program 2025" },
   ];
 
@@ -81,7 +85,8 @@ const ApplicationsView = () => {
           Career Applications Dashboard
         </h2>
         <p className="text-primary font-body text-center mb-12 max-w-3xl mx-auto">
-          Review and manage applications submitted for iCAPE’s Professional Career Opportunities and Internship Program 2025.
+          Review and manage applications submitted for iCAPE’s Professional
+          Career Opportunities and Internship Program 2025.
         </p>
 
         <div className="flex flex-col justify-between sm:flex-row gap-4 mb-6">

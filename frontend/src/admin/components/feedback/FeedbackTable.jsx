@@ -1,60 +1,66 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 import { FaTrash } from "react-icons/fa";
 
-const FeedbackTable = ({ currentFeedback, indexOfFirstItem, handleRowClick, handleDeleteFeedback }) => {
+const FeedbackTable = ({
+  currentFeedback,
+  indexOfFirstItem,
+  handleRowClick,
+  handleDeleteFeedback,
+}) => {
   return (
-    <div className='bg-light rounded-xl shadow-lg border border-border overflow-x-auto'>
-      <table className='w-full text-left'>
-        <thead className='bg-secondary'>
+    <div className="bg-light rounded-xl shadow-lg border border-border overflow-x-auto">
+      <table className="w-full text-left">
+        <thead className="bg-secondary">
           <tr>
-            <th className='px-4 py-3 text-sm font-body font-semibold text-primary'>
+            <th className="px-4 py-3 text-sm font-body font-semibold text-primary">
               No.
             </th>
-            <th className='px-4 py-3 text-sm font-body font-semibold text-primary'>
+            <th className="px-4 py-3 text-sm font-body font-semibold text-primary">
               User
             </th>
-            <th className='px-4 py-3 text-sm font-body font-semibold text-primary'>
+            <th className="px-4 py-3 text-sm font-body font-semibold text-primary">
               Email
             </th>
-            <th className='px-4 py-3 text-sm font-body font-semibold text-primary'>
+            <th className="px-4 py-3 text-sm font-body font-semibold text-primary">
               Message
             </th>
-            <th className='px-4 py-3 text-sm font-body font-semibold text-primary'>
+            <th className="px-4 py-3 text-sm font-body font-semibold text-primary">
               Date
             </th>
-            <th className='px-4 py-3 text-sm font-body font-semibold text-primary'>
+            <th className="px-4 py-3 text-sm font-body font-semibold text-primary">
               Actions
             </th>
           </tr>
         </thead>
-        <tbody className='divide-y divide-border'>
+        <tbody className="divide-y divide-border">
           {currentFeedback.map((item, index) => (
             <tr
               key={item._id}
-              className='hover:bg-accent hover:bg-opacity-10 cursor-pointer transition-colors'
+              className="hover:bg-accent hover:bg-opacity-10 cursor-pointer transition-colors"
               onClick={() => handleRowClick(item)}
             >
-              <td className='px-4 py-4 text-sm text-primary font-body'>
+              <td className="px-4 py-4 text-sm text-primary font-body">
                 {indexOfFirstItem + index + 1}
               </td>
-              <td className='px-4 py-4 text-sm text-primary font-body'>
+              <td className="px-4 py-4 text-sm text-primary font-body">
                 {item.name}
               </td>
-              <td className='px-4 py-4 text-sm text-primary font-body'>
+              <td className="px-4 py-4 text-sm text-primary font-body">
                 {item.email}
               </td>
-              <td className='px-4 py-4 text-sm text-primary font-body'>
-                {item.message}
+              <td className="px-4 py-4 text-sm text-primary font-body">
+                {item.message.slice(0, 15)}
+                {item?.message?.length > 15 ? "..." : ""}
               </td>
-              <td className='px-4 py-4 text-sm text-primary font-body'>
+              <td className="px-4 py-4 text-sm text-primary font-body">
                 {new Date(item.date).toLocaleDateString()}
               </td>
-              <td className='px-4 py-4 text-sm text-primary font-body'>
+              <td className="px-4 py-4 text-sm text-primary font-body">
                 <button
-                  className='text-red-500 hover:text-red-700 mr-2'
+                  className="text-red-500 hover:text-red-700 mr-2"
                   onClick={(e) => {
-                    e.stopPropagation()
-                    handleDeleteFeedback(item._id)
+                    e.stopPropagation();
+                    handleDeleteFeedback(item._id);
                   }}
                 >
                   <FaTrash />
@@ -65,7 +71,7 @@ const FeedbackTable = ({ currentFeedback, indexOfFirstItem, handleRowClick, hand
         </tbody>
       </table>
     </div>
-  )
+  );
 };
 
 export default FeedbackTable;

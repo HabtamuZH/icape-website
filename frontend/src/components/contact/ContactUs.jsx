@@ -9,6 +9,7 @@ import {
   MessageCircle,
   Send,
 } from "lucide-react";
+import feedbackService from "../../services/feedback-service";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -27,23 +28,18 @@ const Contact = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("https://5001-idx-icape-websitegit-1740205892456.cluster-4ezwrnmkojawstf2k7vqy36oe6.cloudworkstations.dev/api/feedbacks", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
+
+    feedbackService
+      .create(formData)
+      .then(() => {
         setSubmitted(true);
         setFormData({ name: "", email: "", message: "" });
         setError(null);
-      } else {
-        throw new Error("Failed to submit feedback");
-      }
-    } catch (err) {
-      console.log(err.error)
-      setError(err.message);
-    }
+      })
+      .catch((err) => {
+        console.log(err.error);
+        setError(err.message);
+      });
   };
 
   useEffect(() => {
@@ -53,9 +49,23 @@ const Contact = () => {
       easing: "ease-out",
     });
 
-    sr.reveal(".contact-section", { origin: "bottom", distance: "40px", delay: 200 });
-    sr.reveal(".contact-card", { origin: "bottom", distance: "30px", delay: 300, interval: 200 });
-    sr.reveal(".map-frame", { origin: "bottom", distance: "40px", delay: 400, scale: 0.95 });
+    sr.reveal(".contact-section", {
+      origin: "bottom",
+      distance: "40px",
+      delay: 200,
+    });
+    sr.reveal(".contact-card", {
+      origin: "bottom",
+      distance: "30px",
+      delay: 300,
+      interval: 200,
+    });
+    sr.reveal(".map-frame", {
+      origin: "bottom",
+      distance: "40px",
+      delay: 400,
+      scale: 0.95,
+    });
 
     return () => sr.destroy();
   }, []);
@@ -70,27 +80,47 @@ const Contact = () => {
             Contact Us
           </h2>
           <p className="text-base sm:text-lg font-body text-primary/80">
-            We’re here to connect with you! Reach out via phone, email, or visit our office.
+            We’re here to connect with you! Reach out via phone, email, or visit
+            our office.
           </p>
           <div className="space-y-4">
             {[
-              { icon: <Phone className="w-6 h-6 text-accent" />, text: "+251 912 345 678" },
-              { icon: <Mail className="w-6 h-6 text-accent" />, text: "info@artifactcompany.com" },
-              { icon: <Clock className="w-6 h-6 text-accent" />, text: "Mon - Fri: 9:00 AM - 6:00 PM" },
+              {
+                icon: <Phone className="w-6 h-6 text-accent" />,
+                text: "+251 912 345 678",
+              },
+              {
+                icon: <Mail className="w-6 h-6 text-accent" />,
+                text: "info@artifactcompany.com",
+              },
+              {
+                icon: <Clock className="w-6 h-6 text-accent" />,
+                text: "Mon - Fri: 9:00 AM - 6:00 PM",
+              },
             ].map((item, index) => (
               <div
                 key={index}
                 className="flex items-center space-x-3 text-primary/80 hover:text-accent transition duration-300"
               >
                 {item.icon}
-                <span className="text-base font-body font-medium">{item.text}</span>
+                <span className="text-base font-body font-medium">
+                  {item.text}
+                </span>
               </div>
             ))}
           </div>
           <div className="mt-6 flex flex-col sm:flex-row gap-4">
             {[
-              { href: "mailto:info@artifactcompany.com", text: "Email Us", icon: <ArrowRight className="ml-2 w-5 h-5" /> },
-              { href: "https://wa.me/251912345678", text: "Live Chat", icon: <MessageCircle className="ml-2 w-5 h-5" /> },
+              {
+                href: "mailto:info@artifactcompany.com",
+                text: "Email Us",
+                icon: <ArrowRight className="ml-2 w-5 h-5" />,
+              },
+              {
+                href: "https://wa.me/251912345678",
+                text: "Live Chat",
+                icon: <MessageCircle className="ml-2 w-5 h-5" />,
+              },
             ].map((btn, index) => (
               <a
                 key={index}

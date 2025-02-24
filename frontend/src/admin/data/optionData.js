@@ -1,13 +1,12 @@
-import {FiHome, FiSettings} from "react-icons/fi" // Feather Icons
+import {FiHome} from "react-icons/fi" // Feather Icons
 import {
   FaPen,
   FaProjectDiagram,
   FaUser,
   FaBriefcase,
   FaEnvelopeOpenText
-} from "react-icons/fa" // Font Awesome
-import {IoMdNotifications} from "react-icons/io" // Ionicons
-import {MdFeedback} from "react-icons/md" // Material Design
+} from "react-icons/fa" 
+import {MdFeedback} from "react-icons/md" 
 
 const optionsData = [
   {

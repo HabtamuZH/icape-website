@@ -1,4 +1,5 @@
-import React, {useState} from "react"
+/* eslint-disable react/prop-types */
+import {useState} from "react"
 
 const ApplicationsTable = ({applications, onViewDetails}) => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -45,7 +46,7 @@ const ApplicationsTable = ({applications, onViewDetails}) => {
           <tbody>
             {paginatedApplications.map((app, index) => (
               <tr
-                key={app.id}
+                key={app._id}
                 className='border-b border-border hover:bg-secondary'
               >
                 <td className='py-4 px-6 text-primary font-body'>

@@ -37,4 +37,24 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// PUT: Mark feedback as read (admin only)
+router.put("/:id", async (req, res) => {
+  console.log(req.params.id);
+  try {
+    const id = req.params.id;
+    const feedback = await Feedback.findById(id);
+
+    feedback.isRead = true;
+    await feedback.save();
+    res.status(200).send({
+      ...feedback,
+      message: "Feedback marked as read",
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: error.message || "Failed to mark feedback as read" });
+  }
+});
+
 export default router;

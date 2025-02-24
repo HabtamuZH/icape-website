@@ -1,18 +1,17 @@
-import express from "express"
-import multer from "multer"
-import {CloudinaryStorage} from "multer-storage-cloudinary"
-import {cloudinary} from "../Config/cloudinary.js"
-import CareerApplication from "../models/CareerApplication.js"
-import InternshipApplication from "../models/InternshipApplication.js"
+import express from "express";
+import multer from "multer";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { cloudinary } from "../Config/cloudinary.js";
+import CareerApplication from "../models/CareerApplication.js";
+import InternshipApplication from "../models/InternshipApplication.js";
 
-const router = express.Router()
+const router = express.Router();
 
-// Ensure cloudinary is correctly initialized before passing it to storage
+// Ensure cloudinary is correctly initialized
 if (!cloudinary.uploader || !cloudinary.api) {
-  console.error("Cloudinary is not properly configured. Check your API keys.")
-  process.exit(1) // Stop the server if Cloudinary is not configured
+  console.error("Cloudinary is not properly configured. Check your API keys.");
+  process.exit(1);
 }
-
 // Configure Multer with Cloudinary storage
 const storage = new CloudinaryStorage({
   cloudinary,
@@ -21,9 +20,9 @@ const storage = new CloudinaryStorage({
     allowed_formats: ["pdf"],
     resource_type: "auto",
     type: "upload",
-    public_id: (req, file) => `${Date.now()}-${file.originalname}`
-  }
-})
+    public_id: (req, file) => `${Date.now()}-${file.originalname}`,
+  },
+});
 
 // const upload = multer({
 //   storage: storage,
@@ -37,58 +36,79 @@ const storage = new CloudinaryStorage({
 //   }
 // })
 
-const upload = multer({storage})
+const upload = multer({ storage });
 
 router.get("/", async (req, res) => {
   try {
-    const careerApplications = await CareerApplication.find()
-    const internshipApplications = await InternshipApplication.find()
+    const careerApplications = await CareerApplication.find();
+    const internshipApplications = await InternshipApplication.find();
 
-    const allApplications = [...careerApplications, ...internshipApplications]
+    const allApplications = [...careerApplications, ...internshipApplications];
 
-    res.status(200).json(allApplications)
+    res.status(200).json(allApplications);
   } catch (error) {
-    console.error("Error fetching applications:", error)
+    console.error("Error fetching applications:", error);
     res
       .status(500)
-      .json({message: "Internal server error", error: error.message})
+      .json({ message: "Internal server error", error: error.message });
   }
-})
+});
 
 // POST: Handle Career and Internship Applications
 router.post("/", upload.single("cv"), async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({message: "CV file is required"})
+      return res.status(400).json({ message: "CV file is required" });
     }
 
-    console.log("Request Body:", req.body)
+    console.log("Request Body:", req.body);
 
-    const {opportunityType, ...rest} = req.body
-    const applicationData = {...rest, cv: req.file.path}
-    console.log("Application Data:", req.file)
+    const { opportunityType, ...rest } = req.body;
+    const applicationData = { ...rest, cv: req.file.path };
+    console.log("Application Data:", req.file);
 
-    let application
+    let application;
 
     switch (opportunityType) {
       case "Professional Career Opportunities":
-        application = new CareerApplication(applicationData)
-        break
+        application = new CareerApplication(applicationData);
+        break;
       case "Internship Program 2025":
-        application = new InternshipApplication(applicationData)
-        break
+        application = new InternshipApplication(applicationData);
+        break;
       default:
-        return res.status(400).json({message: "Invalid opportunity type"})
+        return res.status(400).json({ message: "Invalid opportunity type" });
     }
 
-    const savedApplication = await application.save()
-    res.status(201).json(savedApplication)
+    const savedApplication = await application.save();
+    res.status(201).json(savedApplication);
   } catch (error) {
-    console.error("Error submitting application:", error)
+    console.error("Error submitting application:", error);
     res
       .status(500)
-      .json({message: "Internal server error", error: error.message})
+      .json({ message: "Internal server error", error: error.message });
   }
-})
+});
 
-export default router
+router.put("/:id", async (req, res) => {
+  console.log(req.params.id);
+  try {
+    const id = req.params.id;
+    const careerApplication =
+      (await CareerApplication.findById(id)) ||
+      (await InternshipApplication.findById(id));
+
+    careerApplication.isRead = true;
+    await careerApplication.save();
+    res.status(200).send({
+      ...careerApplication,
+      message: "Application marked as read",
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: error.message || "Failed to mark Application as read" });
+  }
+});
+
+export default router;
