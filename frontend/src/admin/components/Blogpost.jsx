@@ -13,6 +13,7 @@ const BlogForm = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false); // New state for modal
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -94,7 +95,7 @@ const BlogForm = () => {
     formData.append("image", blogData.image);
 
     try {
-      await blogService.create(formData); // Assuming blogService.create handles the POST request
+      await blogService.create(formData);
       setBlogData({
         title: "",
         description: "",
@@ -105,7 +106,7 @@ const BlogForm = () => {
       });
       setImagePreview(null);
       setErrors({});
-      alert("Blog post published successfully!");
+      setShowSuccessModal(true); // Show the modal instead of alert
     } catch (error) {
       setErrors({
         submit: error.response?.data?.message || "Failed to publish blog post.",
@@ -113,6 +114,10 @@ const BlogForm = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const closeModal = () => {
+    setShowSuccessModal(false); // Close the modal
   };
 
   return (
@@ -313,6 +318,26 @@ const BlogForm = () => {
           </div>
         </form>
       </div>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-light p-6 rounded-xl shadow-lg max-w-sm w-full text-center">
+            <h3 className="text-2xl font-heading font-bold text-primary mb-4">
+              Success!
+            </h3>
+            <p className="text-primary font-body mb-6">
+              Your blog post has been published successfully!
+            </p>
+            <button
+              onClick={closeModal}
+              className="px-4 py-2 bg-accent text-light rounded-md font-body font-medium hover:bg-opacity-80 transition-colors duration-200"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

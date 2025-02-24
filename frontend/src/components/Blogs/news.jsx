@@ -16,43 +16,53 @@ const Blog = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    blogService
-      .getAll()
-      .then((res) => setBlogs(res.data))
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+    const fetchBlogs = async () => {
+      try {
+        const res = await blogService.getAll();
+        console.log("API Response:", res.data); // Debug: Check the response data
+        setBlogs(Array.isArray(res.data) ? res.data : []); // Ensure it's an array
+      } catch (err) {
+        console.error("Error fetching blogs:", err); // Debug: Check the error
+        setError(err.message || "Failed to load blogs");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBlogs();
   }, []);
 
-  // Memoize filtered blogs to prevent unnecessary recalculations
+  // Memoize filtered blogs
   const filteredBlogs = useCallback(() => {
-    return blogs.filter((blog) => {
-      return (
-        blog.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        (categoryFilter === "All" || blog.category === categoryFilter)
-      );
+    const filtered = blogs.filter((blog) => {
+      const matchesSearch = blog.title
+        ?.toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      const matchesCategory =
+        categoryFilter === "All" || blog.category === categoryFilter;
+      return matchesSearch && matchesCategory;
     });
-  }, [searchQuery, categoryFilter]);
+    console.log("Filtered blogs:", filtered); // Debug: Check filtered results
+    return filtered;
+  }, [searchQuery, categoryFilter, blogs]);
 
-  // Single ScrollReveal instance
+  // ScrollReveal setup
   useEffect(() => {
     const sr = ScrollReveal({
-      reset: false, // Prevents re-animation on scroll
+      reset: false,
       distance: "30px",
       duration: 800,
       easing: "ease-out",
     });
 
-    sr.reveal(blogSectionRef.current, { origin: "bottom", delay: 300 });
-    sr.reveal(".blog-card", {
-      origin: "bottom",
-      interval: 200,
-      delay: 200,
-    });
+    if (blogSectionRef.current) {
+      sr.reveal(blogSectionRef.current, { origin: "bottom", delay: 300 });
+      sr.reveal(".blog-card", { origin: "bottom", interval: 200, delay: 200 });
+    }
 
-    return () => sr.destroy(); // Cleanup
+    return () => sr.destroy();
   }, []);
 
-  // Modal click handler with useCallback
+  // Modal handlers
   const handleOutsideClick = useCallback((event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
       setIsModalOpen(false);
@@ -71,9 +81,20 @@ const Blog = () => {
     setIsModalOpen(true);
   }, []);
 
-  const categories = ["All", ...new Set(blogs.map((blog) => blog.category))];
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p> {error.message}</p>;
+  const categories = [
+    "All",
+    ...new Set(blogs.map((blog) => blog.category).filter(Boolean)),
+  ];
+
+  // Debug state
+  console.log("Current state:", { loading, error, blogs: blogs.length });
+
+  if (loading)
+    return <p className="text-center text-primary">Loading blogs...</p>;
+  if (error) return <p className="text-center text-red-500">Error: {error}</p>;
+  if (!blogs.length)
+    return <p className="text-center text-primary">No blogs available</p>;
+
   return (
     <div className="min-h-screen bg-secondary py-12 pt-32 px-6">
       <div
@@ -115,29 +136,29 @@ const Blog = () => {
               onClick={() => openModal(blog)}
             >
               <img
-                src={blog.imageUrl}
-                alt={blog.title}
-                loading="lazy" // Lazy loading images
+                src={blog.imageUrl || "https://via.placeholder.com/150"} // Fallback image
+                alt={blog.title || "Blog Image"}
+                loading="lazy"
                 className="w-full h-48 object-cover rounded-md mb-4"
               />
               <h3 className="text-2xl font-heading text-primary mb-3 hover:text-accent">
-                {blog.title}
+                {blog.title || "Untitled Blog"}
               </h3>
               <p className="text-primary font-body mb-4 line-clamp-3">
-                {blog.description}
+                {blog.description || "No description available"}
               </p>
               <div className="flex items-center justify-between text-primary text-sm font-body">
                 <div className="flex items-center space-x-2">
                   <User className="w-5 h-5 text-accent" />
-                  <span>{blog.author}</span>
+                  <span>{blog.author || "Unknown Author"}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Calendar className="w-5 h-5 text-accent" />
-                  <span>{blog.date}</span>
+                  <span>{blog.date || "No date"}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Bookmark className="w-5 h-5 text-accent" />
-                  <span>{blog.category}</span>
+                  <span>{blog.category || "Uncategorized"}</span>
                 </div>
               </div>
             </div>
@@ -150,36 +171,42 @@ const Blog = () => {
         <div className="fixed inset-0 bg-dark bg-opacity-50 flex justify-center items-center z-50">
           <div
             ref={modalRef}
-            className="bg-light p-6 rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] flex flex-col "
+            className="bg-light p-6 rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] flex flex-col"
           >
-            <div className="overflow-y-auto">
+            <div className="overflow-y-auto flex-grow">
               <div className="flex-shrink-0">
                 <img
-                  src={selectedBlog.imageUrl}
-                  alt={selectedBlog.title}
+                  src={
+                    selectedBlog.imageUrl || "https://via.placeholder.com/150"
+                  }
+                  alt={selectedBlog.title || "Blog Image"}
                   loading="lazy"
                   className="w-full h-64 object-cover rounded-md mb-4"
                 />
               </div>
               <h3 className="text-3xl font-heading text-primary mb-3">
-                {selectedBlog.title}
+                {selectedBlog.title || "Untitled Blog"}
               </h3>
-              <div className=" flex-grow font-body text-primary">
-                <p>{selectedBlog.fullText}</p>
+              <div className="font-body text-primary">
+                <p>
+                  {selectedBlog.fullText ||
+                    selectedBlog.description ||
+                    "No content available"}
+                </p>
               </div>
             </div>
             <div className="flex justify-between items-center text-primary text-sm mt-4 font-body">
               <div className="flex items-center space-x-2">
                 <User className="w-5 h-5 text-accent" />
-                <span>{selectedBlog.author}</span>
+                <span>{selectedBlog.author || "Unknown Author"}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Calendar className="w-5 h-5 text-accent" />
-                <span>{selectedBlog.date}</span>
+                <span>{selectedBlog.date || "No date"}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Bookmark className="w-5 h-5 text-accent" />
-                <span>{selectedBlog.category}</span>
+                <span>{selectedBlog.category || "Uncategorized"}</span>
               </div>
             </div>
             <button
