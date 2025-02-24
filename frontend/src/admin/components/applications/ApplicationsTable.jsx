@@ -2,7 +2,7 @@ import React, {useState} from "react"
 
 const ApplicationsTable = ({applications, onViewDetails}) => {
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 5 // Adjust as needed
+  const itemsPerPage = 5
 
   // Calculate pagination
   const totalPages = Math.ceil(applications.length / itemsPerPage)
@@ -23,7 +23,7 @@ const ApplicationsTable = ({applications, onViewDetails}) => {
           <thead>
             <tr className='border-b border-border'>
               <th className='py-4 px-6 text-primary font-body font-semibold'>
-               No.
+                No.
               </th>
               <th className='py-4 px-6 text-primary font-body font-semibold'>
                 Applicant Name
@@ -77,7 +77,6 @@ const ApplicationsTable = ({applications, onViewDetails}) => {
         </table>
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className='mt-6 flex justify-center items-center space-x-2'>
           <button

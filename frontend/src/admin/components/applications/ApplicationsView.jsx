@@ -1,49 +1,100 @@
-import React, {useState, useEffect} from "react"
-import ApplicationsTable from "./ApplicationsTable"
-import ApplicationDetailsModal from "./ApplicationDetailsModal"
-import applicationService from "../../../services/application-service"
+import React, { useState, useEffect } from "react";
+import ApplicationsTable from "./ApplicationsTable";
+import ApplicationDetailsModal from "./ApplicationDetailsModal";
+import TableFilter from "./TableFilter"; // Adjust path
+import TableSearch from "./TableSearch"; // Adjust path
+import applicationService from "../../../services/application-service";
 
-const AdminApplicationsView = () => {
-  const [applications, setApplications] = useState([])
-  const [selectedApplication, setSelectedApplication] = useState(null)
+const ApplicationsView = () => {
+  const [applications, setApplications] = useState([]);
+  const [filteredApplications, setFilteredApplications] = useState([]);
+  const [selectedApplication, setSelectedApplication] = useState(null);
+  const [filter, setFilter] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        applicationService.getAll().then((res) => setApplications(res.data)).catch((err) => console.log(err))
-        if (!response.ok) throw new Error("Failed to fetch applications")
-
-        const data = await response.json()
-        setApplications(data)
+        const res = await applicationService.getAll();
+        setApplications(res.data);
+        setFilteredApplications(res.data); // Initially set to all applications
       } catch (error) {
-        console.error("Error fetching applications:", error)
+        console.error("Error fetching applications:", error);
       }
+    };
+
+    fetchApplications();
+  }, []);
+
+  useEffect(() => {
+    // Apply filter and search logic
+    let result = applications;
+
+    // Apply filter
+    if (Object.keys(filter).length > 0) {
+      result = result.filter((app) =>
+        Object.entries(filter).every(([key, value]) => app[key] === value)
+      );
     }
 
-    fetchApplications()
-  }, [])
+    // Apply search
+    if (searchTerm) {
+      const searchLower = searchTerm.toLowerCase();
+      result = result.filter(
+        (app) =>
+          app.fullName.toLowerCase().includes(searchLower) ||
+          app.email.toLowerCase().includes(searchLower) ||
+          app.opportunityType.toLowerCase().includes(searchLower) ||
+          new Date(app.submittedAt).toLocaleDateString().toLowerCase().includes(searchLower)
+      );
+    }
+
+    setFilteredApplications(result);
+  }, [filter, searchTerm, applications]);
 
   const handleViewDetails = (application) => {
-    setSelectedApplication(application)
-  }
+    setSelectedApplication(application);
+  };
 
   const handleCloseDetails = () => {
-    setSelectedApplication(null)
-  }
+    setSelectedApplication(null);
+  };
+
+  const handleFilter = (filterObj) => {
+    setFilter(filterObj);
+  };
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
+
+  const opportunityOptions = [
+    { value: "", label: "All" },
+    { value: "Professional Career Opportunities", label: "Professional Career Opportunities" },
+    { value: "Internship Program 2025", label: "Internship Program 2025" },
+  ];
 
   return (
-    <section className='py-16 bg-secondary min-h-screen'>
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-        <h2 className='text-4xl font-heading font-extrabold text-primary mb-8 text-center'>
+    <section className="py-16 bg-secondary min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-4xl font-heading font-extrabold text-primary mb-8 text-center">
           Career Applications Dashboard
         </h2>
-        <p className='text-primary font-body text-center mb-12 max-w-3xl mx-auto'>
-          Review and manage applications submitted for iCAPE’s Professional
-          Career Opportunities and Internship Program 2025.
+        <p className="text-primary font-body text-center mb-12 max-w-3xl mx-auto">
+          Review and manage applications submitted for iCAPE’s Professional Career Opportunities and Internship Program 2025.
         </p>
 
+        <div className="flex flex-col justify-between sm:flex-row gap-4 mb-6">
+          <TableSearch onSearch={handleSearch} />
+          <TableFilter
+            onFilter={handleFilter}
+            filterOptions={opportunityOptions}
+            filterField="opportunityType"
+          />
+        </div>
+
         <ApplicationsTable
-          applications={applications}
+          applications={filteredApplications}
           onViewDetails={handleViewDetails}
         />
 
@@ -55,7 +106,7 @@ const AdminApplicationsView = () => {
         )}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default AdminApplicationsView
+export default ApplicationsView;
