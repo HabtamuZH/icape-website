@@ -5,16 +5,18 @@ const useApplications = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [notif, setNotif] = useState(null);
 
   useEffect(() => {
     applicationService
       .getAll()
-      .then((res) => setApplications(res.data))
+      .then((res) => {
+        setApplications(res.data);
+        setNotif(applications?.filter((app) => app.isRead === false).length);
+      })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
-  }, []);
-
-  const notif = applications.filter((app) => app.isRead === false).length;
+  }, [applications]);
 
   const markAsRead = async (id) => {
     applicationService
@@ -29,6 +31,8 @@ const useApplications = () => {
       .catch((err) => console.log(err.message));
   };
 
+  if (notif === 0)
+    return { applications, loading, error, notif: null, markAsRead };
   return { applications, loading, error, notif, markAsRead };
 };
 

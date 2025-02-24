@@ -43,7 +43,10 @@ router.get("/", async (req, res) => {
     const careerApplications = await CareerApplication.find();
     const internshipApplications = await InternshipApplication.find();
 
-    const allApplications = [...careerApplications, ...internshipApplications];
+    const allApplications = [
+      ...careerApplications,
+      ...internshipApplications,
+    ].sort((a, b) => b.submittedAt - a.submittedAt);
 
     res.status(200).json(allApplications);
   } catch (error) {

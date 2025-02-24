@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Option from "./Option";
 import TitleSection from "./Title";
@@ -14,6 +14,10 @@ const Sidebar = ({ unreadCount }) => {
 
   const { notif: appNotif } = useApplications();
   const { notif: feedbackNotif } = useFeedback();
+
+  useEffect(() => {
+    if (window.innerWidth <= 768) setOpen(false);
+  }, [appNotif, feedbackNotif]);
 
   const updatedOptionsData = optionsData.map((option) =>
     option.title === "Notifications"
