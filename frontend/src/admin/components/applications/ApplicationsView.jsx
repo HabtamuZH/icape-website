@@ -45,7 +45,7 @@ const ApplicationsView = () => {
   if (loading) return <LoadingSpinner />;
   if (error)
     return (
-      <div className="h-screen w-full bg-secondary flex justify-center itemcenter">
+      <div className="h-screen w-full bg-secondary flex justify-center item-center">
         <p className="text-red-500">
           Error: {error || "😮Oops.. Something went wrong."}
         </p>

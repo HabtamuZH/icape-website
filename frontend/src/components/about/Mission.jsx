@@ -9,6 +9,7 @@ import ScrollReveal from "scrollreveal"
 import {useEffect} from "react"
 import SpotlightCard from "./SpotlightCard"
 import {Link} from "react-router-dom"
+import {Link as ScrollLink} from "react-scroll"
 import global from "../../../public/arcDesign.jpeg"
 import innovation from "../../../public/workteam.jpg"
 import community from "../../../public/teamimages.jpg"
@@ -61,17 +62,17 @@ const Mission = () => {
                 </p>
                 <div className='flex justify-center gap-4 mt-6'>
                   <Link
-                    to='/projects'
+                    to='/projects/completed'
                     className='flex items-center text-sm px-2 py-1 md:px-6 md:py-3 bg-accent hover:bg-opacity-80 rounded-lg md:rounded-full transition-all font-body'
                   >
                     <FaChartLine className='mr-2' /> Our Projects
                   </Link>
-                  <Link
-                    to='/about'
-                    className='flex items-center px-2 md:px-6 py-1 md:py-3 border text-gray-800 border-primary hover:border-accent rounded-lg md:rounded-full transition-all font-body'
+                  <ScrollLink
+                    to='teams'
+                    className='flex items-center px-2 md:px-6 py-1 md:py-3 border text-gray-800 border-primary hover:border-accent rounded-lg md:rounded-full transition-all font-body cursor-pointer'
                   >
                     <FaUsers className='mr-2' /> About Team
-                  </Link>
+                  </ScrollLink>
                 </div>
               </div>
             </div>

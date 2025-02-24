@@ -347,7 +347,7 @@ const CompanyHistory = () => {
               to='/services'
               className='px-4 md:px-8 py-2 md:py-3 border border-primary rounded-lg hover:border-accent hover:text-accent transition-colors font-body'
             >
-              View Projects
+              View Our Services
             </Link>
           </div>
         </div>
