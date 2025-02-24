@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import ScrollReveal from "scrollreveal";
 import { Bookmark, Calendar, User } from "lucide-react";
-import blogs from "../../data/blogdata";
+import blogService from "../../services/blog-service";
+// import ErrorMessage from "./../../admin/components/feedback/ErrorMessage";
 
 const Blog = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,6 +11,17 @@ const Blog = () => {
   const [categoryFilter, setCategoryFilter] = useState("All");
   const modalRef = useRef();
   const blogSectionRef = useRef(null);
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    blogService
+      .getAll()
+      .then((res) => setBlogs(res.data))
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, []);
 
   // Memoize filtered blogs to prevent unnecessary recalculations
   const filteredBlogs = useCallback(() => {
@@ -31,8 +43,8 @@ const Blog = () => {
     });
 
     sr.reveal(blogSectionRef.current, { origin: "bottom", delay: 300 });
-    sr.reveal(".blog-card", { 
-      origin: "bottom", 
+    sr.reveal(".blog-card", {
+      origin: "bottom",
       interval: 200,
       delay: 200,
     });
@@ -60,10 +72,14 @@ const Blog = () => {
   }, []);
 
   const categories = ["All", ...new Set(blogs.map((blog) => blog.category))];
-
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p> {error.message}</p>;
   return (
     <div className="min-h-screen bg-secondary py-12 pt-32 px-6">
-      <div ref={blogSectionRef} className="max-w-7xl mx-auto flex flex-col gap-8">
+      <div
+        ref={blogSectionRef}
+        className="max-w-7xl mx-auto flex flex-col gap-8"
+      >
         <h2 className="text-5xl font-heading font-bold text-center text-primary">
           Our Latest Blogs
         </h2>
@@ -134,23 +150,23 @@ const Blog = () => {
         <div className="fixed inset-0 bg-dark bg-opacity-50 flex justify-center items-center z-50">
           <div
             ref={modalRef}
-            className="bg-light p-6 rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] flex flex-col ">
+            className="bg-light p-6 rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] flex flex-col "
+          >
             <div className="overflow-y-auto">
-                <div className="flex-shrink-0">
-                  <img
-                    src={selectedBlog.imageUrl}
-                    alt={selectedBlog.title}
-                    loading="lazy"
-                    className="w-full h-64 object-cover rounded-md mb-4"
-                  />
-                </div>
-                <h3 className="text-3xl font-heading text-primary mb-3">
-                  {selectedBlog.title}
-                </h3>
-                <div className=" flex-grow font-body text-primary">
-                  <p>{selectedBlog.fullText}</p>
-                </div>
-
+              <div className="flex-shrink-0">
+                <img
+                  src={selectedBlog.imageUrl}
+                  alt={selectedBlog.title}
+                  loading="lazy"
+                  className="w-full h-64 object-cover rounded-md mb-4"
+                />
+              </div>
+              <h3 className="text-3xl font-heading text-primary mb-3">
+                {selectedBlog.title}
+              </h3>
+              <div className=" flex-grow font-body text-primary">
+                <p>{selectedBlog.fullText}</p>
+              </div>
             </div>
             <div className="flex justify-between items-center text-primary text-sm mt-4 font-body">
               <div className="flex items-center space-x-2">
