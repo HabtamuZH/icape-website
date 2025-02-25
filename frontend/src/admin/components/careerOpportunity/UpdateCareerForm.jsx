@@ -29,6 +29,7 @@ const UpdateCareerForm = ({ initialData, onClose }) => {
     buttonLink: "",
   });
   const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState(""); // Server-side error state
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -85,7 +86,7 @@ const UpdateCareerForm = ({ initialData, onClose }) => {
     let isValid = true;
 
     Object.keys(formData).forEach((key) => {
-      if (key !== "details" && key !== "buttonLink" && !formData[key]) {
+      if (!formData[key] && key !== "buttonLink" && key !== "details") {
         finalErrors[key] = `${
           key.charAt(0).toUpperCase() + key.slice(1)
         } is required.`;
@@ -109,31 +110,60 @@ const UpdateCareerForm = ({ initialData, onClose }) => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    try {
-      await careerService.update(initialData._id, formData);
-      setFormData({
-        title: "",
-        description: "",
-        type: "",
-        details: [""],
-        buttonText: "",
-        buttonLink: "",
-      });
-      setErrors({});
-      setShowSuccessModal(true);
-    } catch (error) {
-      setErrors({
-        submit:
-          error.response?.data?.message ||
-          "Failed to update career opportunity.",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    setServerError(""); // Clear any previous server error
+
+    // Send plain JSON object instead of FormData
+    const updateData = {
+      title: formData.title,
+      description: formData.description,
+      type: formData.type,
+      details: formData.details,
+      buttonText: formData.buttonText,
+      buttonLink: formData.buttonLink || "", // Ensure optional field is sent
+    };
+
+    careerService
+      .update(initialData._id, updateData)
+      .then(() => clearForm())
+      .then(() => setShowSuccessModal(true))
+      .catch((err) => {
+        console.error("Error updating career:", err);
+        setServerError(
+          err.response?.data?.message ||
+            "Failed to update career opportunity. Network error."
+        );
+      })
+      .finally(() => setIsSubmitting(false));
   };
 
+  const clearForm = () => {
+    setFormData({
+      title: "",
+      description: "",
+      type: "",
+      details: [""],
+      buttonText: "",
+      buttonLink: "",
+    });
+    setErrors({});
+    setShowSuccessModal(true);
+  };
+
+  if (showSuccessModal) {
+    return (
+      <SuccessModal
+        isOpen={showSuccessModal}
+        text="Your career opportunity has been updated successfully!"
+        onClose={() => {
+          setShowSuccessModal(false);
+          onClose();
+        }}
+      />
+    );
+  }
+
   return (
-    <div className="bg-light p-4 sm:p-8 rounded-xl w-full shadow-lg border border-border h-[95vh] overflow-y-auto">
+    <div className="bg-light p-4 sm:p-8 rounded-xl shadow-lg border border-border h-[95vh] overflow-y-auto">
       <FormHeader
         title="Update Career Opportunity"
         description="Modify the details below to update this job or internship posting."
@@ -225,8 +255,8 @@ const UpdateCareerForm = ({ initialData, onClose }) => {
             error={errors.buttonLink}
           />
         </div>
-        {errors.submit && (
-          <p className="text-red-500 text-sm text-center">{errors.submit}</p>
+        {serverError && (
+          <p className="text-red-500 text-sm text-center">{serverError}</p>
         )}
         <SubmitButton
           isSubmitting={isSubmitting}
@@ -236,14 +266,6 @@ const UpdateCareerForm = ({ initialData, onClose }) => {
           text="Update Opportunity"
         />
       </form>
-      <SuccessModal
-        isOpen={showSuccessModal}
-        text="Your career opportunity has been updated successfully!"
-        onClose={() => {
-          setShowSuccessModal(false);
-          onClose();
-        }}
-      />
     </div>
   );
 };

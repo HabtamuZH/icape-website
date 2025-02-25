@@ -30,7 +30,7 @@ const ProjectDashboard = () => {
     setLoading(true);
     try {
       const res = await projectService.getAll();
-      
+
       // Ensure data is an array and handle unexpected formats
       setProjects(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
@@ -56,7 +56,7 @@ const ProjectDashboard = () => {
   };
 
   const handleUpdateProject = (project) => {
-    setSelectedProject(project);
+    setSelectedProject({...project, imageUrl: null});
     setIsModalOpen(true);
   };
 

@@ -91,9 +91,11 @@ router.get("/:id", async (req, res) => {
 
 // Update a project with optional image update
 router.put("/:id", upload.single("imageUrl"), async (req, res) => {
+
   console.log("PUT /api/projects/:id called with ID:", req.params.id);
   console.log("Request body:", req.body);
   console.log("Uploaded file:", req.file);
+
   const { id } = req.params;
   const { name, role, description, type } = req.body;
   try {

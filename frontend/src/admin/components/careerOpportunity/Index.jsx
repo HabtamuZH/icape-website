@@ -52,18 +52,18 @@ const CareerDashboard = () => {
     setIsModalOpen(true);
   };
 
-  const handleToggleActive = async (id, currentStatus) => {
-    try {
-      await careerService.update(id, { isActive: !currentStatus });
-      setCareers((prev) =>
-        prev.map((career) =>
-          career._id === id ? { ...career, isActive: !currentStatus } : career
-        )
-      );
-    } catch (error) {
-      console.error("Error toggling career status:", error);
-    }
-  };
+  // const handleToggleActive = async (id, currentStatus) => {
+  //   try {
+  //     const updatedCareer = await careerService.update(id, {
+  //       isActive: !currentStatus,
+  //     });
+  //     setCareers((prev) =>
+  //       prev.map((career) => (career._id === id ? updatedCareer.data : career))
+  //     );
+  //   } catch (error) {
+  //     console.error("Error toggling career status:", error);
+  //   }
+  // };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -93,7 +93,7 @@ const CareerDashboard = () => {
         <h1 className="text-2xl sm:text-4xl font-heading font-extrabold text-primary mb-8 sm:mb-12 text-center">
           Career Opportunities Dashboard
         </h1>
-        <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <CareerSearch
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
@@ -107,7 +107,6 @@ const CareerDashboard = () => {
               career={career}
               onUpdate={handleUpdateCareer}
               onDelete={handleDeleteCareer}
-              onToggleActive={handleToggleActive}
             />
           ))}
         </div>

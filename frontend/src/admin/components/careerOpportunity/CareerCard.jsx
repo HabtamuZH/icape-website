@@ -1,13 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const CareerCard = ({ career, onUpdate, onDelete, onToggleActive }) => {
+const CareerCard = ({ career, onUpdate, onDelete }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-light rounded-xl shadow-lg border border-border p-4 hover:shadow-xl transition-shadow duration-300"
+      className="bg-light rounded-xl shadow-lg border border-border p-4 hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
     >
       <h3 className="text-lg font-heading font-bold text-primary mb-2 truncate">
         {career.title}
@@ -23,12 +23,12 @@ const CareerCard = ({ career, onUpdate, onDelete, onToggleActive }) => {
           <li key={index}>{detail}</li>
         ))}
       </ul>
-      <div className="flex flex-wrap justify-between gap-2">
+      <div className="mt-auto flex flex-wrap justify-between gap-2">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => onUpdate(career)}
-          className="px-3 py-1 text-sm font-body text-accent border border-accent rounded-md hover:bg-accent hover:text-light transition-colors duration-200"
+          className="px-3 py-1 font-body text-accent border border-accent rounded-md hover:bg-accent hover:text-light transition-colors duration-200"
         >
           Update
         </motion.button>
@@ -39,18 +39,6 @@ const CareerCard = ({ career, onUpdate, onDelete, onToggleActive }) => {
           className="px-3 py-1 text-sm font-body text-red-600 border border-red-600 rounded-md hover:bg-red-600 hover:text-light transition-colors duration-200"
         >
           Delete
-        </motion.button>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => onToggleActive(career._id, career.isActive)}
-          className={`px-3 py-1 text-sm font-body ${
-            career.isActive
-              ? "text-yellow-600 border-yellow-600 hover:bg-yellow-600 hover:text-light"
-              : "text-green-600 border-green-600 hover:bg-green-600 hover:text-light"
-          } border rounded-md transition-colors duration-200`}
-        >
-          {career.isActive ? "Disable" : "Enable"}
         </motion.button>
       </div>
     </motion.div>

@@ -2,7 +2,7 @@ import React from "react";
 
 const CareerSearch = ({ searchQuery, setSearchQuery }) => {
   return (
-    <div className="w-full sm:w-64 mb-4">
+    <div className="w-full mb-4">
       <label
         htmlFor="career-search"
         className="block text-primary font-body font-medium mb-2 text-sm"
