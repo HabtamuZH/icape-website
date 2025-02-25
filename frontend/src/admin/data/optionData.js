@@ -21,28 +21,28 @@ const optionsData = [
   },
   {
     Icon: FaProjectDiagram,
-    title: "Post Projects",
+    title: "Projects",
     link: "projects-form"
   },
   {
     Icon: FaPen,
-    title: "Post Blogs",
+    title: "Blogs",
     link: "blogs-post"
   },
   {
     Icon: MdFeedback,
-    title: "View Feedbacks",
+    title: "Feedbacks",
     link: "view-feedbacks",
     notify: ""
   },
   {
     Icon: FaBriefcase, // Changed from MdFeedback to FaBriefcase for career-related context
-    title: "Post Career Opportunity",
+    title: "Career Opportunity",
     link: "opportunity-form"
   },
   {
     Icon: FaEnvelopeOpenText, // Changed from MdFeedback to FaEnvelopeOpenText for applications
-    title: "View Applications",
+    title: "Applicants",
     link: "application-views",
     notify: ""
   }

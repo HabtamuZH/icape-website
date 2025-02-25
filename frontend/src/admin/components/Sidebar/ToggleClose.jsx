@@ -15,7 +15,9 @@ const ToggleClose = ({ open, setOpen }) => {
           className="grid w-10 h-10 place-content-center text-lg"
         >
           <FiChevronsRight
-            className={`transition-transform ${open ? "rotate-180" : "rotate-0"}`}
+            className={`transition-transform ${
+              open ? "rotate-180" : "rotate-0"
+            }`}
           />
         </motion.div>
         {open && (
@@ -24,7 +26,7 @@ const ToggleClose = ({ open, setOpen }) => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.125 }}
-            className="text-xs font-body font-medium"
+            className="text-xs font-body font-bold"
           >
             Hide
           </motion.span>

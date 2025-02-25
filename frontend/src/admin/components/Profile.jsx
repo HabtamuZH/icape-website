@@ -415,7 +415,7 @@ const Profile = () => {
                   </div>
 
                   {/* Two-Step Verification */}
-                  <div className='col-span-2'>
+                  {/* <div className='col-span-2'>
                     <label className='block text-gray-700 font-medium mb-2'>
                       Two-Step Verification
                     </label>
@@ -450,7 +450,7 @@ const Profile = () => {
                         </div>
                       )}
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Save and Cancel Buttons */}
