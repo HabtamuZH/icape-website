@@ -10,13 +10,13 @@ import Projects from "../components/projects/Projects"
 import AdminLayout from "../layout/AdminLayout"
 import MainLayout from "../layout/MainLayout"
 import ProjectsForm from "../admin/components/ProjectsForm"
-import Profile from "../admin/components/Profile"
+import Profile from "../admin/components/profile/Profile"
 import BlogDashboard from "../admin/components/blogs/Index"
 import Dashboard from "../admin/components/dashboard/Index"
-import OpportunityForm from "../admin/components/careerOpportunity/OpportunityForm"
+import OpportunityForm from "../admin/components/careerOpportunity/Index"
 import ApplicationView from "../admin/components/applications/ApplicationsView"
-import Notifications from "../admin/components/Notifications"
-import AdminSettings from "../admin/components/AdminSeetting"
+// import Notifications from "../admin/components/Notifications"
+// import AdminSettings from "../admin/components/AdminSeetting"
 import AwardDetails from "../components/about/AwardDetails"
 import FeedbackDashboard from "../admin/components/feedback/Index"
 import Login from "../admin/components/login/Login"
@@ -92,8 +92,6 @@ const RouteConfig = () => {
         <Route path='View-feedbacks' element={<FeedbackDashboard />} />
         <Route path='opportunity-form' element={<OpportunityForm />} />
         <Route path='application-views' element={<ApplicationView />} />
-        <Route path='notifications' element={<Notifications />} />
-        <Route path='admin-setting' element={<AdminSettings />} />
       </Route>
 
       {/* Catch-all redirect */}
