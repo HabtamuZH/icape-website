@@ -63,7 +63,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 // Get all blog posts
 router.get("/", async (req, res) => {
   try {
-    const blogs = await Blog.find();
+    const blogs = await Blog.find().sort({ date: -1 });
     res.status(200).json(blogs);
   } catch (error) {
     console.error("Error fetching blogs:", error);

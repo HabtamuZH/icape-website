@@ -153,7 +153,7 @@ export default function ProjectsForm() {
                 htmlFor='status'
                 className='block mb-2 text-sm font-body font-medium text-primary'
               >
-                Project Status
+                Project Category
               </label>
               <select
                 name='status'
@@ -163,10 +163,10 @@ export default function ProjectsForm() {
                 onChange={handleChange}
                 required
               >
-                <option value=''>Select status</option>
-                <option value='Ongoing'>Ongoing</option>
-                <option value='Completed'>Completed</option>
-                <option value='Upcoming'>Upcoming</option>
+                <option value=''>Select category</option>
+                <option value='Ongoing'>Architecture</option>
+                <option value='Completed'>Urban Planning</option>
+                <option value='Upcoming'>Interior Design</option>
               </select>
               {errors.status && (
                 <span className='text-red-500 text-xs mt-1 block'>

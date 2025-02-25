@@ -11,14 +11,14 @@ import AdminLayout from "../layout/AdminLayout"
 import MainLayout from "../layout/MainLayout"
 import ProjectsForm from "../admin/components/ProjectsForm"
 import Profile from "../admin/components/Profile"
-import BlogForm from "../admin/components/Blogpost"
+import BlogDashboard from "../admin/components/blogs/Index"
 import Dashboard from "../admin/components/dashboard/Index"
 import OpportunityForm from "../admin/components/careerOpportunity/OpportunityForm"
 import ApplicationView from "../admin/components/applications/ApplicationsView"
 import Notifications from "../admin/components/Notifications"
 import AdminSettings from "../admin/components/AdminSeetting"
 import AwardDetails from "../components/about/AwardDetails"
-import FeedbackDashboard from "../admin/components/feedback/FeedbackDashboard"
+import FeedbackDashboard from "../admin/components/feedback/Index"
 import Login from "../admin/components/login/Login"
 import LoadingSpinner from "../components/common/LoadingSpinner"
 import InternshipApplicationForm from "../components/career/forms/internApplications/InternshipApplicationForm"
@@ -88,7 +88,7 @@ const RouteConfig = () => {
         <Route index element={<Dashboard />} />
         <Route path='profile' element={<Profile />} />
         <Route path='projects-form' element={<ProjectsForm />} />
-        <Route path='Blogs-post' element={<BlogForm />} />
+        <Route path='Blogs-post' element={<BlogDashboard />} />
         <Route path='View-feedbacks' element={<FeedbackDashboard />} />
         <Route path='opportunity-form' element={<OpportunityForm />} />
         <Route path='application-views' element={<ApplicationView />} />

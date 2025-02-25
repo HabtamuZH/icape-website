@@ -8,7 +8,7 @@ const SearchBar = ({searchQuery, setSearchQuery}) => {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder='Search feedback...'
-        className='w-full sm:w-[70vw] px-3 py-2 rounded-md border border-border bg-light text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent'
+        className='w-full sm:w-[65vw] px-3 py-2 rounded-md border border-border bg-light text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent'
       />
     </div>
   )

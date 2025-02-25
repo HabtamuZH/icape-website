@@ -15,7 +15,8 @@ const FeedbackDashboard = () => {
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyData, setReplyData] = useState({ subject: "", message: "" });
-  const { feedbacks, setFeedbacks, loading, error, setError, setReload } = useFeedback();
+  const { feedbacks, setFeedbacks, loading, error, setError, setReload } =
+    useFeedback();
 
   const itemsPerPage = 5;
 
@@ -33,7 +34,7 @@ const FeedbackDashboard = () => {
     indexOfFirstItem,
     indexOfLastItem
   );
-  
+
   const totalPages = Math.ceil(filteredFeedback.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
@@ -65,7 +66,7 @@ const FeedbackDashboard = () => {
     }
   };
 
-  const handleSelectFeedback = (item) =>{
+  const handleSelectFeedback = (item) => {
     setSelectedFeedback(item);
     handleMarkAsRead(item._id);
   };
@@ -90,7 +91,7 @@ const FeedbackDashboard = () => {
         <h1 className="text-2xl sm:text-4xl font-heading font-extrabold text-primary mb-6 sm:mb-8 text-center">
           User Feedback Dashboard
         </h1>
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-8 mb-6">
           <SearchBar
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
