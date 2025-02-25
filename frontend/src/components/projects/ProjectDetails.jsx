@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination, Navigation } from "swiper/modules";
@@ -17,6 +17,10 @@ const ProjectDetails = () => {
     return <div>Project not found.</div>;
   }
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   // Function to open modal with selected image
   const openModal = (image) => {
     setSelectedImage(image);

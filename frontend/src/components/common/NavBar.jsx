@@ -15,15 +15,7 @@ const Navbar = () => {
     {name: "About", path: "/about"},
     {name: "Services", path: "/services"},
     {name: "Career", path: "/career"},
-    {
-      name: "Projects",
-      dropdown: [
-        {name: "Completed", path: "/projects/completed"},
-        {name: "Ongoing", path: "/projects/ongoing"},
-        {name: "Upcoming", path: "/projects/upcoming"},
-        {name: "Admin", path: "/admin"}
-      ]
-    },
+    {name: "Projects", path: "/projects"},
     {name: "Blogs", path: "/blog"}
   ]
 
@@ -101,35 +93,7 @@ const Navbar = () => {
       >
         <ul className="lg:flex space-y-4 lg:space-y-0 lg:space-x-6 w-full lg:w-auto">
           {navLinks.map((link, index) =>
-            link.dropdown ? (
-              <li
-                key={index}
-                className="relative text-black bg-gray-100 rounded-md px-2 py-1"
-                onMouseEnter={() => setActiveDropdown(link.name)}
-                onMouseLeave={() => setActiveDropdown(null)}
-                onClick={() =>
-                  setActiveDropdown(activeDropdown === link.name ? null : link.name)
-                }
-              >
-                <button className="w-full flex justify-between items-center">
-                  {link.name} ▾
-                </button>
-                {activeDropdown === link.name && (
-                  <ul className="absolute left-0 top-6 mt-2 w-48 bg-white shadow-lg rounded-lg p-2 z-50 border border-gray-200">
-                    {link.dropdown.map((subLink, subIndex) => (
-                      <li key={subIndex}>
-                        <Link
-                          to={subLink.path}
-                          className="block px-2 py-1 hover:bg-gray-300 active:bg-gray-100 text-gray-700 rounded-md transition-colors duration-300"
-                        >
-                          {subLink.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ) : (
+            (
               <li key={index}>
                 <Link
                   to={link.path}
