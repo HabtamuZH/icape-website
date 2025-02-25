@@ -5,8 +5,12 @@ const useFeedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [reload, setReload] = useState(null);
+  const [state, setState] = useState(null);
   const [notif, setNotif] = useState(null);
+
+ const reload = ()=>{
+  setState(!state);
+ }
 
   useEffect(() => {
     feedbackService
@@ -17,11 +21,11 @@ const useFeedback = () => {
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
-  }, [feedbacks, reload]);
+  }, [feedbacks, state]);
 
   // setNotif(unread);
 
-  if (notif === 0) return { feedbacks, loading, error,setError, notif: null, setReload };
+  if (notif === 0) return { feedbacks, loading, error,setError, notif: null, reload };
   return {
     feedbacks,
     setFeedbacks,
@@ -30,7 +34,7 @@ const useFeedback = () => {
     error,
     setError,
     notif,
-    setReload,
+    reload,
   };
 };
 

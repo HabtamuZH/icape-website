@@ -15,8 +15,7 @@ const FeedbackDashboard = () => {
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyData, setReplyData] = useState({ subject: "", message: "" });
-  const { feedbacks, setFeedbacks, loading, error, setError, setReload } =
-    useFeedback();
+  const { feedbacks, setFeedbacks, loading, error, setError, reload } = useFeedback();
 
   const itemsPerPage = 5;
 
@@ -54,11 +53,7 @@ const FeedbackDashboard = () => {
       const updatedFeedback = feedbacks.find((item) => item._id === id);
       if (!updatedFeedback.isRead) {
         await feedbackService.update(id, { isRead: true });
-        setFeedbacks((prev) =>
-          prev.map((item) =>
-            item._id === id ? { ...item, isRead: true } : item
-          )
-        );
+        reload();
       }
     } catch (error) {
       console.error("Error marking feedback as read:", error);
@@ -99,7 +94,7 @@ const FeedbackDashboard = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={setReload}
+            onClick={reload}
             className="px-4 py-2 bg-accent text-light font-body rounded-md shadow-md hover:bg-opacity-80 transition-all duration-200"
           >
             Refresh

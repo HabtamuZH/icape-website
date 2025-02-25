@@ -38,8 +38,8 @@ const Sidebar = ({ unreadCount }) => {
       <TitleSection open={open} />
       <div className="space-y-2">
         {updatedOptionsData.map(({ Icon, title, link, notify }) => {
-          if (title === "View Applications") notify = appNotif;
-          if (title === "View Feedbacks") notify = feedbackNotif;
+          if (title === "Applicants") notify = appNotif;
+          if (title === "Feedbacks") notify = feedbackNotif;
           return (
             <Option
               key={title}
