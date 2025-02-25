@@ -19,10 +19,11 @@ const PostProjectForm = ({ onClose }) => {
     role: "",
     description: "",
     type: "",
-    images: [], // Changed to array
+    images: [],
   });
   const [imagePreviews, setImagePreviews] = useState([]);
   const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState(""); // Added serverError state
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -102,26 +103,29 @@ const PostProjectForm = ({ onClose }) => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
+    setServerError("");
+
     const formData = new FormData();
     formData.append("name", projectData.name);
     formData.append("role", projectData.role);
     formData.append("description", projectData.description);
     formData.append("type", projectData.type);
-    projectData.images.forEach((image, index) => {
-      formData.append("images", image); // Changed to "images" to match backend
+    projectData.images.forEach((image) => {
+      formData.append("images", image);
     });
-
-    console.log("Sending FormData:", Object.fromEntries(formData));
 
     try {
       const res = await projectService.create(formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Server response:", res.data);
-      setShowSuccessModal(true);
       clearForm();
+      setShowSuccessModal(true);
     } catch (err) {
-      console.error("Error submitting project:", err.response || err);
+      console.error("Error submitting project:", err);
+      setServerError(
+        err.response?.data?.message || "Failed to post project. Network error."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -159,11 +163,7 @@ const PostProjectForm = ({ onClose }) => {
           title="Publish a New Project"
           description="Showcase your latest architectural achievements."
         />
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-6"
-          encType="multipart/form-data"
-        >
+        <form onSubmit={handleSubmit} className="space-y-6" encType="multipart/form-data">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div className="sm:col-span-2">
               <InputField
@@ -243,6 +243,9 @@ const PostProjectForm = ({ onClose }) => {
               )}
             </div>
           </div>
+          {serverError && (
+            <p className="text-red-500 text-sm text-center">{serverError}</p>
+          )}
           <SubmitButton
             isSubmitting={isSubmitting}
             errors={errors}

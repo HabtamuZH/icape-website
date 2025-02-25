@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import projectService from "../../../services/project-service";
 import FormHeader from "../blogs/FormHeader";
 import InputField from "../blogs/InputField";
@@ -19,25 +19,26 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
     role: "",
     description: "",
     type: "",
-    images: [],
+    images: [], // New images to upload
   });
   const [imagePreviews, setImagePreviews] = useState([]);
   const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [serverError, setServerError] = useState("");
 
   useEffect(() => {
     if (initialData) {
-      console.log("Initial project data:", initialData);
       setProjectData({
         name: initialData.name || "",
         role: initialData.role || "",
         description: initialData.description || "",
         type: initialData.type || "",
-        images: [],
+        images: [], // Keep empty to allow replacing images
       });
-      setImagePreviews(initialData.images ? initialData.images.map(img => img.url) : []);
+      setImagePreviews(
+        initialData.images ? initialData.images.map((img) => img.url) : []
+      );
     }
   }, [initialData]);
 
@@ -54,20 +55,23 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
       return;
     }
 
-    const validFiles = files.filter(file => {
+    const validFiles = files.filter((file) => {
       if (file.size > 5 * 1024 * 1024) {
         setErrors({ ...errors, images: "Each file must be less than 5MB." });
         return false;
       }
       if (!["image/jpeg", "image/jpg", "image/png"].includes(file.type)) {
-        setErrors({ ...errors, images: "Only JPG, JPEG, and PNG files are allowed." });
+        setErrors({
+          ...errors,
+          images: "Only JPG, JPEG, and PNG files are allowed.",
+        });
         return false;
       }
       return true;
     });
 
     setProjectData({ ...projectData, images: validFiles });
-    setImagePreviews(validFiles.map(file => URL.createObjectURL(file)));
+    setImagePreviews(validFiles.map((file) => URL.createObjectURL(file)));
     setErrors({ ...errors, images: "" });
   };
 
@@ -119,24 +123,24 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
     formData.append("role", projectData.role);
     formData.append("description", projectData.description);
     formData.append("type", projectData.type);
-    projectData.images.forEach((image) => {
-      formData.append("images", image);
-    });
-
-    console.log("Updating project with FormData:", Object.fromEntries(formData));
-    console.log("Request URL:", `/api/projects/${initialData._id}`);
+    // Only append new images if they exist
+    if (projectData.images.length > 0) {
+      projectData.images.forEach((image) => {
+        formData.append("images", image);
+      });
+    }
 
     try {
       const res = await projectService.update(initialData._id, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log("Update response:", res.data);
       clearForm();
       setShowSuccessModal(true);
     } catch (err) {
       console.error("Error updating project:", err);
       setServerError(
-        err.response?.data?.message || "Failed to update project. Network error."
+        err.response?.data?.message ||
+          "Failed to update project. Network error."
       );
     } finally {
       setIsSubmitting(false);
@@ -224,7 +228,8 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
           </div>
           <div className="sm:col-span-2">
             <label className="block mb-2 text-sm font-body font-medium text-primary">
-              Upload Project Images (Max 10, 5MB each, JPG/PNG)
+              Upload New Project Images (Max 10, 5MB each, JPG/PNG; replaces
+              existing images)
             </label>
             <input
               type="file"
@@ -254,7 +259,9 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
               </div>
             )}
             {errors.images && (
-              <span className="text-red-500 text-xs mt-2 block">{errors.images}</span>
+              <span className="text-red-500 text-xs mt-2 block">
+                {errors.images}
+              </span>
             )}
           </div>
         </div>

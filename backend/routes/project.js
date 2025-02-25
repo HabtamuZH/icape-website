@@ -37,11 +37,19 @@ router.post("/", upload.array("images", 10), async (req, res) => {
     console.log("Received body:", req.body);
     console.log("Received files:", req.files);
 
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).json({ message: "At least one image file is required" });
+    if (!name || !role || !description || !type) {
+      return res.status(400).json({
+        message: "All text fields (name, role, description, type) are required",
+      });
     }
 
-    const images = req.files.map(file => ({
+    if (!req.files || req.files.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "At least one image file is required" });
+    }
+
+    const images = req.files.map((file) => ({
       url: file.path,
       cloudinaryId: file.filename.split("/").pop().split(".")[0],
     }));
@@ -57,11 +65,18 @@ router.post("/", upload.array("images", 10), async (req, res) => {
     console.log("Project data to save:", projectData);
 
     const project = new Project(projectData);
-    await project.save();
-    res.status(201).json({ message: "Project added successfully", project });
+    const savedProject = await project.save();
+    console.log("Saved project:", savedProject);
+    res
+      .status(201)
+      .json({ message: "Project added successfully", project: savedProject });
   } catch (error) {
-    console.error("Error creating project:", error);
-    res.status(500).json({ message: "Internal server error", error: error.message });
+    console.error("Full error creating project:", error.stack);
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.message || "Unknown error",
+      stack: error.stack,
+    });
   }
 });
 
@@ -72,7 +87,9 @@ router.get("/", async (req, res) => {
     res.status(200).json(projects);
   } catch (error) {
     console.error("Error fetching projects:", error);
-    res.status(500).json({ message: "Internal server error", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 });
 
@@ -85,44 +102,53 @@ router.get("/:id", async (req, res) => {
     res.status(200).json(project);
   } catch (error) {
     console.error("Error fetching project:", error);
-    res.status(500).json({ message: "Internal server error", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 });
 
 // Update a project with optional multiple image updates
 router.put("/:id", upload.array("images", 10), async (req, res) => {
-  console.log("PUT /api/projects/:id called with ID:", req.params.id);
-  console.log("Request body:", req.body);
-  console.log("Uploaded files:", req.files);
-
   const { id } = req.params;
   const { name, role, description, type } = req.body;
   try {
+    console.log("PUT /api/projects/:id called with ID:", id);
+    console.log("Request body:", req.body);
+    console.log("Uploaded files:", req.files);
+
     const projectData = { name, role, description, type };
 
     if (req.files && req.files.length > 0) {
       const oldProject = await Project.findById(id);
       if (oldProject && oldProject.images && oldProject.images.length > 0) {
-        // Delete old images from Cloudinary
         await Promise.all(
-          oldProject.images.map(image => 
-            image.cloudinaryId ? cloudinary.uploader.destroy(image.cloudinaryId) : Promise.resolve()
+          oldProject.images.map((image) =>
+            image.cloudinaryId
+              ? cloudinary.uploader.destroy(image.cloudinaryId)
+              : Promise.resolve()
           )
         );
       }
-      projectData.images = req.files.map(file => ({
+      projectData.images = req.files.map((file) => ({
         url: file.path,
         cloudinaryId: file.filename.split("/").pop().split(".")[0],
       }));
     }
 
-    const project = await Project.findByIdAndUpdate(id, projectData, { new: true });
+    const project = await Project.findByIdAndUpdate(id, projectData, {
+      new: true,
+    });
     if (!project) return res.status(404).json({ message: "Project not found" });
     console.log("Project updated:", project);
     res.status(200).json({ message: "Project updated successfully", project });
   } catch (error) {
-    console.error("Error updating project:", error);
-    res.status(500).json({ message: "Internal server error", error: error.message });
+    console.error("Full error updating project:", error.stack);
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.message || "Unknown error",
+      stack: error.stack,
+    });
   }
 });
 
@@ -135,8 +161,10 @@ router.delete("/:id", async (req, res) => {
 
     if (project.images && project.images.length > 0) {
       await Promise.all(
-        project.images.map(image => 
-          image.cloudinaryId ? cloudinary.uploader.destroy(image.cloudinaryId) : Promise.resolve()
+        project.images.map((image) =>
+          image.cloudinaryId
+            ? cloudinary.uploader.destroy(image.cloudinaryId)
+            : Promise.resolve()
         )
       );
     }
@@ -145,7 +173,9 @@ router.delete("/:id", async (req, res) => {
     res.status(200).json({ message: "Project deleted successfully" });
   } catch (error) {
     console.error("Error deleting project:", error);
-    res.status(500).json({ message: "Internal server error", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 });
 
