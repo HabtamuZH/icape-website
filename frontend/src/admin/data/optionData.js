@@ -22,7 +22,7 @@ const optionsData = [
   {
     Icon: FaProjectDiagram,
     title: "Projects",
-    link: "projects-form"
+    link: "projects"
   },
   {
     Icon: FaPen,

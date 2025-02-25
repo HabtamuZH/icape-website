@@ -24,6 +24,7 @@ import LoadingSpinner from "../components/common/LoadingSpinner"
 import InternshipApplicationForm from "../components/career/forms/internApplications/InternshipApplicationForm"
 import CareerApplicationForm from "../components/career/forms/careerApplications/CareerApplicationForm"
 import Annoucement from "../components/career/Annoucement"
+import ProjectDashboard from "../admin/components/projects/Index"
 
 // ProtectedRoute component to secure admin routes
 const ProtectedRoute = ({children}) => {
@@ -56,7 +57,7 @@ const RouteConfig = () => {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path='/' element={<MainLayout />}>
+      <Route path='/' element={<MainLayout  isLoading={loading} />}>
         <Route index element={<Home />} />
         <Route path='/login' element={<Login setToken={setToken} />} />
         <Route path='/about' element={<About />} />
@@ -70,10 +71,8 @@ const RouteConfig = () => {
           <Route path='intern-form' element={<InternshipApplicationForm />} />
           <Route path='career-form' element={<CareerApplicationForm />} />
         </Route>
+        <Route path='/projects/' element={<Projects />} />
         <Route path='/projects/:projectId' element={<ProjectDetails />} />
-        <Route path='/projects/completed' element={<Projects />} />
-        <Route path='/projects/ongoing' element={<Projects />} />
-        <Route path='/projects/upcoming' element={<Projects />} />
       </Route>
 
       {/* Admin Routes */}
@@ -87,7 +86,7 @@ const RouteConfig = () => {
       >
         <Route index element={<Dashboard />} />
         <Route path='profile' element={<Profile />} />
-        <Route path='projects-form' element={<ProjectsForm />} />
+        <Route path='projects' element={<ProjectDashboard />} />
         <Route path='Blogs-post' element={<BlogDashboard />} />
         <Route path='View-feedbacks' element={<FeedbackDashboard />} />
         <Route path='opportunity-form' element={<OpportunityForm />} />
