@@ -11,7 +11,7 @@ const LoadingSpinner = () => {
           />
         ))}
       </div>
-      <style jsx>{`
+      <style >{`
         @keyframes square-animation {
           0% { left: 0; top: 0; }
           10.5% { left: 0; top: 0; }

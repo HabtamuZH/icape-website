@@ -9,11 +9,24 @@ const ProjectCard = ({ project, onUpdate, onDelete }) => {
       transition={{ duration: 0.3 }}
       className="bg-light rounded-xl shadow-lg border border-border p-4 hover:shadow-xl transition-shadow duration-300"
     >
-      <img
-        src={project.imageUrl}
-        alt={project.name}
-        className="w-full h-40 object-cover rounded-t-md mb-4"
-      />
+      <div className="flex overflow-x-auto gap-2 mb-4">
+        {project.images && project.images.length > 0 ? (
+          project.images.map((image, index) => (
+            <img
+              key={index}
+              src={image.url}
+              alt={`${project.name} ${index}`}
+              className="w-40 h-40 object-cover rounded-md flex-shrink-0"
+            />
+          ))
+        ) : (
+          <img
+            src="https://via.placeholder.com/150"
+            alt="Placeholder"
+            className="w-40 h-40 object-cover rounded-md"
+          />
+        )}
+      </div>
       <h3 className="text-lg font-heading font-bold text-primary mb-2 truncate">
         {project.name}
       </h3>

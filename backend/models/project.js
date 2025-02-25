@@ -25,20 +25,23 @@ const projectSchema = new mongoose.Schema(
       enum: ["completed", "ongoing", "upcoming"],
       lowercase: true,
     },
-    imageUrl: {
-      type: String,
-      required: [true, "Image URL is required"],
-    },
-    cloudinaryId: {
-      type: String,
-    },
+    images: [
+      {
+        url: {
+          type: String,
+          required: [true, "Image URL is required"],
+        },
+        cloudinaryId: {
+          type: String,
+        },
+      },
+    ],
   },
   {
-    timestamps: true, // Adds createdAt and updatedAt
+    timestamps: true,
   }
 );
 
-// Update updatedAt on save
 projectSchema.pre("save", function (next) {
   this.updatedAt = Date.now();
   next();

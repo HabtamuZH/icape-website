@@ -3,7 +3,6 @@ import projectService from "../../../services/project-service";
 import FormHeader from "../blogs/FormHeader";
 import InputField from "../blogs/InputField";
 import SelectField from "../blogs/SelectField";
-import ImageUpload from "../blogs/ImageUpload";
 import SubmitButton from "../blogs/SubmitButton";
 import SuccessModal from "../blogs/SuccessModal";
 
@@ -20,9 +19,9 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
     role: "",
     description: "",
     type: "",
-    imageUrl: null,
+    images: [],
   });
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -30,15 +29,15 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
 
   useEffect(() => {
     if (initialData) {
-      console.log("Initial project data:", initialData); // Debug initial data
+      console.log("Initial project data:", initialData);
       setProjectData({
         name: initialData.name || "",
         role: initialData.role || "",
         description: initialData.description || "",
         type: initialData.type || "",
-        imageUrl: null,
+        images: [],
       });
-      setImagePreview(initialData.imageUrl || null);
+      setImagePreviews(initialData.images ? initialData.images.map(img => img.url) : []);
     }
   }, [initialData]);
 
@@ -49,34 +48,39 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+    const files = Array.from(e.target.files);
+    if (files.length > 10) {
+      setErrors({ ...errors, images: "Maximum 10 images allowed." });
+      return;
+    }
+
+    const validFiles = files.filter(file => {
       if (file.size > 5 * 1024 * 1024) {
-        setErrors({ ...errors, imageUrl: "File size must be less than 5MB." });
-        return;
+        setErrors({ ...errors, images: "Each file must be less than 5MB." });
+        return false;
       }
       if (!["image/jpeg", "image/jpg", "image/png"].includes(file.type)) {
-        setErrors({
-          ...errors,
-          imageUrl: "Only JPG, JPEG, and PNG files are allowed.",
-        });
-        return;
+        setErrors({ ...errors, images: "Only JPG, JPEG, and PNG files are allowed." });
+        return false;
       }
-      setProjectData({ ...projectData, imageUrl: file });
-      setImagePreview(URL.createObjectURL(file));
-      setErrors({ ...errors, imageUrl: "" });
-    }
+      return true;
+    });
+
+    setProjectData({ ...projectData, images: validFiles });
+    setImagePreviews(validFiles.map(file => URL.createObjectURL(file)));
+    setErrors({ ...errors, images: "" });
   };
 
-  const handleRemoveImage = () => {
-    setProjectData({ ...projectData, imageUrl: null });
-    setImagePreview(null);
-    setErrors({ ...errors, imageUrl: "" });
+  const handleRemoveImage = (index) => {
+    const newImages = projectData.images.filter((_, i) => i !== index);
+    const newPreviews = imagePreviews.filter((_, i) => i !== index);
+    setProjectData({ ...projectData, images: newImages });
+    setImagePreviews(newPreviews);
   };
 
   const validateField = (field, value) => {
     let fieldErrors = { ...errors };
-    if (!value && field !== "imageUrl") {
+    if (!value && field !== "images") {
       fieldErrors[field] = `${
         field.charAt(0).toUpperCase() + field.slice(1)
       } is required.`;
@@ -91,9 +95,9 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
     let isValid = true;
 
     Object.keys(projectData).forEach((key) => {
-      if (!projectData[key] && key !== "imageUrl") {
+      if (!projectData[key] && key !== "images") {
         finalErrors[key] = `${
-          key.charAt(0).toUpperCase() + field.slice(1)
+          key.charAt(0).toUpperCase() + key.slice(1)
         } is required.`;
         isValid = false;
       }
@@ -115,12 +119,12 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
     formData.append("role", projectData.role);
     formData.append("description", projectData.description);
     formData.append("type", projectData.type);
-    if (projectData.imageUrl) {
-      formData.append("imageUrl", projectData.imageUrl);
-    }
+    projectData.images.forEach((image) => {
+      formData.append("images", image);
+    });
 
     console.log("Updating project with FormData:", Object.fromEntries(formData));
-    console.log("Request URL:", `/api/projects/${initialData._id}`); // Log full URL
+    console.log("Request URL:", `/api/projects/${initialData._id}`);
 
     try {
       const res = await projectService.update(initialData._id, formData, {
@@ -145,9 +149,9 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
       role: "",
       description: "",
       type: "",
-      imageUrl: null,
+      images: [],
     });
-    setImagePreview(null);
+    setImagePreviews([]);
     setErrors({});
   };
 
@@ -219,13 +223,39 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
             />
           </div>
           <div className="sm:col-span-2">
-            <ImageUpload
-              image={projectData.imageUrl}
-              onImageChange={handleImageChange}
-              imagePreview={imagePreview}
-              onRemoveImage={handleRemoveImage}
-              error={errors.imageUrl}
+            <label className="block mb-2 text-sm font-body font-medium text-primary">
+              Upload Project Images (Max 10, 5MB each, JPG/PNG)
+            </label>
+            <input
+              type="file"
+              multiple
+              accept="image/jpeg,image/jpg,image/png"
+              onChange={handleImageChange}
+              className="w-full px-4 py-3 rounded-md border border-border bg-light text-primary font-body text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-body file:bg-accent file:text-light hover:file:bg-opacity-80"
             />
+            {imagePreviews.length > 0 && (
+              <div className="mt-4 flex flex-wrap gap-4">
+                {imagePreviews.map((preview, index) => (
+                  <div key={index} className="relative inline-block">
+                    <img
+                      src={preview}
+                      alt={`Preview ${index}`}
+                      className="w-40 h-40 object-cover rounded-md"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveImage(index)}
+                      className="absolute top-0 right-0 bg-red-500 text-light text-xs p-1 rounded-full transform translate-x-1/2 -translate-y-1/2"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            {errors.images && (
+              <span className="text-red-500 text-xs mt-2 block">{errors.images}</span>
+            )}
           </div>
         </div>
         {serverError && (
