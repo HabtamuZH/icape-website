@@ -31,7 +31,7 @@ const upload = multer({
 });
 
 // Create a new project with multiple images
-router.post("/", upload.array("images", 10), async (req, res) => {
+router.post("/", upload.array("images", 50), async (req, res) => {
   const { name, role, description, type } = req.body;
   try {
     console.log("Received body:", req.body);
@@ -109,7 +109,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Update a project with optional multiple image updates
-router.put("/:id", upload.array("images", 10), async (req, res) => {
+router.put("/:id", upload.array("images", 50), async (req, res) => {
   const { id } = req.params;
   const { name, role, description, type } = req.body;
   try {

@@ -31,7 +31,7 @@ const ProjectCard = ({ project }) => {
       className="block group relative overflow-hidden rounded-lg shadow-xl shadow-primary/20"
     >
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-accent/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
 
       {/* Image with lazy loading */}
       <img
@@ -44,7 +44,7 @@ const ProjectCard = ({ project }) => {
       {/* Content */}
       <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 text-light transition-transform duration-300 transform translate-y-2 group-hover:-translate-y-2 z-20">
         <h2 className="text-xl sm:text-2xl font-heading font-bold mb-1">{project.name}</h2>
-        <p className="text-sm sm:text-base font-body font-light">{project.role}</p>
+        <p className="text-sm sm:text-base font-body font-light">{project.role}</p> 
       </div>
     </Link>
   );

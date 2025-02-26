@@ -57,7 +57,7 @@ const HeroSection = () => {
         </h2>
 
         {/* Subheading */}
-        <p className='hero-subtitle mb-8 text-base sm:text-lg lg:text-xl font-body text-light/80 max-w-3xl mx-auto leading-relaxed'>
+        <p className='hero-subtitle mb-8 text-xs sm:text-base font-body text-light/80 max-w-3xl mx-auto leading-relaxed'>
           At ICAPE, we blend cutting-edge technology with visionary design to
           create architectural masterpieces that inspire, endure, and harmonize
           with the environment.

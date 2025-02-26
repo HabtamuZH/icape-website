@@ -3,7 +3,10 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const userSchema = new Schema({
-  email: { type: String, required: true, unique: true }, // Ensure email is unique
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  phone: { type: String, required: true },
   password: { type: String, required: true },
   role: { type: String, enum: ["admin", "user"], default: "user" },
 });
@@ -20,11 +23,9 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 userSchema.methods.generateAuthToken = function () {
-  return jwt.sign(
-    { id: this._id, role: this.role },
-    process.env.JWT_SECRET,
-    { expiresIn: "1h" }
-  );
+  return jwt.sign({ id: this._id, role: this.role }, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
 };
 
 const User = model("User", userSchema);

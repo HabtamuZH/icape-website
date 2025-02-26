@@ -8,6 +8,7 @@ import TeamForm from "./TeamForm";
 
 const AdminTeamManagement = () => {
   const [team, setTeam] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // New state for search input
   const [formData, setFormData] = useState({
     image: null,
     name: "",
@@ -38,6 +39,14 @@ const AdminTeamManagement = () => {
       setLoading(false);
     }
   };
+
+  // Filter team based on search query
+  const filteredTeam = team.filter(
+    (member) =>
+      member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      member.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      member.desc.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -167,14 +176,14 @@ const AdminTeamManagement = () => {
           headers: { "Content-Type": "multipart/form-data" },
         });
         setSuccessMessage("Team member updated successfully!");
-    } else {
+      } else {
         await teamService.create(formDataToSubmit, {
-            headers: { "Content-Type": "multipart/form-data" },
+          headers: { "Content-Type": "multipart/form-data" },
         });
         setSuccessMessage("Team member added successfully!");
       }
       resetForm();
-    //   fetchTeamMembers();
+      fetchTeamMembers(); // Refresh team list after success
     } catch (err) {
       setErrors({ submit: "Failed to save team member. Please try again." });
       console.error("Error saving team member:", err);
@@ -186,7 +195,7 @@ const AdminTeamManagement = () => {
   const handleEdit = (member) => {
     setEditId(member._id);
     setFormData({
-      image: null, // Only update image if re-uploaded
+      image: null,
       name: member.name,
       title: member.title,
       desc: member.desc,
@@ -204,6 +213,7 @@ const AdminTeamManagement = () => {
       try {
         await teamService.delete(id);
         setSuccessMessage("Team member deleted successfully!");
+        fetchTeamMembers(); // Refresh team list after deletion
       } catch (err) {
         console.error("Error deleting team member:", err);
       }
@@ -237,26 +247,36 @@ const AdminTeamManagement = () => {
     setErrors({});
   };
 
-  if (loading)
+  if (loading) {
     return (
       <div className="text-center text-primary font-body py-4">
         <LoadingSpinner />
       </div>
     );
+  }
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-secondary">
       <h2 className="text-2xl font-heading font-bold text-primary mb-6">
         Manage Team Members
       </h2>
-      <button
-        onClick={openAddModal}
-        className="mb-6 px-4 py-2 bg-accent text-light rounded-md hover:bg-primary transition-colors font-body font-medium"
-      >
-        + Add New Team Member
-      </button>
+      <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
+        <input
+          type="text"
+          placeholder="Search by name, title, or description..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full px-4  rounded-md border border-border bg-light text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+        />
+        <button
+          onClick={openAddModal}
+          className="px-4 py-2 bg-accent inline text-light rounded-md hover:bg-primary transition-colors font-body font-medium"
+        >
+          +Add
+        </button>
+      </div>
 
-      <TeamList team={team} onEdit={handleEdit} onDelete={handleDelete} />
+      <TeamList team={filteredTeam} onEdit={handleEdit} onDelete={handleDelete} />
 
       {isModalOpen && (
         <BlogFormModal onClose={() => setIsModalOpen(false)}>
@@ -281,10 +301,11 @@ const AdminTeamManagement = () => {
       <SuccessModal
         isOpen={successMessage}
         text={successMessage}
-        onClose={() => {setSuccessMessage(null);
-            setIsModalOpen(false);
-            setLoading(true)
-            fetchTeamMembers()
+        onClose={() => {
+          setSuccessMessage(null);
+          setIsModalOpen(false);
+          setLoading(true);
+          fetchTeamMembers();
         }}
       />
     </div>
