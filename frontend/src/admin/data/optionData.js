@@ -48,7 +48,7 @@ const optionsData = [
   },
   {
     Icon: FaEnvelopeOpenText,
-    title: "Team",
+    title: "Teams",
     link: "teams",
   },
   // {
