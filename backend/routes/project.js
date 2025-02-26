@@ -34,8 +34,6 @@ const upload = multer({
 router.post("/", upload.array("images", 50), async (req, res) => {
   const { name, role, description, type } = req.body;
   try {
-    console.log("Received body:", req.body);
-    console.log("Received files:", req.files);
 
     if (!name || !role || !description || !type) {
       return res.status(400).json({
@@ -62,11 +60,8 @@ router.post("/", upload.array("images", 50), async (req, res) => {
       images,
     };
 
-    console.log("Project data to save:", projectData);
-
     const project = new Project(projectData);
     const savedProject = await project.save();
-    console.log("Saved project:", savedProject);
     res
       .status(201)
       .json({ message: "Project added successfully", project: savedProject });
@@ -113,10 +108,6 @@ router.put("/:id", upload.array("images", 50), async (req, res) => {
   const { id } = req.params;
   const { name, role, description, type } = req.body;
   try {
-    console.log("PUT /api/projects/:id called with ID:", id);
-    console.log("Request body:", req.body);
-    console.log("Uploaded files:", req.files);
-
     const projectData = { name, role, description, type };
 
     if (req.files && req.files.length > 0) {
@@ -140,7 +131,6 @@ router.put("/:id", upload.array("images", 50), async (req, res) => {
       new: true,
     });
     if (!project) return res.status(404).json({ message: "Project not found" });
-    console.log("Project updated:", project);
     res.status(200).json({ message: "Project updated successfully", project });
   } catch (error) {
     console.error("Full error updating project:", error.stack);
