@@ -1,9 +1,18 @@
 import React from "react";
 
-const ImageUpload = ({ image, onImageChange, imagePreview, onRemoveImage, error }) => {
+const ImageUpload = ({
+  image,
+  onImageChange,
+  imagePreview,
+  onRemoveImage,
+  error,
+}) => {
   return (
     <div>
-      <label htmlFor="image" className="block mb-2 text-sm font-body font-medium text-primary">
+      <label
+        htmlFor="image"
+        className="block mb-2 text-sm font-body font-medium text-primary"
+      >
         Upload Blog Image (Max 5MB, JPG/PNG)
       </label>
       <input
@@ -15,7 +24,11 @@ const ImageUpload = ({ image, onImageChange, imagePreview, onRemoveImage, error 
       />
       {imagePreview && (
         <div className="mt-4 relative inline-block">
-          <img src={imagePreview} alt="Preview" className="w-40 h-40 object-cover rounded-md" />
+          <img
+            src={imagePreview}
+            alt="Preview"
+            className="w-40 h-40 object-cover rounded-md"
+          />
           <button
             type="button"
             onClick={onRemoveImage}
@@ -25,7 +38,9 @@ const ImageUpload = ({ image, onImageChange, imagePreview, onRemoveImage, error 
           </button>
         </div>
       )}
-      {error && <span className="text-red-500 text-xs mt-2 block">{error}</span>}
+      {error && (
+        <span className="text-red-500 text-xs mt-2 block">{error}</span>
+      )}
     </div>
   );
 };

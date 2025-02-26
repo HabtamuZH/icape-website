@@ -25,6 +25,7 @@ import InternshipApplicationForm from "../components/career/forms/internApplicat
 import CareerApplicationForm from "../components/career/forms/careerApplications/CareerApplicationForm"
 import Annoucement from "../components/career/Annoucement"
 import ProjectDashboard from "../admin/components/projects/Index"
+import AdminTeamManagement from "../admin/components/teamMember/AdminTeamManagement"
 
 // ProtectedRoute component to secure admin routes
 const ProtectedRoute = ({children}) => {
@@ -57,27 +58,27 @@ const RouteConfig = () => {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path='/' element={<MainLayout  isLoading={loading} />}>
+      <Route path="/" element={<MainLayout isLoading={loading} />}>
         <Route index element={<Home />} />
-        <Route path='/login' element={<Login setToken={setToken} />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/awards/:id' element={<AwardDetails />} />
-        <Route path='/contactus' element={<ContactUs />} />
-        <Route path='/blog' element={<Blogs />} />
-        <Route path='/services' element={<Services />} />
-        <Route path='/career' element={<Annoucement />}>
+        <Route path="/login" element={<Login setToken={setToken} />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/awards/:id" element={<AwardDetails />} />
+        <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/blog" element={<Blogs />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/career" element={<Annoucement />}>
           <Route index element={<Annoucement />} />{" "}
           {/* Default view for /career */}
-          <Route path='intern-form' element={<InternshipApplicationForm />} />
-          <Route path='career-form' element={<CareerApplicationForm />} />
+          <Route path="intern-form" element={<InternshipApplicationForm />} />
+          <Route path="career-form" element={<CareerApplicationForm />} />
         </Route>
-        <Route path='/projects/' element={<Projects />} />
-        <Route path='/projects/:projectId' element={<ProjectDetails />} />
+        <Route path="/projects/" element={<Projects />} />
+        <Route path="/projects/:projectId" element={<ProjectDetails />} />
       </Route>
 
       {/* Admin Routes */}
       <Route
-        path='/admin'
+        path="/admin"
         element={
           <ProtectedRoute>
             <AdminLayout onLogout={handleLogout} />
@@ -85,18 +86,19 @@ const RouteConfig = () => {
         }
       >
         <Route index element={<Dashboard />} />
-        <Route path='profile' element={<Profile />} />
-        <Route path='projects' element={<ProjectDashboard />} />
-        <Route path='Blogs-post' element={<BlogDashboard />} />
-        <Route path='View-feedbacks' element={<FeedbackDashboard />} />
-        <Route path='opportunity-form' element={<OpportunityForm />} />
-        <Route path='application-views' element={<ApplicationView />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="teams" element={<AdminTeamManagement />} />
+        <Route path="projects" element={<ProjectDashboard />} />
+        <Route path="Blogs-post" element={<BlogDashboard />} />
+        <Route path="View-feedbacks" element={<FeedbackDashboard />} />
+        <Route path="opportunity-form" element={<OpportunityForm />} />
+        <Route path="application-views" element={<ApplicationView />} />
       </Route>
 
       {/* Catch-all redirect */}
-      <Route path='*' element={<Navigate to='/' />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
-  )
+  );
 }
 
 export default RouteConfig

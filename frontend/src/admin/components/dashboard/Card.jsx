@@ -1,37 +1,54 @@
 /* eslint-disable react/prop-types */
+import React from "react";
+import { motion } from "framer-motion";
 
 const Card = ({ color, icon: Icon, title, value, footer }) => {
-  // Define color mappings for the gradient background
   const colorClasses = {
-    blue: "from-blue-500 to-blue-700",
-    green: "from-green-500 to-green-700",
-    orange: "from-orange-500 to-orange-700",
-    purple: "from-purple-500 to-purple-700",
-    red: "from-red-500 to-red-700",
+    blue: "bg-gradient-to-r from-accent to-primary",
+    green: "bg-gradient-to-r from-accent to-dark",
+    orange: "bg-gradient-to-r from-accent to-border",
+    purple: "bg-gradient-to-r from-dark to-accent",
+    red: "bg-gradient-to-r from-primary to-dark",
   };
 
   return (
-    <div className="border border-blue-gray-100 shadow-xl rounded-lg overflow-hidden relative">
-      <div className="bg-green-100">
-          {/* Icon Container */}
+    <motion.div
+      whileHover={{ scale: 1.05, boxShadow: "0 12px 24px rgba(0,0,0,0.1)" }}
+      className="bg-light border border-border rounded-xl shadow-md overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl"
+    >
+      <div className="p-6 flex-grow">
+        <div className="flex items-center justify-between">
           <div
-            className={`absolute top-4 left-4 h-12 w-12 grid place-items-center bg-gradient-to-r ${colorClasses[color]} text-white rounded-lg shadow-lg`}
+            className={`h-14 w-14 grid place-items-center ${colorClasses[color]} text-light rounded-full shadow-md`}
           >
-            {/* Pass className as a prop for flexibility */}
             {Icon}
           </div>
-          {/* Content */}
-          <div className="p-4 text-right pt-16">
-            <p className="text-lg font-[400]  text-gray-600">{title}</p>
-            <h4 className="text-2xl font-bold text-blue-900">{value}</h4>
+          <div className="text-right">
+            <p className="text-sm font-body font-medium text-primary uppercase tracking-wider">
+              {title}
+            </p>
+            <h4 className="text-3xl font-heading font-semibold text-primary mt-1">
+              {value}
+            </h4>
           </div>
+        </div>
       </div>
-
-      {/* Footer (if provided) */}
       {footer && (
-        <div className="p-4 border-t border-blue-gray-100">{footer}</div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="p-4 bg-secondary border-t border-border text-sm text-primary font-body"
+        >
+          <p>
+            <strong className={`${footer.color} font-semibold`}>
+              {footer.value}
+            </strong>{" "}
+            {footer.label}
+          </p>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

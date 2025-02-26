@@ -12,5 +12,4 @@ applicationService.createMultipart = (data) => {
     }
   })
 }
-
 export default applicationService

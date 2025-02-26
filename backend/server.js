@@ -10,6 +10,7 @@ import job from "./routes/job.js";
 import project from "./routes/project.js";
 import career from "./routes/career.js";
 import application from "./routes/applications.js";
+import team from "./routes/team.js";
 import users from "./routes/users.js";
 
 dotenv.config();
@@ -26,6 +27,9 @@ app.use("/api/feedbacks", feedback);
 app.use("/api/jobs", job);
 app.use("/api/projects", project);
 app.use("/api/careers", career);
+app.use("/api/applications", application)
+app.use("/api/teams" , team)
+
 app.use("/api/applications", application);
 app.use("/api/users", users);
 

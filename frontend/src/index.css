@@ -34,6 +34,10 @@ html {
   border: 1px solid rgba(245, 245, 245, 0.23);
 }
 
+.perspective-1000 {
+  perspective: 1000px;
+}
+
 /* Swiper */
 
 .swiper-container {
