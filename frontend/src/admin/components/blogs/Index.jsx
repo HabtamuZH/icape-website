@@ -95,14 +95,21 @@ const BlogDashboard = () => {
           />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredBlogs.map((blog) => (
-            <BlogCard
-              key={blog._id}
-              blog={blog}
-              onUpdate={handleUpdateBlog}
-              onDelete={handleDeleteBlog}
-            />
-          ))}
+          {filteredBlogs.length > 0 ? (
+            filteredBlogs.map((blog) => (
+              <BlogCard
+                key={blog._id}
+                blog={blog}
+                onUpdate={handleUpdateBlog}
+                onDelete={handleDeleteBlog}
+              />
+            ))
+          ) : (
+            <p className="col-span-full text-center text-primary font-body text-lg">
+              No Blogs found.
+            </p>
+          )}
+          )
         </div>
         <div className="fixed bottom-8 right-8">
           <PostNewBlogButton onClick={handleAddNewBlog} />
@@ -113,7 +120,10 @@ const BlogDashboard = () => {
           {selectedBlog ? (
             <UpdateForm
               initialData={selectedBlog}
-              onClose={() => {setIsModalOpen(false); handleReload();}}
+              onClose={() => {
+                setIsModalOpen(false);
+                handleReload();
+              }}
             />
           ) : (
             <PostForm

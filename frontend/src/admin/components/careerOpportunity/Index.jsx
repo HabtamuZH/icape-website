@@ -101,14 +101,21 @@ const CareerDashboard = () => {
           <CareerFilter typeFilter={typeFilter} setTypeFilter={setTypeFilter} />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCareers.map((career) => (
-            <CareerCard
-              key={career._id}
-              career={career}
-              onUpdate={handleUpdateCareer}
-              onDelete={handleDeleteCareer}
-            />
-          ))}
+          {filteredCareers.length > 0 ? (
+            filteredCareers.map((career) => (
+              <CareerCard
+                key={career._id}
+                career={career}
+                onUpdate={handleUpdateCareer}
+                onDelete={handleDeleteCareer}
+              />
+            ))
+          ) : (
+            <p className="col-span-full text-center text-primary font-body text-lg">
+              No Careers found.
+            </p>
+          )}
+          )
         </div>
         <div className="fixed bottom-4 right-4">
           <PostNewCareerButton onClick={handleAddNewCareer} />

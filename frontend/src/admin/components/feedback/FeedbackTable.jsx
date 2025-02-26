@@ -17,7 +17,7 @@ const FeedbackTable = ({
             <th className="py-4 px-6 font-body font-semibold ">Email</th>
             <th className="py-4 px-6 font-body font-semibold ">Message</th>
             <th className="py-4 px-6 font-body font-semibold ">Date</th>
-            <th className="py-4 px-6 font-body font-semibold ">Actions</th>
+            {/* <th className="py-4 px-6 font-body font-semibold ">Actions</th> */}
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
@@ -49,7 +49,7 @@ const FeedbackTable = ({
                     handleDeleteFeedback(item._id);
                   }}
                 >
-                  <FaTrash />
+                  {/* <FaTrash /> */}
                 </button>
               </td>
             </tr>
