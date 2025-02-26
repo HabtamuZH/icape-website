@@ -12,51 +12,50 @@ const optionsData = [
   {
     Icon: FiHome,
     title: "Dashboard",
-    link: "/admin"
+    link: "/admin",
   },
   {
     Icon: FaUser,
     title: "Profile",
-    link: "profile"
+    link: "profile",
   },
   {
     Icon: FaProjectDiagram,
     title: "Projects",
-    link: "projects"
+    link: "projects",
   },
   {
     Icon: FaPen,
     title: "Blogs",
-    link: "blogs-post"
+    link: "blogs-post",
   },
   {
     Icon: MdFeedback,
     title: "Feedbacks",
     link: "view-feedbacks",
-    notify: ""
+    notify: "",
   },
   {
     Icon: FaBriefcase, // Changed from MdFeedback to FaBriefcase for career-related context
     title: "Career Opportunity",
-    link: "opportunity-form"
+    link: "opportunity-form",
   },
   {
     Icon: FaEnvelopeOpenText, // Changed from MdFeedback to FaEnvelopeOpenText for applications
     title: "Applicants",
     link: "application-views",
-    notify: ""
-  }
-  // {
-  //   Icon: IoMdNotifications,
-  //   title: "Notifications",
-  //   link: "notifications",
-  //   notify: 5 // Kept the notification count
-  // }
+    notify: "",
+  },
+  {
+    Icon: FaEnvelopeOpenText,
+    title: "Team",
+    link: "teams",
+  },
   // {
   //   Icon: FiSettings,
   //   title: "Settings",
   //   link: "admin-setting"
   // }
-]
+];
 
 export default optionsData

@@ -7,11 +7,12 @@ import InternshipApplication from "../models/InternshipApplication.js";
 
 const router = express.Router();
 
-// Ensure cloudinary is correctly initialized
+// Ensure Cloudinary is correctly initialized
 if (!cloudinary.uploader || !cloudinary.api) {
   console.error("Cloudinary is not properly configured. Check your API keys.");
   process.exit(1);
 }
+
 // Configure Multer with Cloudinary storage
 const storage = new CloudinaryStorage({
   cloudinary,
@@ -23,18 +24,6 @@ const storage = new CloudinaryStorage({
     public_id: (req, file) => `${Date.now()}-${file.originalname}`,
   },
 });
-
-// const upload = multer({
-//   storage: storage,
-//   limits: {fileSize: 5 * 1024 * 1024}, // 5MB limit
-//   fileFilter: (req, file, cb) => {
-//     if (file.mimetype === "application/pdf") {
-//       cb(null, true)
-//     } else {
-//       cb(new Error("Only PDF files are allowed"), false)
-//     }
-//   }
-// })
 
 const upload = multer({ storage });
 
@@ -57,7 +46,36 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST: Handle Career and Internship Applications
+// New endpoint: Monthly applicant stats
+router.get("/monthly", async (req, res) => {
+  try {
+    const applications = await CareerApplication.find()
+      .concat(await InternshipApplication.find())
+      .sort({ submittedAt: 1 }); // Sort ascending for chronological order
+
+    const monthlyCounts = applications.reduce((acc, app) => {
+      const date = new Date(app.submittedAt);
+      const month = date.toLocaleString("default", { month: "short" });
+      const year = date.getFullYear();
+      const key = `${month}-${year}`;
+      acc[key] = (acc[key] || 0) + 1;
+      return acc;
+    }, {});
+
+    const result = Object.entries(monthlyCounts).map(([key, count]) => ({
+      month: key, // e.g., "Jan-2025"
+      applicants: count,
+    }));
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Error fetching monthly applicant data:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching monthly data", error: error.message });
+  }
+});
+
 router.post("/", upload.single("cv"), async (req, res) => {
   try {
     if (!req.file) {

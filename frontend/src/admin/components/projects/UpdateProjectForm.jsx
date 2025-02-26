@@ -50,8 +50,8 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    if (files.length > 10) {
-      setErrors({ ...errors, images: "Maximum 10 images allowed." });
+    if (files.length > 40) {
+      setErrors({ ...errors, images: "Maximum 20 images allowed." });
       return;
     }
 
@@ -228,7 +228,7 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
           </div>
           <div className="sm:col-span-2">
             <label className="block mb-2 text-sm font-body font-medium text-primary">
-              Upload New Project Images (Max 10, 5MB each, JPG/PNG; replaces
+              Upload New Project Images (Max 20, 5MB each, JPG/PNG; replaces
               existing images)
             </label>
             <input
