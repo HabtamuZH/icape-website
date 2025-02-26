@@ -109,7 +109,6 @@ const BlogDashboard = () => {
               No Blogs found.
             </p>
           )}
-          )
         </div>
         <div className="fixed bottom-8 right-8">
           <PostNewBlogButton onClick={handleAddNewBlog} />

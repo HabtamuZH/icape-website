@@ -3,11 +3,11 @@ import { FaEdit, FaTrash } from "react-icons/fa"; // Import icons for buttons
 
 const TeamList = ({ team, onEdit, onDelete }) => {
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="bg-secondary grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {team.map((member) => (
         <div
           key={member._id}
-          className="bg-light border border-border rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1"
+          className="bg-secondary border border-border rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1"
         >
           {/* Card Header: Avatar */}
           <div className="flex justify-center pt-6">

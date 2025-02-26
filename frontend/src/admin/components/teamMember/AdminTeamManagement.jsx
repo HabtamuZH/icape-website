@@ -183,7 +183,6 @@ const AdminTeamManagement = () => {
         setSuccessMessage("Team member added successfully!");
       }
       resetForm();
-      fetchTeamMembers(); // Refresh team list after success
     } catch (err) {
       setErrors({ submit: "Failed to save team member. Please try again." });
       console.error("Error saving team member:", err);
@@ -213,7 +212,6 @@ const AdminTeamManagement = () => {
       try {
         await teamService.delete(id);
         setSuccessMessage("Team member deleted successfully!");
-        fetchTeamMembers(); // Refresh team list after deletion
       } catch (err) {
         console.error("Error deleting team member:", err);
       }
@@ -256,7 +254,7 @@ const AdminTeamManagement = () => {
   }
 
   return (
-    <div className="p-6 bg-secondary">
+    <div className="py-16 bg-secondary min-h-screen px-4 sm:px-6 lg:px-8">
       <h2 className="text-2xl font-heading font-bold text-primary mb-6">
         Manage Team Members
       </h2>
@@ -276,7 +274,17 @@ const AdminTeamManagement = () => {
         </button>
       </div>
 
-      <TeamList team={filteredTeam} onEdit={handleEdit} onDelete={handleDelete} />
+      {filteredTeam.length > 0 ? (
+        <TeamList
+          team={filteredTeam}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      ) : 
+        <p className="col-span-full text-center text-primary font-body text-lg">
+          No Team Member.
+        </p>
+      }
 
       {isModalOpen && (
         <BlogFormModal onClose={() => setIsModalOpen(false)}>
