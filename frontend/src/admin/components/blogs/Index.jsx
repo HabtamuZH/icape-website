@@ -8,12 +8,16 @@ import LoadingSpinner from "../../../components/common/LoadingSpinner";
 import UpdateForm from "./UpdateForm";
 import PostForm from "./PostForm";
 import BlogFormModal from "./BlogFormModal";
+import ConfirmDeleteBlogModal from "./ConfirmDeleteBlogModal"; // New import
 
 const BlogDashboard = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [deleteTitle, setDeleteTitle] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [reload, setReload] = useState(false);
@@ -35,17 +39,27 @@ const BlogDashboard = () => {
       .finally(() => setLoading(false));
   };
 
-  const handleDeleteBlog = async (id) => {
+  const handleDeleteBlog = (id, title) => {
+    setDeleteId(id);
+    setDeleteTitle(title);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDeleteBlog = async () => {
     try {
-      await blogService.delete(id);
-      setBlogs((prev) => prev.filter((blog) => blog._id !== id));
+      await blogService.delete(deleteId);
+      setBlogs((prev) => prev.filter((blog) => blog._id !== deleteId));
     } catch (error) {
       console.error("Error deleting blog:", error);
+    } finally {
+      setIsDeleteModalOpen(false);
+      setDeleteId(null);
+      setDeleteTitle("");
     }
   };
 
   const handleAddNewBlog = () => {
-    setSelectedBlog(null); // Clear selected blog for new entry
+    setSelectedBlog(null);
     setIsModalOpen(true);
   };
 
@@ -57,10 +71,9 @@ const BlogDashboard = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedBlog(null);
-    fetchBlogs(); // Refresh blogs after add/edit
+    fetchBlogs();
   };
 
-  // Filter and search logic
   const filteredBlogs = blogs.filter((blog) => {
     const searchLower = searchQuery?.toLowerCase();
     const matchesSearch =
@@ -101,7 +114,7 @@ const BlogDashboard = () => {
                 key={blog._id}
                 blog={blog}
                 onUpdate={handleUpdateBlog}
-                onDelete={handleDeleteBlog}
+                onDelete={handleDeleteBlog} // Pass id and title
               />
             ))
           ) : (
@@ -134,6 +147,12 @@ const BlogDashboard = () => {
           )}
         </BlogFormModal>
       )}
+      <ConfirmDeleteBlogModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={confirmDeleteBlog}
+        blogTitle={deleteTitle}
+      />
     </section>
   );
 };

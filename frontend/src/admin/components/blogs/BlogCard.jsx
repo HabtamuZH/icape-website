@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const BlogCard = ({ blog, onUpdate, onDelete }) => {
 
@@ -15,8 +16,12 @@ const BlogCard = ({ blog, onUpdate, onDelete }) => {
         alt={blog.title}
         className="w-full h-40 object-cover rounded-t-md mb-4"
       />
-      <h3 className="text-lg font-heading font-bold text-primary mb-2 truncate">{blog.title}</h3>
-      <p className="text-primary font-body text-sm mb-2 truncate">{blog.description}</p>
+      <h3 className="text-lg font-heading font-bold text-primary mb-2 truncate">
+        {blog.title}
+      </h3>
+      <p className="text-primary font-body text-sm mb-2 truncate">
+        {blog.description}
+      </p>
       <p className="text-primary font-body text-xs opacity-70 mb-4">
         By {blog.author} | {new Date(blog.date).toLocaleDateString()}
       </p>
@@ -25,17 +30,17 @@ const BlogCard = ({ blog, onUpdate, onDelete }) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => onUpdate(blog)}
-          className="px-3 py-1 text-sm font-body text-accent border border-accent rounded-md hover:bg-accent hover:text-light transition-colors duration-200"
+          className="px-3 py-1 bg-accent text-light rounded-md hover:bg-primary transition-colors font-body flex items-center gap-2"
         >
-          Update
+          <FaEdit /> Edit
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => onDelete(blog._id)}
-          className="px-3 py-1 text-sm font-body text-red-600 border border-red-600 rounded-md hover:bg-red-600 hover:text-light transition-colors duration-200"
+          className="px-3 py-1 bg-red-500 text-light rounded-md hover:bg-red-600 transition-colors font-body flex items-center gap-2"
         >
-          Delete
+          <FaTrash /> Delete
         </motion.button>
       </div>
     </motion.div>

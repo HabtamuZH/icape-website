@@ -24,6 +24,7 @@ const InternshipApplicationForm = () => {
 
   useEffect(() => {
     // Simulate initial loading (remove if not needed)
+    window.scrollTo(0,0)
     const timer = setTimeout(() => setIsLoading(false), 1000);
 
     const sr = ScrollReveal({

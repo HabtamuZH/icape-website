@@ -19,6 +19,12 @@ const types = [
   { value: "Contract", label: "Contract" },
 ];
 
+const buttonLinks = [
+  { value: "", label: "Select Link" },
+  { value: "career/career-form", label: "Career Application Form" },
+  { value: "career/intern-form", label: "Internship Application Form" },
+];
+
 const PostCareerForm = ({ onClose }) => {
   const [formData, setFormData] = useState({
     title: "",
@@ -201,13 +207,13 @@ const PostCareerForm = ({ onClose }) => {
             placeholder="e.g., Apply Now"
             error={errors.buttonText}
           />
-          <InputField
+          <SelectField
             label="Button Link"
             id="buttonLink"
             name="buttonLink"
             value={formData.buttonLink}
             onChange={handleInputChange}
-            placeholder="e.g., /careers/professional"
+            options={buttonLinks}
             error={errors.buttonLink}
           />
         </div>

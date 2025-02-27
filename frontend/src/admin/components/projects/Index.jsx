@@ -122,7 +122,7 @@ const ProjectDashboard = () => {
             </p>
           )}
         </div>
-        <div className="fixed bottom-4 right-4">
+        <div className="fixed bottom-6 right-6">
           <PostNewProjectButton onClick={handleAddNewProject} />
         </div>
       </div>

@@ -14,9 +14,9 @@ const ArchitecturalDesign = () => {
       easing: "ease-out",
     });
 
-    sr.reveal(".sectionHeader", { origin: "top", distance: "50px", delay: 200 });
-    sr.reveal(".contentText", { origin: "bottom", distance: "50px", delay: 300 });
-    sr.reveal(".readMoreButton", { origin: "bottom", distance: "30px", delay: 400 });
+    sr.reveal(".sectionHeader", { origin: "top", distance: "50px", delay: 100 });
+    sr.reveal(".contentText", { origin: "bottom", distance: "50px", delay: 200 });
+    sr.reveal(".readMoreButton", { origin: "bottom", distance: "30px", delay: 300 });
 
     return () => sr.destroy(); // Cleanup
   }, []);

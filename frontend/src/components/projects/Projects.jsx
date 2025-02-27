@@ -34,10 +34,14 @@ const Projects = () => {
   useEffect(() => {
     const type = location.pathname.split("/").pop().toUpperCase();
     setProjectType(
-      type === "COMPLETED" || type === "ONGOING" || type === "UPCOMING" ? type : "ALL"
+      type === "ARCHITECTURE" || type === "URBAN" || type === "INTERIOR"
+        ? type
+        : "ALL"
     );
     setFilterType(
-      type === "COMPLETED" || type === "ONGOING" || type === "UPCOMING" ? type : "ALL"
+      type === "ARCHITECTURE" || type === "URBAN" || type === "INTERIOR"
+        ? type
+        : "ALL"
     );
   }, [location]);
 
@@ -51,12 +55,13 @@ const Projects = () => {
     const matchesSearch = project.name
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
-    const matchesType = filterType === "ALL" || project.type.toUpperCase() === filterType;
+    const matchesType =
+      filterType === "ALL" || project.type.toUpperCase() === filterType;
     return matchesSearch && matchesType;
   });
 
   const handleProjectClick = (projectId) => {
-    const project = filteredProjects.find(p => p._id === projectId);
+    const project = filteredProjects.find((p) => p._id === projectId);
     navigate(`/projects/${projectId}`, { state: { project } });
   };
 
@@ -66,8 +71,9 @@ const Projects = () => {
     <section className="py-12 bg-secondary sm:py-16 lg:py-24 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         {/* Header */}
-        <h2 className="text-3xl font-heading text-primary sm:text-4xl lg:text-5xl mb-4 text-center">
-          Explore Our <span className="text-accent">{projectType}</span> Projects
+        <h2 className=" pt-8 text-3xl font-heading font-bold text-primary sm:text-4xl lg:text-5xl mb-4 text-center">
+          Explore Our <span className="text-accent">{projectType}</span>{" "}
+          Projects
         </h2>
         <p className="mb-8 text-lg font-body text-primary text-center max-w-2xl mx-auto">
           Discover the artistry and innovation in our architectural endeavors.
@@ -88,9 +94,9 @@ const Projects = () => {
             onChange={(e) => setFilterType(e.target.value)}
           >
             <option value="ALL">All Projects</option>
-            <option value="COMPLETED">Completed</option>
-            <option value="ONGOING">Ongoing</option>
-            <option value="UPCOMING">Upcoming</option>
+            <option value="ARCHITECTURE">Architecture</option>
+            <option value="URBAN">Urban Planning</option>
+            <option value="INTERIOR">Interior Design</option>
           </select>
         </div>
 
@@ -104,7 +110,10 @@ const Projects = () => {
                   project={{
                     ...project,
                     id: project._id, // Map _id to id for routing
-                    imageUrl: project.images && project.images.length > 0 ? project.images[0].url : "https://via.placeholder.com/150", // Use first image
+                    imageUrl:
+                      project.images && project.images.length > 0
+                        ? project.images[0].url
+                        : "https://via.placeholder.com/150", // Use first image
                     index, // For ScrollReveal stagger
                   }}
                 />

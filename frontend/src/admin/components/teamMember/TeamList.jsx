@@ -1,5 +1,6 @@
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa"; // Import icons for buttons
+import { motion } from "framer-motion";
 
 const TeamList = ({ team, onEdit, onDelete }) => {
   return (
@@ -48,18 +49,22 @@ const TeamList = ({ team, onEdit, onDelete }) => {
 
           {/* Card Footer: Buttons */}
           <div className="p-4 bg-secondary border-t border-border flex justify-center gap-4">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => onEdit(member)}
               className="px-4 py-2 bg-accent text-light rounded-md hover:bg-primary transition-colors duration-200 font-body flex items-center gap-2"
             >
               <FaEdit /> Edit
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => onDelete(member._id)}
               className="px-4 py-2 bg-red-500 text-light rounded-md hover:bg-red-600 transition-colors duration-200 font-body flex items-center gap-2"
             >
               <FaTrash /> Delete
-            </button>
+            </motion.button>
           </div>
         </div>
       ))}

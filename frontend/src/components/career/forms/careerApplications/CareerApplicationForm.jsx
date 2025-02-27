@@ -20,6 +20,7 @@ const CareerApplicationForm = () => {
   })
 
   useEffect(() => {
+    window.scrollTo(0,0)
     const sr = ScrollReveal({
       reset: false,
       duration: 800,

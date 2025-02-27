@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const CareerCard = ({ career, onUpdate, onDelete }) => {
   return (
@@ -28,17 +29,17 @@ const CareerCard = ({ career, onUpdate, onDelete }) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => onUpdate(career)}
-          className="px-3 py-1 font-body text-accent border border-accent rounded-md hover:bg-accent hover:text-light transition-colors duration-200"
+          className="px-4 py-2 bg-accent text-light rounded-md hover:bg-primary transition-colors duration-200 font-body flex items-center gap-2"
         >
-          Update
+          <FaEdit /> Edit
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => onDelete(career._id)}
-          className="px-3 py-1 text-sm font-body text-red-600 border border-red-600 rounded-md hover:bg-red-600 hover:text-light transition-colors duration-200"
+          className="px-4 py-2 bg-red-500 text-light rounded-md hover:bg-red-600 transition-colors duration-200 font-body flex items-center gap-2"
         >
-          Delete
+          <FaTrash /> Delete
         </motion.button>
       </div>
     </motion.div>

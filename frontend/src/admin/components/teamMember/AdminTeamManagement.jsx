@@ -5,10 +5,14 @@ import SuccessModal from "../blogs/SuccessModal";
 import LoadingSpinner from "../../../components/common/LoadingSpinner";
 import TeamList from "./TeamList";
 import TeamForm from "./TeamForm";
+import ConfirmDeleteModal from "./ConfirmDeleteModal"; // New import
+import { FaSearch } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const AdminTeamManagement = () => {
   const [team, setTeam] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); // New state for search input
+  const [filteredTeam, setFilteredTeam] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [formData, setFormData] = useState({
     image: null,
     name: "",
@@ -19,6 +23,9 @@ const AdminTeamManagement = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [editId, setEditId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [deleteName, setDeleteName] = useState("");
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,6 +40,7 @@ const AdminTeamManagement = () => {
     try {
       const response = await teamService.getAll();
       setTeam(response.data);
+      setFilteredTeam(response.data);
     } catch (err) {
       console.error("Error fetching team members:", err);
     } finally {
@@ -40,13 +48,18 @@ const AdminTeamManagement = () => {
     }
   };
 
-  // Filter team based on search query
-  const filteredTeam = team.filter(
-    (member) =>
-      member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      member.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      member.desc.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    const filtered = team.filter((member) =>
+      [member.name, member.title, member.desc].some((field) =>
+        field.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+    setFilteredTeam(filtered);
+  }, [searchQuery, team]);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -207,14 +220,22 @@ const AdminTeamManagement = () => {
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this team member?")) {
-      try {
-        await teamService.delete(id);
-        setSuccessMessage("Team member deleted successfully!");
-      } catch (err) {
-        console.error("Error deleting team member:", err);
-      }
+  const handleDelete = (id, name) => {
+    setDeleteId(id);
+    setDeleteName(name);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await teamService.delete(deleteId);
+      setSuccessMessage("Team member deleted successfully!");
+    } catch (err) {
+      console.error("Error deleting team member:", err);
+    } finally {
+      setIsDeleteModalOpen(false);
+      setDeleteId(null);
+      setDeleteName("");
     }
   };
 
@@ -242,49 +263,49 @@ const AdminTeamManagement = () => {
     });
     setImagePreview(null);
     setEditId(null);
+    setIsModalOpen(false);
     setErrors({});
   };
 
-  if (loading) {
+  if (loading)
     return (
       <div className="text-center text-primary font-body py-4">
         <LoadingSpinner />
       </div>
     );
-  }
 
   return (
-    <div className="py-16 bg-secondary min-h-screen px-4 sm:px-6 lg:px-8">
+    <div className="p-6 ">
       <h2 className="text-2xl font-heading font-bold text-primary mb-6">
         Manage Team Members
       </h2>
-      <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
-        <input
-          type="text"
-          placeholder="Search by name, title, or description..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full px-4  rounded-md border border-border bg-light text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-        />
-        <button
-          onClick={openAddModal}
-          className="px-4 py-2 bg-accent inline text-light rounded-md hover:bg-primary transition-colors font-body font-medium"
-        >
-          +Add
-        </button>
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+        <div className="relative w-full">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Search team members..."
+            className="w-full pl-10 pr-4 py-2 bg-secondary border border-border rounded-md font-body text-primary focus:outline-none focus:ring-2 focus:ring-accent"
+          />
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+        </div>
       </div>
 
-      {filteredTeam.length > 0 ? (
-        <TeamList
-          team={filteredTeam}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
-      ) : 
-        <p className="col-span-full text-center text-primary font-body text-lg">
-          No Team Member.
-        </p>
-      }
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={openAddModal}
+        className="fixed bottom-6 right-6 px-4 py-2 bg-accent text-light rounded-md hover:bg-primary transition-colors font-body font-medium"
+      >
+        + Add New Team
+      </motion.button>
+
+      <TeamList
+        team={filteredTeam}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
 
       {isModalOpen && (
         <BlogFormModal onClose={() => setIsModalOpen(false)}>
@@ -306,8 +327,15 @@ const AdminTeamManagement = () => {
         </BlogFormModal>
       )}
 
+      <ConfirmDeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={confirmDelete}
+        memberName={deleteName}
+      />
+
       <SuccessModal
-        isOpen={successMessage}
+        isOpen={!!successMessage}
         text={successMessage}
         onClose={() => {
           setSuccessMessage(null);

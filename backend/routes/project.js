@@ -34,7 +34,6 @@ const upload = multer({
 router.post("/", upload.array("images", 50), async (req, res) => {
   const { name, role, description, type } = req.body;
   try {
-
     if (!name || !role || !description || !type) {
       return res.status(400).json({
         message: "All text fields (name, role, description, type) are required",

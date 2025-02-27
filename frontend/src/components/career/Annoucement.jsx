@@ -3,6 +3,7 @@ import {Outlet, Link, useLocation} from "react-router-dom"
 import OpportunityCard from "./OpportunityCard" // Adjust path
 import careerService from "../../services/careers-service"
 import ScrollReveal from "scrollreveal"
+import LoadingSpinner from "../common/LoadingSpinner"
 
 // Combined Carrier component with Announcement functionality
 const Annoucement = () => {
@@ -53,7 +54,7 @@ const Annoucement = () => {
   const isBaseRoute = location.pathname === "/career"
 
   if (error) return <div>{error.message}</div>
-  if (loading) return <div>Loading...</div>
+  if (loading) return <div><LoadingSpinner/></div>
 
   return (
     <section className='py-28 bg-secondary min-h-screen'>

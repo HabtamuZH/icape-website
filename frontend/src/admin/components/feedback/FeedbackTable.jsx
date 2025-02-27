@@ -1,11 +1,9 @@
-/* eslint-disable react/prop-types */
-import { FaTrash } from "react-icons/fa";
+// import { FaTrash } from "react-icons/fa";
 
 const FeedbackTable = ({
   currentFeedback,
   indexOfFirstItem,
   handleRowClick,
-  handleDeleteFeedback,
 }) => {
   return (
     <div className="bg-light rounded-xl shadow-lg border border-border overflow-x-auto p-6">
@@ -17,7 +15,6 @@ const FeedbackTable = ({
             <th className="py-4 px-6 font-body font-semibold ">Email</th>
             <th className="py-4 px-6 font-body font-semibold ">Message</th>
             <th className="py-4 px-6 font-body font-semibold ">Date</th>
-            {/* <th className="py-4 px-6 font-body font-semibold ">Actions</th> */}
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
@@ -40,17 +37,6 @@ const FeedbackTable = ({
               </td>
               <td className="px-4 py-4 text-sm  font-body">
                 {new Date(item.date).toLocaleDateString()}
-              </td>
-              <td className="px-4 py-4 text-sm  font-body">
-                <button
-                  className="text-red-500 hover:text-red-700 mr-2"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteFeedback(item._id);
-                  }}
-                >
-                  {/* <FaTrash /> */}
-                </button>
               </td>
             </tr>
           ))}

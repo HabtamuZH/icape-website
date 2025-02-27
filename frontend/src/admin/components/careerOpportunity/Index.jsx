@@ -8,12 +8,16 @@ import LoadingSpinner from "../../../components/common/LoadingSpinner";
 import CareerFormModal from "./CareerFormModal";
 import UpdateCareerForm from "./UpdateCareerForm";
 import PostCareerForm from "./PostCareerForm";
+import ConfirmDeleteCareerModal from "./ConfirmDeleteCareerModal"; // New import
 
 const CareerDashboard = () => {
   const [careers, setCareers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCareer, setSelectedCareer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [deleteTitle, setDeleteTitle] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
 
@@ -33,12 +37,22 @@ const CareerDashboard = () => {
     }
   };
 
-  const handleDeleteCareer = async (id) => {
+  const handleDeleteCareer = (id, title) => {
+    setDeleteId(id);
+    setDeleteTitle(title);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDeleteCareer = async () => {
     try {
-      await careerService.delete(id);
-      setCareers((prev) => prev.filter((career) => career._id !== id));
+      await careerService.delete(deleteId);
+      setCareers((prev) => prev.filter((career) => career._id !== deleteId));
     } catch (error) {
       console.error("Error deleting career:", error);
+    } finally {
+      setIsDeleteModalOpen(false);
+      setDeleteId(null);
+      setDeleteTitle("");
     }
   };
 
@@ -51,19 +65,6 @@ const CareerDashboard = () => {
     setSelectedCareer(null);
     setIsModalOpen(true);
   };
-
-  // const handleToggleActive = async (id, currentStatus) => {
-  //   try {
-  //     const updatedCareer = await careerService.update(id, {
-  //       isActive: !currentStatus,
-  //     });
-  //     setCareers((prev) =>
-  //       prev.map((career) => (career._id === id ? updatedCareer.data : career))
-  //     );
-  //   } catch (error) {
-  //     console.error("Error toggling career status:", error);
-  //   }
-  // };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -107,7 +108,7 @@ const CareerDashboard = () => {
                 key={career._id}
                 career={career}
                 onUpdate={handleUpdateCareer}
-                onDelete={handleDeleteCareer}
+                onDelete={handleDeleteCareer} // Pass id and title
               />
             ))
           ) : (
@@ -115,7 +116,6 @@ const CareerDashboard = () => {
               No Careers found.
             </p>
           )}
-          )
         </div>
         <div className="fixed bottom-4 right-4">
           <PostNewCareerButton onClick={handleAddNewCareer} />
@@ -133,6 +133,12 @@ const CareerDashboard = () => {
           )}
         </CareerFormModal>
       )}
+      <ConfirmDeleteCareerModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={confirmDeleteCareer}
+        careerTitle={deleteTitle}
+      />
     </section>
   );
 };

@@ -1,13 +1,14 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import SearchBar from "./SearchBar";
+import React, { useState, useEffect } from "react";
 import FeedbackTable from "./FeedbackTable";
+import SearchBar from "./SearchBar";
 import Pagination from "./Pagination";
 import FeedbackModal from "./FeedbackModal";
 import LoadingSpinner from "../../../components/common/LoadingSpinner";
 import ErrorMessage from "./ErrorMessage";
 import feedbackService from "../../../services/feedback-service";
 import useFeedback from "../../hooks/useFeedbacks";
+// import ConfirmDeleteFeedbackModal from "./ConfirmDeleteFeedbackModal"; // New import
+import { motion } from "framer-motion";
 
 const FeedbackDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -15,8 +16,11 @@ const FeedbackDashboard = () => {
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyData, setReplyData] = useState({ subject: "", message: "" });
-  const { feedbacks, setFeedbacks, loading, error, setError, reload } = useFeedback();
-
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [deleteName, setDeleteName] = useState("");
+  const { feedbacks, setFeedbacks, loading, error, setError, reload } =
+    useFeedback();
   const itemsPerPage = 5;
 
   // Filter feedback based on search query
@@ -38,22 +42,32 @@ const FeedbackDashboard = () => {
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleDeleteFeedback = async (id) => {
-    try {
-      await feedbackService.delete(id);
-      setFeedbacks((prev) => prev.filter((item) => item._id !== id));
-      if (selectedFeedback && selectedFeedback._id === id) closeDetails();
-    } catch (err) {
-      setError(err.message);
-    }
+  const handleDeleteFeedback = (id, name) => {
+    setDeleteId(id);
+    setDeleteName(name);
+    setIsDeleteModalOpen(true);
   };
+
+  // const confirmDeleteFeedback = async () => {
+  //   try {
+  //     await feedbackService.delete(deleteId);
+  //     setFeedbacks((prev) => prev.filter((item) => item._id !== deleteId));
+  //     if (selectedFeedback && selectedFeedback._id === deleteId) closeDetails();
+  //   } catch (err) {
+  //     setError(err.message);
+  //   } finally {
+  //     setIsDeleteModalOpen(false);
+  //     setDeleteId(null);
+  //     setDeleteName("");
+  //   }
+  // };
 
   const handleMarkAsRead = async (id) => {
     try {
       const updatedFeedback = feedbacks.find((item) => item._id === id);
       if (!updatedFeedback.isRead) {
         await feedbackService.update(id, { isRead: true });
-        reload();
+        reload(); // Trigger reload to fetch updated data
       }
     } catch (error) {
       console.error("Error marking feedback as read:", error);
@@ -101,7 +115,7 @@ const FeedbackDashboard = () => {
           </motion.button>
         </div>
 
-        <div className="">
+        <div>
           <FeedbackTable
             currentFeedback={currentFeedback}
             indexOfFirstItem={indexOfFirstItem}
