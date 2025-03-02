@@ -15,10 +15,10 @@ const UrbanPlanning = () => {
     });
 
     // Text section animations
-    sr.reveal(".line-detail", { origin: "top", distance: "30px", delay: 200 });
-    sr.reveal(".section-heading", { origin: "bottom", distance: "50px", delay: 300 });
-    sr.reveal(".section-text", { origin: "bottom", distance: "50px", delay: 400 });
-    sr.reveal(".discover-button", { origin: "bottom", distance: "30px", delay: 500 });
+    sr.reveal(".line-detail", { origin: "top", distance: "30px", delay: 100 });
+    sr.reveal(".section-heading", { origin: "bottom", distance: "50px", delay: 200 });
+    sr.reveal(".section-text", { origin: "bottom", distance: "50px", delay: 300 });
+    sr.reveal(".discover-button", { origin: "bottom", distance: "30px", delay: 400 });
 
     // Image animation
     sr.reveal(".image-section", { origin: "bottom", distance: "50px", delay: 200 });

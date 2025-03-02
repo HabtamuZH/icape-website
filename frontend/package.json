@@ -33,7 +33,9 @@
     "react-scripts": "^5.0.1",
     "react-scroll": "^1.9.3",
     "react-toastify": "^11.0.3",
+    "recharts": "^2.15.1",
     "scrollreveal": "^4.0.9",
+    "styled-components": "^6.1.15",
     "swiper": "^11.2.2"
   },
   "devDependencies": {

@@ -1,61 +1,61 @@
-import { useEffect } from 'react';
-import { FaQuoteLeft, FaUserCircle } from 'react-icons/fa';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Pagination , Autoplay } from 'swiper/modules'; // Import modules from 'swiper/modules'
-import 'swiper/css'; // Import Swiper core styles
-import 'swiper/css/effect-coverflow'; // Import Swiper coverflow styles
-import 'swiper/css/pagination'; // Import Swiper pagination styles
+import {useEffect} from "react"
+import {FaQuoteLeft, FaUserCircle} from "react-icons/fa"
+import {Swiper, SwiperSlide} from "swiper/react"
+import {EffectCoverflow, Pagination, Autoplay} from "swiper/modules" // Import modules from 'swiper/modules'
+import "swiper/css" // Import Swiper core styles
+import "swiper/css/effect-coverflow" // Import Swiper coverflow styles
+import "swiper/css/pagination" // Import Swiper pagination styles
 
 const Testimonials = () => {
   const testimonials = [
     {
-      name: 'Martin Escobar',
-      title: 'Founder of Meta',
+      name: "Martin Escobar",
+      title: "Founder of Meta",
       quote:
-        'We had the privilege of working with this incredible team, and their expertise brought our vision to life with precision and creativity. Highly recommend!',
+        "We had the privilege of working with this incredible team, and their expertise brought our vision to life with precision and creativity. Highly recommend!"
     },
     {
-      name: 'Michael Worin',
-      title: 'Product Designer',
+      name: "Michael Worin",
+      title: "Product Designer",
       quote:
-        'This team helped us transform our ideas into a tangible product. Their attention to detail and creative approach made all the difference!',
+        "This team helped us transform our ideas into a tangible product. Their attention to detail and creative approach made all the difference!"
     },
     {
-      name: 'Michael Worin',
-      title: 'Product Designer',
+      name: "Michael Worin",
+      title: "Product Designer",
       quote:
-        'This team helped us transform our ideas into a tangible product. Their attention to detail and creative approach made all the difference!',
+        "This team helped us transform our ideas into a tangible product. Their attention to detail and creative approach made all the difference!"
     },
     {
-      name: 'Simon Andrew',
-      title: 'Software Engineer',
+      name: "Simon Andrew",
+      title: "Software Engineer",
       quote:
-        'Their innovative solutions and commitment to excellence exceeded our expectations. Truly a pleasure to collaborate with such a professional team.',
+        "Their innovative solutions and commitment to excellence exceeded our expectations. Truly a pleasure to collaborate with such a professional team."
     },
     {
-      name: 'Michael Worin',
-      title: 'Product Designer',
+      name: "Michael Worin",
+      title: "Product Designer",
       quote:
-        'This team helped us transform our ideas into a tangible product. Their attention to detail and creative approach made all the difference!',
-    },
-  ];
+        "This team helped us transform our ideas into a tangible product. Their attention to detail and creative approach made all the difference!"
+    }
+  ]
 
   return (
-    <section className='relative py-14 bg-primary/10'>
+    <section className='relative py-14 bg-secondary'>
       <div className='relative z-10 max-w-screen-xl mx-auto px-4 md:px-8'>
         {/* Section Heading */}
         <div className='max-w-xl sm:text-center md:mx-auto'>
-          <h3 className='testimonial-heading text-secondary text-3xl font-bold sm:text-4xl'>
+          <h3 className='testimonial-heading text-primary text-3xl font-bold sm:text-4xl'>
             Hear from our customers
           </h3>
-          <p className='mt-3 text-secondary text-lg'>
+          <p className='mt-3 text-primary text-lg'>
             Our clients trust us with their visions, and we deliver with
             excellence. Here's what they have to say.
           </p>
         </div>
 
         {/* Swiper Testimonials Slider */}
-        <div className='mt-12'>
+        <div className='mt-12 mb-16'>
           <Swiper
             effect='coverflow'
             grabCursor={true}
@@ -121,6 +121,6 @@ const Testimonials = () => {
       <div className='absolute top-0 w-full h-full'></div>
     </section>
   )
-};
+}
 
-export default Testimonials;
+export default Testimonials

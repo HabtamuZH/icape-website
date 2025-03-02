@@ -1,129 +1,217 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, Pagination, Navigation } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 
 const ProjectDetails = () => {
   const location = useLocation();
-  const { project } = location.state || {}; // Access the passed project data
-  const [selectedImage, setSelectedImage] = useState(null); // State for modal
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal open/close
+  const { project } = location.state || {};
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const sliderRef = useRef(null);
 
   if (!project) {
-    return <div>Project not found.</div>;
+    return <div className="text-center text-light text-2xl py-20">Project not found.</div>;
   }
 
-  // Function to open modal with selected image
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const openModal = (image) => {
     setSelectedImage(image);
     setIsModalOpen(true);
   };
 
-  // Function to close modal
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedImage(null);
   };
 
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === project.images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? project.images.length - 1 : prevIndex - 1
+    );
+  };
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index);
+  };
+
+  // Dragging Handlers
+  const handleDragStart = (e) => {
+    setIsDragging(true);
+    const clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+    setStartX(clientX);
+    setDragOffset(0);
+    if (!sliderRef.current) return;
+    const rect = sliderRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const width = rect.width;
+    const parallaxOffset = (x / width - 0.5) * 20; // Max 20px shift
+    sliderRef.current.style.setProperty("--parallax-offset", `${parallaxOffset}px`);
+  };
+
+  const handleDragMove = (e) => {
+    if (!isDragging) return;
+    const clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+    const offset = clientX - startX;
+    setDragOffset(offset);
+  };
+
+  const handleDragEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    const threshold = 50; // Minimum drag distance to trigger slide change
+    if (Math.abs(dragOffset) > threshold) {
+      if (dragOffset > 0) prevSlide();
+      else nextSlide();
+    }
+    setDragOffset(0); // Reset offset after drag
+  };
+
+  // // Parallax Effect Handler
+  // const handleMouseMove = (e) => {
+
+  // };
+
   return (
     <div
       className="relative min-h-screen"
       style={{
-        backgroundImage: `url(${project.images[0]})`,
+        backgroundImage: `url(${project.images[0]?.url || "https://via.placeholder.com/150"})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
       {/* Background Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-90"></div>
+      <div className="absolute inset-0 bg-black bg-opacity-85"></div>
 
       {/* Content Container */}
-      <div className="relative z-10 flex flex-col items-center justify-evenly md:justify-center py-12">
+      <div className="relative z-10 flex flex-col items-center py-12">
         {/* Project Title */}
         <div className="w-full pt-12 px-6 flex flex-col items-center justify-center">
-          <h1 className="text-4xl font-heading font-bold text-light bg-opacity-50 px-4 py-2">
+          <h1 className="text-4xl md:text-5xl font-heading font-bold text-light bg-accent/20 px-6 py-3 rounded-lg shadow-md">
             {project.name.toUpperCase()}
           </h1>
         </div>
 
-          {/* Image Slideshow Section */}
-          <div className="w-full h-3/5  px-6">
-          <Swiper
-            effect={"coverflow"}
-            grabCursor={true}
-            centeredSlides={true}
-            loop={true}
-            slidesPerView={"auto"}
-            coverflowEffect={{
-              rotate: 0,
-              stretch: 0,
-              depth: 100,
-              modifier: 1.5,
-              slideShadows: true,
-            }}
-            pagination={{ el: ".swiper-pagination", clickable: true }}
-            navigation={{
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
-              clickable: true,
-            }}
-            modules={[EffectCoverflow, Pagination, Navigation]}
-            className="swiper_container w-full md:w-3/5"
+        {/* Custom 3D Slider Section */}
+        <div className="w-full px-4 sm:px-6 py-12">
+          <div
+            className="relative w-full max-w-4xl mx-auto perspective-1000"
+            ref={sliderRef}
+            onMouseMove={handleDragMove}
+            onMouseDown={handleDragStart}
+            // onMouseMove={handleDragMove}
+            onMouseUp={handleDragEnd}
+            onMouseLeave={handleDragEnd}
+            onTouchStart={handleDragStart}
+            onTouchMove={handleDragMove}
+            onTouchEnd={handleDragEnd}
           >
-            {project.images.map((image, index) => (
-              <SwiperSlide key={index}>
-                <img
-                  src={image}
-                  alt={`${project.name} - Image ${index + 1}`}
-                  className="w-full md:w-3/5 h-3/5 object-cover py-2 rounded-xl shadow-lg cursor-pointer transition-transform duration-300 scale-[90%] hover:scale-95"
-                  onClick={() => openModal(image)}
-                />
-              </SwiperSlide>
-            ))}
+            {/* Slider Container */}
+            <div className="relative h-[350px] md:h-[450px] flex justify-center items-center overflow-hidden">
+              {project.images.map((image, index) => {
+                const isActive = index === currentIndex;
+                const offset = index - currentIndex;
+                const rotateY = offset * -25; // 3D rotation angle
+                const translateZ = isActive ? 100 : -100; // Depth in 3D space
 
-            {/* Slider Controls */}
-            <div className="slider-controler mt-8">
-              <div className="swiper-button-prev slider-arrow text-white hover:text-accent transition-colors">
-                <ion-icon name="arrow-back-outline"></ion-icon>
-              </div>
-              <div className="swiper-button-next slider-arrow text-white hover:text-accent transition-colors">
-                <ion-icon name="arrow-forward-outline"></ion-icon>
-              </div>
-              <div className="swiper-pagination"></div>
+                return (
+                  <div
+                    key={index}
+                    className={`absolute w-[300px] sm:w-[400px] md:w-[500px] h-[200px] sm:h-[250px] md:h-[300px] transition-all duration-700 ease-in-out transform ${
+                      isActive
+                        ? "scale-100 opacity-100 z-10"
+                        : "scale-75 opacity-40 z-0"
+                    }`}
+                    style={{
+                      transform: `translateX(${offset * 100 + (isDragging ? dragOffset / 5 : 0)}%) rotateY(${rotateY}deg) translateZ(${translateZ}px) translateX(var(--parallax-offset, 0px))`,
+                    }}
+                  >
+                    <img
+                      src={image.url}
+                      alt={`${project.name} - Image ${index + 1}`}
+                      className="w-full h-full object-contain rounded-lg shadow-2xl cursor-pointer transition-transform duration-300 hover:scale-105"
+                      onClick={() => openModal(image.url)}
+                      draggable={false} // Prevent native dragging
+                    />
+                  </div>
+                );
+              })}
             </div>
-          </Swiper>
+
+            {/* Navigation Arrows */}
+            <div className="absolute inset-0 flex justify-between items-center px-6 pointer-events-none">
+              <button
+                onClick={prevSlide}
+                className="pointer-events-auto bg-accent/70 p-4 rounded-full text-light hover:bg-accent transition-all duration-300 transform hover:scale-110 hover:shadow-lg"
+              >
+                <FaArrowLeft size={20} />
+              </button>
+              <button
+                onClick={nextSlide}
+                className="pointer-events-auto bg-accent/70 p-4 rounded-full text-light hover:bg-accent transition-all duration-300 transform hover:scale-110 hover:shadow-lg"
+              >
+                <FaArrowRight size={20} />
+              </button>
+            </div>
+
+            {/* Pagination Dots */}
+            <div className="flex justify-center gap-3 mt-8">
+              {project.images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={`w-4 h-4 rounded-full transition-all duration-300 ${
+                    currentIndex === index
+                      ? "bg-accent scale-125 shadow-md"
+                      : "bg-light/50 hover:bg-light/80"
+                  }`}
+                ></button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Detailed Description Section */}
-        <div className="w-full max-w-6xl p-6 mt-8 bg-light/10 backdrop-blur-sm rounded-lg">
-          <h2 className="text-2xl font-heading font-bold text-light mb-4">
+        <div className="w-full max-w-5xl p-6 md:p-8 mt-8 bg-light/10 backdrop-blur-md rounded-xl shadow-lg">
+          <h2 className="text-2xl md:text-3xl font-heading font-bold text-light mb-4">
             Project Details
           </h2>
-          <p className="text-lg font-body text-light">{project.description}</p>
+          <p className="text-lg md:text-xl font-body text-light leading-relaxed">
+            {project.description}
+          </p>
         </div>
       </div>
 
       {/* Modal for Image Display */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95"
           onClick={closeModal}
         >
-          <div className="relative max-w-4xl max-h-[90vh] overflow-hidden">
+          <div className="relative max-w-5xl max-h-[90vh] overflow-hidden rounded-lg shadow-2xl">
             <img
               src={selectedImage}
               alt="Selected Project Image"
-              className="w-full h-full object-contain rounded-lg"
+              className="w-full h-full object-contain"
             />
             <button
-              className="absolute top-4 right-4 text-light text-2xl hover:text-accent transition-colors"
+              className="absolute top-4 right-4 text-light text-3xl hover:text-accent transition-colors duration-300"
               onClick={closeModal}
             >
-              &times;
+              ×
             </button>
           </div>
         </div>

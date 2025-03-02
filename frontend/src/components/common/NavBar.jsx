@@ -11,21 +11,13 @@ const Navbar = () => {
 
   // Navigation links configuration
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Services", path: "/services" },
-    { name: "Carrier", path: "/carrier" },
-    {
-      name: "Projects",
-      dropdown: [
-        { name: "Completed", path: "/projects/completed" },
-        { name: "Ongoing", path: "/projects/ongoing" },
-        { name: "Upcoming", path: "/projects/upcoming" },
-        { name: "Admin", path: "/admin" },
-      ],
-    },
-    { name: "Blogs", path: "/blog" },
-  ];
+    {name: "Home", path: "/"},
+    {name: "About", path: "/about"},
+    {name: "Services", path: "/services"},
+    {name: "Career", path: "/career"},
+    {name: "Projects", path: "/projects"},
+    {name: "Blogs", path: "/blog"}
+  ]
 
   // Close dropdowns when clicking outside
   const handleClickOutside = (event) => {
@@ -70,10 +62,27 @@ const Navbar = () => {
     </Link>
       {/* Hamburger Menu (Mobile) */}
       <button
-        className="lg:hidden text-white text-2xl"
+        className="lg:hidden text-accent text-2xl focus:outline-none"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
       >
-        {isMenuOpen ? <IoClose /> : <FaBars />}
+        <span
+          className={`inline-block transition-all duration-300 ease-in-out ${
+            isMenuOpen
+              ? "rotate-90 opacity-0 scale-75"
+              : "rotate-0 opacity-100 scale-100"
+          }`}
+        >
+          <FaBars className={isMenuOpen ? "hidden" : "block"} />
+        </span>
+        <span
+          className={`inline-block transition-all duration-300 ease-in-out absolute  right-6 scale-150 ${
+            isMenuOpen
+              ? "rotate-0 opacity-100 scale-100"
+              : "-rotate-90 opacity-0 scale-75"
+          }`}
+        >
+          <IoClose className={isMenuOpen ? "block" : "hidden"} />
+        </span>
       </button>
 
       {/* Navigation (Desktop & Mobile) */}
@@ -84,35 +93,7 @@ const Navbar = () => {
       >
         <ul className="lg:flex space-y-4 lg:space-y-0 lg:space-x-6 w-full lg:w-auto">
           {navLinks.map((link, index) =>
-            link.dropdown ? (
-              <li
-                key={index}
-                className="relative text-black bg-gray-100 rounded-md px-2 py-1"
-                onMouseEnter={() => setActiveDropdown(link.name)}
-                onMouseLeave={() => setActiveDropdown(null)}
-                onClick={() =>
-                  setActiveDropdown(activeDropdown === link.name ? null : link.name)
-                }
-              >
-                <button className="w-full flex justify-between items-center">
-                  {link.name} ▾
-                </button>
-                {activeDropdown === link.name && (
-                  <ul className="absolute left-0 top-6 mt-2 w-48 bg-white shadow-lg rounded-lg p-2 z-50 border border-gray-200">
-                    {link.dropdown.map((subLink, subIndex) => (
-                      <li key={subIndex}>
-                        <Link
-                          to={subLink.path}
-                          className="block px-2 py-1 hover:bg-gray-300 active:bg-gray-100 text-gray-700 rounded-md transition-colors duration-300"
-                        >
-                          {subLink.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ) : (
+            (
               <li key={index}>
                 <Link
                   to={link.path}
@@ -129,6 +110,7 @@ const Navbar = () => {
         {/* Contact Button (Mobile & Desktop) */}
         { isMenuOpen ? <Link
         to="/contactus"
+        onClick={() => setIsMenuOpen(false)}
         className="btn btn-primary px-6 py-2 text-white font-semibold border-none rounded-full bg-accent hover:bg-primary transition duration-300 w-full lg:w-auto"
         >
         Contact Us
@@ -137,6 +119,7 @@ const Navbar = () => {
       <div className="hidden lg:block ">
         <Link
           to="/contactus"
+          
           className="btn btn-primary px-6 py-2 text-white font-semibold border-none rounded-full bg-accent hover:bg-primary transition duration-300 "
         >
           Contact Us

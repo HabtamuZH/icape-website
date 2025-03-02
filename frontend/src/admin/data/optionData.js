@@ -1,61 +1,61 @@
-import {FiHome, FiSettings} from "react-icons/fi" // Feather Icons
+import {FiHome} from "react-icons/fi" // Feather Icons
 import {
   FaPen,
   FaProjectDiagram,
   FaUser,
   FaBriefcase,
   FaEnvelopeOpenText
-} from "react-icons/fa" // Font Awesome
-import {IoMdNotifications} from "react-icons/io" // Ionicons
-import {MdFeedback} from "react-icons/md" // Material Design
+} from "react-icons/fa" 
+import {MdFeedback} from "react-icons/md" 
 
 const optionsData = [
   {
     Icon: FiHome,
     title: "Dashboard",
-    link: "/admin"
+    link: "/admin",
   },
   {
     Icon: FaUser,
     title: "Profile",
-    link: "profile"
+    link: "profile",
   },
   {
     Icon: FaProjectDiagram,
-    title: "Post Projects",
-    link: "projects-form"
+    title: "Projects",
+    link: "projects",
   },
   {
     Icon: FaPen,
-    title: "Post Blogs",
-    link: "blogs-post"
+    title: "Blogs",
+    link: "blogs-post",
   },
   {
     Icon: MdFeedback,
-    title: "View Feedbacks",
-    link: "view-feedbacks"
+    title: "Feedbacks",
+    link: "view-feedbacks",
+    notify: "",
   },
   {
     Icon: FaBriefcase, // Changed from MdFeedback to FaBriefcase for career-related context
-    title: "Post Career Opportunity",
-    link: "career-Post"
+    title: "Career Opportunity",
+    link: "opportunity-form",
   },
   {
     Icon: FaEnvelopeOpenText, // Changed from MdFeedback to FaEnvelopeOpenText for applications
-    title: "View Applications Form",
-    link: "application-views"
+    title: "Applicants",
+    link: "application-views",
+    notify: "",
   },
   {
-    Icon: IoMdNotifications,
-    title: "Notifications",
-    link: "notifications",
-    notify: 5 // Kept the notification count
+    Icon: FaEnvelopeOpenText,
+    title: "Teams",
+    link: "teams",
   },
   // {
   //   Icon: FiSettings,
   //   title: "Settings",
   //   link: "admin-setting"
   // }
-]
+];
 
 export default optionsData

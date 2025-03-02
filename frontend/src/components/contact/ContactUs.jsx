@@ -9,6 +9,7 @@ import {
   MessageCircle,
   Send,
 } from "lucide-react";
+import feedbackService from "../../services/feedback-service";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ const Contact = () => {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(null);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -26,30 +28,46 @@ const Contact = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formEndpoint = "https://formsubmit.co/el/nidica"; // Email endpoint
-    const response = await fetch(formEndpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-    if (response.ok) {
-      setSubmitted(true);
-      setFormData({ name: "", email: "", message: "" });
-    }
+
+    feedbackService
+      .create(formData)
+      .then(() => {
+        setSubmitted(true);
+        setFormData({ name: "", email: "", message: "" });
+        setError(null);
+      })
+      .catch((err) => {
+        console.log(err.error);
+        setError(err.message);
+      });
   };
 
   useEffect(() => {
     const sr = ScrollReveal({
-      reset: true, // One-time animation
+      reset: true,
       duration: 800,
       easing: "ease-out",
     });
 
-    sr.reveal(".contact-section", { origin: "bottom", distance: "40px", delay: 200 });
-    sr.reveal(".contact-card", { origin: "bottom", distance: "30px", delay: 300, interval: 200 });
-    sr.reveal(".map-frame", { origin: "bottom", distance: "40px", delay: 400, scale: 0.95 });
+    sr.reveal(".contact-section", {
+      origin: "bottom",
+      distance: "40px",
+      delay: 200,
+    });
+    sr.reveal(".contact-card", {
+      origin: "bottom",
+      distance: "30px",
+      delay: 300,
+      interval: 200,
+    });
+    sr.reveal(".map-frame", {
+      origin: "bottom",
+      distance: "40px",
+      delay: 400,
+      scale: 0.95,
+    });
 
-    return () => sr.destroy(); // Cleanup
+    return () => sr.destroy();
   }, []);
 
   return (
@@ -62,7 +80,8 @@ const Contact = () => {
             Contact Us
           </h2>
           <p className="text-base sm:text-lg font-body text-primary/80">
-            We’re here to connect with you! Reach out via phone, email, or visit our office.
+            We’re here to connect with you! Reach out via phone, email, or visit
+            our office.
           </p>
           <div className="space-y-4">
             {[
@@ -84,11 +103,12 @@ const Contact = () => {
                 className="flex items-center space-x-3 text-primary/80 hover:text-accent transition duration-300"
               >
                 {item.icon}
-                <span className="text-base font-body font-medium">{item.text}</span>
+                <span className="text-base font-body font-medium">
+                  {item.text}
+                </span>
               </div>
             ))}
           </div>
-          {/* Contact Buttons */}
           <div className="mt-6 flex flex-col sm:flex-row gap-4">
             {[
               {
@@ -151,6 +171,7 @@ const Contact = () => {
                 className="w-full p-3 rounded-lg bg-light text-primary border border-border focus:ring-2 focus:ring-accent outline-none transition duration-300"
                 required
               />
+              {error && <p className="text-red-500 font-body">{error}</p>}
               <button
                 type="submit"
                 className="w-full flex items-center justify-center bg-accent text-primary px-6 py-3 rounded-lg font-body font-semibold text-base shadow-md hover:bg-accent/80 hover:shadow-lg transition-all duration-300"
@@ -162,7 +183,6 @@ const Contact = () => {
         </div>
       </div>
 
-      {/* Google Maps Embed */}
       <div className="w-full max-w-6xl mt-10 h-80 rounded-xl overflow-hidden shadow-lg border border-border map-frame">
         <iframe
           title="Google Maps"

@@ -22,25 +22,25 @@ h {
   font-family: "DM Serif Display";
 }
 
-
- html{
+html {
   scroll-behavior: smooth;
 }
 
-
-
- .navbar-glass{
+.navbar-glass {
   background: rgba(245, 245, 245, 0.6);
-border-radius: 16px;
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(7.9px);
-border: 1px solid rgba(245, 245, 245, 0.23);
- }
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.9px);
+  border: 1px solid rgba(245, 245, 245, 0.23);
+}
 
+.perspective-1000 {
+  perspective: 1000px;
+}
 
- /* Swiper */
+/* Swiper */
 
- .swiper-container {
+.swiper-container {
   width: 100%;
   padding-top: 50px;
   padding-bottom: 50px;

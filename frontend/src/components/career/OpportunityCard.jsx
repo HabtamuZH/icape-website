@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
-import ScrollReveal from "scrollreveal";
+/* eslint-disable react/prop-types */
+
+import { Link } from "react-router-dom";
 
 const OpportunityCard = ({
   title,
@@ -9,7 +10,7 @@ const OpportunityCard = ({
   buttonText,
   buttonLink,
 }) => {
-  // No separate useEffect needed here since it's handled in the parent
+ 
 
   return (
     <div className="opportunity-card bg-light rounded-xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 border border-border">
@@ -31,8 +32,8 @@ const OpportunityCard = ({
           ))}
         </ul>
       )}
-      <a
-        href={buttonLink}
+      <Link
+        to={"/"+buttonLink}
         className="inline-flex items-center px-6 py-3 border border-transparent text-base font-body font-medium rounded-md text-light bg-accent hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent transition-colors duration-200"
       >
         {buttonText}
@@ -49,7 +50,7 @@ const OpportunityCard = ({
             d="M9 5l7 7-7 7"
           />
         </svg>
-      </a>
+      </Link>
     </div>
   );
 };

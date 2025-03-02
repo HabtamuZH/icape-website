@@ -1,29 +1,50 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 const projectSchema = new mongoose.Schema(
   {
-    title: {
+    name: {
       type: String,
-      required: true
+      required: [true, "Project name is required"],
+      trim: true,
+      maxlength: [100, "Project name cannot exceed 100 characters"],
+    },
+    role: {
+      type: String,
+      required: [true, "Project role is required"],
+      trim: true,
+      maxlength: [100, "Role cannot exceed 100 characters"],
     },
     description: {
       type: String,
-      required: true
+      required: [true, "Description is required"],
+      trim: true,
     },
-    category: {
+    type: {
       type: String,
-      required: true
+      required: [true, "Project type is required"],
+      enum: ["architecture", "urban", "interior"],
+      lowercase: true,
     },
-    year: {
-      type: Number,
-      required: true
-    },
-    image: {
-      type: String, // You can store the image URL or path here
-      required: true
-    }
+    images: [
+      {
+        url: {
+          type: String,
+          required: [true, "Image URL is required"],
+        },
+        cloudinaryId: {
+          type: String,
+        },
+      },
+    ],
   },
-  {timestamps: true}
-)
+  {
+    timestamps: true,
+  }
+);
 
-export default mongoose.model("Project", projectSchema)
+projectSchema.pre("save", function (next) {
+  this.updatedAt = Date.now();
+  next();
+});
+
+export default mongoose.model("Project", projectSchema);

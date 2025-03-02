@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
 });
 
 // GET: Fetch all feedback (admin only)   authMiddleware,
-router.get("/",authMiddleware, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const feedback = await Feedback.find().sort({ date: -1 });
     res.status(200).json(feedback);
@@ -27,13 +27,33 @@ router.get("/",authMiddleware, async (req, res) => {
 });
 
 // DELETE: Remove feedback by ID (admin only)
-router.delete("/:id",authMiddleware, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     await Feedback.findByIdAndDelete(id);
     res.status(200).json({ message: "Feedback deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: "Failed to delete feedback" });
+  }
+});
+
+// PUT: Mark feedback as read (admin only)
+router.put("/:id", async (req, res) => {
+  console.log(req.params.id);
+  try {
+    const id = req.params.id;
+    const feedback = await Feedback.findById(id);
+
+    feedback.isRead = true;
+    await feedback.save();
+    res.status(200).send({
+      ...feedback,
+      message: "Feedback marked as read",
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: error.message || "Failed to mark feedback as read" });
   }
 });
 

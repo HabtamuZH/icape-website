@@ -10,7 +10,7 @@ const Header = ({ home }) => {
     const sr = ScrollReveal({
       reset: true,
       duration: 800,
-      origin: "bottom",
+      origin: "top",
       distance: "50px",
       easing: "ease-out",
     });
@@ -46,7 +46,10 @@ const Header = ({ home }) => {
         {/* Service Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-12 lg:mt-16">
           {services.map((service, index) => {
-            const sectionId = service.title.toLowerCase().trim().replace(/\s+/g, "-");
+            const sectionId = service.title
+              .toLowerCase()
+              .trim()
+              .replace(/\s+/g, "-");
             return (
               <div
                 key={index}

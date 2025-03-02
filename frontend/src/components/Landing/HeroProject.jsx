@@ -1,286 +1,112 @@
-// import { useEffect, useRef } from "react";
-// import { Link } from "react-router-dom";
-// import ScrollReveal from "scrollreveal";
-
-// // ProjectCard component
-// const ProjectCard = ({ name, role, imageUrl, linkTo }) => {
-//   const cardRef = useRef(null);
-
-//   return (
-//     <Link to={linkTo} className="block">
-//       <div 
-//         ref={cardRef}
-//         className="group relative overflow-hidden rounded-lg shadow-xl shadow-primary/20 reveal-card"
-//       >
-//         {/* Gradient Overlay */}
-//         <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
-
-//         {/* Image with lazy loading */}
-//         <img
-//           src={imageUrl}
-//           loading="lazy"
-//           className="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105"
-//           alt={`${name}'s profile`}
-//         />
-
-//         {/* Content */}
-//         <div className="absolute bottom-0 left-0 right-0 p-6 text-light transition-transform duration-300 transform translate-y-2 group-hover:-translate-y-2 z-20">
-//           <h2 className="text-2xl font-heading font-bold mb-1">{name}</h2>
-//           <p className="text-base font-body font-light">{role}</p>
-//         </div>
-//       </div>
-//     </Link>
-//   );
-// };
-
-// const HeroProject = () => {
-//   const sectionRef = useRef(null);
-
-//   // Updated project members with architectural names and roles
-//   const projects = [
-//     { 
-//       name: "Modern Villa", 
-//       role: "Residential Design", 
-//       imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop", 
-//       linkTo: "/modern-villa" 
-//     },
-//     { 
-//       name: "Urban Skyscraper", 
-//       role: "Commercial Architecture", 
-//       imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop", 
-//       linkTo: "/urban-skyscraper" 
-//     },
-//     { 
-//       name: "Minimalist House", 
-//       role: "Sustainable Design", 
-//       imageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop", 
-//       linkTo: "/minimalist-house" 
-//     },
-//     { 
-//       name: "Luxury Penthouse", 
-//       role: "High-End Residential", 
-//       imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop", 
-//       linkTo: "/luxury-penthouse" 
-//     },
-//     { 
-//       name: "Cultural Museum", 
-//       role: "Public Architecture", 
-//       imageUrl: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=400&fit=crop", 
-//       linkTo: "/cultural-museum" 
-//     },
-//     { 
-//       name: "Eco-Friendly Office", 
-//       role: "Green Building Design", 
-//       imageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop", 
-//       linkTo: "/eco-friendly-office" 
-//     },
-//   ];
-
-//   useEffect(() => {
-//     const sr = ScrollReveal({
-//       distance: "40px",
-//       duration: 800,
-//       easing: "cubic-bezier(0.5, 0, 0, 1)",
-//       reset: false,
-//     });
-
-//     sr.reveal(".reveal-card", {
-//       origin: "bottom",
-//       interval: 100,
-//       opacity: 0,
-//     });
-
-//     // Cleanup
-//     return () => sr.destroy();
-//   }, []);
-
-//   return (
-//     <section 
-//       ref={sectionRef}
-//       className="py-12 bg-secondary sm:py-16 lg:py-24 relative"
-//     >
-//       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-//         {/* Header */}
-//         <h2 className="text-3xl font-heading text-primary sm:text-4xl lg:text-5xl mb-4 text-center">
-//           Explore Ou<span className="text-accent">r Project</span>
-//         </h2>
-//         <p className="mb-12 text-lg font-body text-primary text-center max-w-2xl mx-auto">
-//           Our work says everything
-//         </p>
-
-//         {/* Masonry Grid */}
-//         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-//           {projects.map((project, index) => (
-//             <div key={index} className="mb-6">
-//               <ProjectCard
-//                 name={project.name}
-//                 role={project.role}
-//                 imageUrl={project.imageUrl}
-//                 linkTo={project.linkTo}
-//               />
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default HeroProject;
-
-import { useEffect, useRef } from "react";
+import { useRef, useEffect, useState } from "react";
+import ProjectCard from "../common/ProjectCard"; // Adjust path as needed
+import projectService from "../../services/project-service"; // Adjust path as needed
+import LoadingSpinner from "../common/LoadingSpinner"; // Ensure this is available
+import { motion } from "framer-motion"; // For animations
+import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import ScrollReveal from "scrollreveal";
-
-// ProjectCard component
-const ProjectCard = ({ name, role, imageUrl, project }) => {
-  const cardRef = useRef(null);
-
-  return (
-    <Link
-      to={`/projects/${project.id}`} // Dynamic route based on project ID
-      state={{ project }} // Pass the entire project object as state
-      className="block"
-    >
-      <div 
-        ref={cardRef}
-        className="group relative overflow-hidden rounded-lg shadow-xl shadow-primary/20 reveal-card"
-      >
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
-
-        {/* Image with lazy loading */}
-        <img
-          src={imageUrl}
-          loading="lazy"
-          className="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105"
-          alt={`${name}'s profile`}
-        />
-
-        {/* Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 text-light transition-transform duration-300 transform translate-y-2 group-hover:-translate-y-2 z-20">
-          <h2 className="text-2xl font-heading font-bold mb-1">{name}</h2>
-          <p className="text-base font-body font-light">{role}</p>
-        </div>
-      </div>
-    </Link>
-  );
-};
 
 const HeroProject = () => {
   const sectionRef = useRef(null);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Updated project members with architectural names and roles
-  const projects = [
-    { 
-      id: "modern-villa", // Unique ID for each project
-      name: "Modern Villa", 
-      role: "Residential Design", 
-      imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop", 
-      description: "A modern villa with sleek design and sustainable features.",
-      images: [
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
-      ],
-    },
-    { 
-      id: "urban-skyscraper", 
-      name: "Urban Skyscraper", 
-      role: "Commercial Architecture", 
-      imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop", 
-      description: "A towering skyscraper in the heart of the city.",
-      images: [
-        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=400&fit=crop",
-      ],
-    },
-    { 
-      id: "modern-villa", // Unique ID for each project
-      name: "Modern Villa", 
-      role: "Residential Design", 
-      imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop", 
-      description: "A modern villa with sleek design and sustainable features.",
-      images: [
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
-      ],
-    },
-    { 
-      id: "urban-skyscraper", 
-      name: "Urban Skyscraper", 
-      role: "Commercial Architecture", 
-      imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop", 
-      description: "A towering skyscraper in the heart of the city.",
-      images: [
-        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=400&fit=crop",
-      ],
-    },
-    { 
-      id: "modern-villa", // Unique ID for each project
-      name: "Modern Villa", 
-      role: "Residential Design", 
-      imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop", 
-      description: "A modern villa with sleek design and sustainable features.",
-      images: [
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
-      ],
-    },
-
-  ];
-
+  // Fetch 5 projects from the backend
   useEffect(() => {
-    const sr = ScrollReveal({
-      distance: "40px",
-      duration: 800,
-      easing: "cubic-bezier(0.5, 0, 0, 1)",
-      reset: false,
-    });
-
-    sr.reveal(".reveal-card", {
-      origin: "bottom",
-      interval: 100,
-      opacity: 0,
-    });
-
-    // Cleanup
-    return () => sr.destroy();
+    const fetchProjects = async () => {
+      setLoading(true);
+      try {
+        const res = await projectService.getAll();
+        const fetchedProjects = Array.isArray(res.data) ? res.data : [];
+        // Limit to 5 projects
+        setProjects(fetchedProjects.slice(0, 5));
+      } catch (err) {
+        console.error("Error fetching projects:", err);
+        setProjects([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
   }, []);
 
-  return (
-    <section 
-      ref={sectionRef}
-      className="py-12 bg-secondary sm:py-16 lg:py-24 relative"
-    >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        {/* Header */}
-        <h2 className="text-3xl font-heading text-primary sm:text-4xl lg:text-5xl mb-4 text-center">
-          Explore Ou<span className="text-accent">r Project</span>
-        </h2>
-        <p className="mb-12 text-lg font-body text-primary text-center max-w-2xl mx-auto">
-          Our work says everything
-        </p>
+  if (loading) return <LoadingSpinner />;
 
-        {/* Masonry Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
-            <div key={index} className="mb-6">
-              <ProjectCard
-                name={project.name}
-                role={project.role}
-                imageUrl={project.imageUrl}
-                project={project} // Pass the entire project object
-              />
-            </div>
-          ))}
+  return (
+    <section
+      ref={sectionRef}
+      className="relative py-12 sm:py-16 lg:py-24 bg-secondary overflow-hidden"
+    >
+      {/* Decorative Background Elements */}
+      <div className="absolute inset-0 z-0">
+        <div className="w-96 h-96 bg-accent/10 rounded-full blur-3xl absolute top-10 left-[-10%]"></div>
+        <div className="w-96 h-96 bg-light/10 rounded-full blur-3xl absolute bottom-10 right-[-10%]"></div>
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-2xl sm:text-3xl lg:text-5xl font-heading font-bold text-primary">
+            Explore Ou<span className="text-accent">r Projects</span>
+          </h2>
+          <p className="mt-4 text-base sm:text-lg lg:text-xl font-body text-primary/80 max-w-3xl mx-auto">
+            Discover the artistry, innovation, and excellence in our architectural masterpieces.
+          </p>
+        </motion.div>
+
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.length > 0 ? (
+            projects.map((project, index) => (
+              <motion.div
+                key={project._id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2, ease: "easeOut" }}
+                className="group relative"
+              >
+                <ProjectCard
+                  project={{
+                    ...project,
+                    id: project._id, // Map _id to id for routing
+                    imageUrl:
+                      project.images && project.images.length > 0
+                        ? project.images[0].url
+                        : "https://via.placeholder.com/150", // Use first image
+                    index, // For ScrollReveal stagger
+                  }}
+                />
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 bg-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg pointer-events-none"></div>
+              </motion.div>
+            ))
+          ) : (
+            <p className="col-span-full text-center text-primary font-body text-lg">
+              No projects available at this time.
+            </p>
+          )}
         </div>
+
+        {/* Call to Action */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.2 }}
+          className="mt-12 text-center"
+        >
+          <Link
+            to="/projects"
+            className="inline-flex items-center px-6 py-3 bg-accent text-light font-body font-semibold rounded-full hover:bg-accent/80 transition-all duration-300 shadow-md hover:shadow-lg"
+          >
+            View All Projects
+            <FaArrowRight className="ml-2" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

@@ -21,6 +21,6 @@ cloudinary.config({
 //   });
 
 //   console.log(uploadResult)
+
 export default cloudinary.uploader;
-
-
+export {cloudinary}
