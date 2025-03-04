@@ -1,3 +1,4 @@
+// src/components/Projects/ProjectDashboard.js
 import React, { useState, useEffect } from "react";
 import projectService from "../../../services/project-service";
 import ProjectCard from "./ProjectCard";
@@ -8,6 +9,8 @@ import LoadingSpinner from "../../../components/common/LoadingSpinner";
 import ProjectFormModal from "./ProjectFormModal";
 import PostProjectForm from "./PostProjectForm";
 import UpdateProjectForm from "./UpdateProjectForm";
+import SuccessModal from "../blogs/SuccessModal"; // Reusing SuccessModal
+import ConfirmDeleteBlogModal from "../blogs/ConfirmDeleteBlogModal";
 
 const ProjectDashboard = () => {
   const [projects, setProjects] = useState([]);
@@ -17,6 +20,11 @@ const ProjectDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const [reload, setReload] = useState(false);
+  const [deleteTitle, setDeleteTitle] = useState("");
+  const [deleteId, setDeleteId] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] =
+    useState(false);
 
   useEffect(() => {
     fetchProjects();
@@ -30,23 +38,33 @@ const ProjectDashboard = () => {
     setLoading(true);
     try {
       const res = await projectService.getAll();
-
-      // Ensure data is an array and handle unexpected formats
       setProjects(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error("Error fetching projects:", err);
-      setProjects([]); // Fallback to empty array on error
+      setProjects([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDeleteProject = async (id) => {
+  const handleDeleteProject = (id, title) => {
+    setDeleteId(id);
+    setDeleteTitle(title);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDeleteProject = async () => {
+    if (!deleteId) return;
     try {
-      await projectService.delete(id);
-      setProjects((prev) => prev.filter((project) => project._id !== id));
+      await projectService.delete(deleteId);
+      setProjects((prev) => prev.filter((project) => project._id !== deleteId));
+      setIsDeleteModalOpen(false);
+      setIsDeleteSuccessModalOpen(true); // Show success modal
     } catch (error) {
       console.error("Error deleting project:", error);
+    } finally {
+      setDeleteId(null);
+      setDeleteTitle("");
     }
   };
 
@@ -56,7 +74,7 @@ const ProjectDashboard = () => {
   };
 
   const handleUpdateProject = (project) => {
-    setSelectedProject({...project, imageUrl: null});
+    setSelectedProject({ ...project, imageUrl: null });
     setIsModalOpen(true);
   };
 
@@ -66,22 +84,19 @@ const ProjectDashboard = () => {
     fetchProjects();
   };
 
-  // Filter and search logic with defensive checks
   const filteredProjects = projects.filter((project) => {
-    if (!project) return false; // Skip if project is undefined/null
+    if (!project) return false;
 
     const searchLower = searchQuery?.toLowerCase() || "";
-    
-    // Ensure properties exist and are strings, default to empty string if not
     const name = (project.name || "").toLowerCase();
     const role = (project.role || "").toLowerCase();
-    const description = (project.description || "").toLowerCase();
+    const content = (project.content || "").toLowerCase();
     const type = (project.type || "").toLowerCase();
 
     const matchesSearch =
       name.includes(searchLower) ||
       role.includes(searchLower) ||
-      description.includes(searchLower);
+      content.includes(searchLower);
 
     const matchesType = typeFilter ? type === typeFilter.toLowerCase() : true;
 
@@ -146,6 +161,17 @@ const ProjectDashboard = () => {
           )}
         </ProjectFormModal>
       )}
+      <ConfirmDeleteBlogModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={confirmDeleteProject}
+        projectTitle={deleteTitle}
+      />
+      <SuccessModal
+        isOpen={isDeleteSuccessModalOpen}
+        text={`Project has been deleted successfully!`}
+        onClose={() => setIsDeleteSuccessModalOpen(false)}
+      />
     </section>
   );
 };

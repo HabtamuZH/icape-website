@@ -1,3 +1,4 @@
+// src/services/http-service.js
 import apiClient from "./api-client.js";
 
 class HttpService {
@@ -5,24 +6,24 @@ class HttpService {
     this.endpoint = endpoint;
   }
 
-  getAll(headers = {}) {
-    return apiClient.get(this.endpoint, { headers });
+  getAll(config = {}) {
+    return apiClient.get(this.endpoint, config);
   }
 
-  getOne(id, headers = {}) {
-    return apiClient.get(`${this.endpoint}/${id}`, { headers });
+  getOne(id, config = {}) {
+    return apiClient.get(`${this.endpoint}/${id}`, config);
   }
 
-  delete(id, headers = {}) {
-    return apiClient.delete(`${this.endpoint}/${id}`, { headers });
+  delete(id, config = {}) {
+    return apiClient.delete(`${this.endpoint}/${id}`, config);
   }
 
-  create(entity, headers = {}) {
-    return apiClient.post(this.endpoint, entity, { headers });
+  create(entity, config = {}) {
+    return apiClient.post(this.endpoint, entity, config);
   }
 
-  update(id, entity, headers = {}) {
-    return apiClient.put(`${this.endpoint}/${id}`, entity, { headers });
+  update(id, entity, config = {}) {
+    return apiClient.put(`${this.endpoint}/${id}`, entity, config);
   }
 }
 

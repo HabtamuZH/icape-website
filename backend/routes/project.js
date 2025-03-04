@@ -1,3 +1,4 @@
+// backend/routes/projects.js
 import express from "express";
 import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
@@ -19,7 +20,7 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: 2 * 1024 * 1024 }, // Reduced to 2MB
   fileFilter: (req, file, cb) => {
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     if (allowedTypes.includes(file.mimetype)) {
@@ -30,13 +31,13 @@ const upload = multer({
   },
 });
 
-// Create a new project with multiple images
-router.post("/", upload.array("images", 50), async (req, res) => {
-  const { name, role, description, type } = req.body;
+// Create a new project
+router.post("/", upload.array("images", 20), async (req, res) => {
+  const { name, role, content, type } = req.body;
   try {
-    if (!name || !role || !description || !type) {
+    if (!name || !role || !content || !type) {
       return res.status(400).json({
-        message: "All text fields (name, role, description, type) are required",
+        message: "All text fields (name, role, content, type) are required",
       });
     }
 
@@ -54,7 +55,7 @@ router.post("/", upload.array("images", 50), async (req, res) => {
     const projectData = {
       name,
       role,
-      description,
+      content,
       type,
       images,
     };
@@ -102,12 +103,12 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Update a project with optional multiple image updates
-router.put("/:id", upload.array("images", 50), async (req, res) => {
+// Update a project
+router.put("/:id", upload.array("images", 20), async (req, res) => {
   const { id } = req.params;
-  const { name, role, description, type } = req.body;
+  const { name, role, content, type } = req.body;
   try {
-    const projectData = { name, role, description, type };
+    const projectData = { name, role, content, type };
 
     if (req.files && req.files.length > 0) {
       const oldProject = await Project.findById(id);

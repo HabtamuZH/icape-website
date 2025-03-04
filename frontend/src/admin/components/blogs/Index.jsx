@@ -1,3 +1,4 @@
+// src/components/Blog/BlogDashboard.js
 import React, { useState, useEffect } from "react";
 import blogService from "../../../services/blog-service";
 import BlogCard from "./BlogCard";
@@ -5,10 +6,11 @@ import BlogSearch from "./Search";
 import BlogFilter from "./Filter";
 import PostNewBlogButton from "./PostNewBlogButton";
 import LoadingSpinner from "../../../components/common/LoadingSpinner";
-import UpdateForm from "./UpdateForm";
-import PostForm from "./PostForm";
 import BlogFormModal from "./BlogFormModal";
-import ConfirmDeleteBlogModal from "./ConfirmDeleteBlogModal"; // New import
+import ConfirmDeleteBlogModal from "./ConfirmDeleteBlogModal";
+import PostForm from "./PostForm";
+import UpdateForm from "./UpdateForm";
+import SuccessModal from "./SuccessModal";
 
 const BlogDashboard = () => {
   const [blogs, setBlogs] = useState([]);
@@ -21,6 +23,8 @@ const BlogDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [reload, setReload] = useState(false);
+  const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] =
+    useState(false);
 
   useEffect(() => {
     fetchBlogs();
@@ -49,10 +53,11 @@ const BlogDashboard = () => {
     try {
       await blogService.delete(deleteId);
       setBlogs((prev) => prev.filter((blog) => blog._id !== deleteId));
+      setIsDeleteModalOpen(false);
+      setIsDeleteSuccessModalOpen(true);
     } catch (error) {
       console.error("Error deleting blog:", error);
     } finally {
-      setIsDeleteModalOpen(false);
       setDeleteId(null);
       setDeleteTitle("");
     }
@@ -77,10 +82,14 @@ const BlogDashboard = () => {
   const filteredBlogs = blogs.filter((blog) => {
     const searchLower = searchQuery?.toLowerCase();
     const matchesSearch =
-      blog.title.toLowerCase().includes(searchLower) ||
-      blog.description.toLowerCase().includes(searchLower) ||
-      blog.author.toLowerCase().includes(searchLower) ||
-      blog.fullText.toLowerCase().includes(searchLower);
+      blog.title?.toLowerCase().includes(searchLower) ||
+      "" ||
+      blog.description?.toLowerCase().includes(searchLower) ||
+      "" ||
+      blog.author?.toLowerCase().includes(searchLower) ||
+      "" ||
+      blog.content?.toLowerCase().includes(searchLower) ||
+      "";
 
     const matchesCategory = categoryFilter
       ? blog.category.toLowerCase() === categoryFilter.toLowerCase()
@@ -92,9 +101,9 @@ const BlogDashboard = () => {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <section className="py-16 bg-secondary min-h-screen px-4 sm:px-6 lg:px-8">
+    <section className="py-16 bg-gray-100 min-h-screen px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-2xl sm:text-4xl font-heading font-extrabold text-primary mb-8 sm:mb-12 text-center">
+        <h1 className="text-2xl sm:text-4xl font-heading font-extrabold text-gray-800 mb-8 sm:mb-12 text-center">
           Blog Dashboard
         </h1>
         <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
@@ -114,11 +123,11 @@ const BlogDashboard = () => {
                 key={blog._id}
                 blog={blog}
                 onUpdate={handleUpdateBlog}
-                onDelete={handleDeleteBlog} // Pass id and title
+                onDelete={handleDeleteBlog}
               />
             ))
           ) : (
-            <p className="col-span-full text-center text-primary font-body text-lg">
+            <p className="col-span-full text-center text-gray-700 font-body text-lg">
               No Blogs found.
             </p>
           )}
@@ -130,20 +139,9 @@ const BlogDashboard = () => {
       {isModalOpen && (
         <BlogFormModal onClose={handleCloseModal}>
           {selectedBlog ? (
-            <UpdateForm
-              initialData={selectedBlog}
-              onClose={() => {
-                setIsModalOpen(false);
-                handleReload();
-              }}
-            />
+            <UpdateForm initialData={selectedBlog} onClose={handleCloseModal} />
           ) : (
-            <PostForm
-              onClose={() => {
-                setIsModalOpen(false);
-                handleReload();
-              }}
-            />
+            <PostForm onClose={handleCloseModal} />
           )}
         </BlogFormModal>
       )}
@@ -152,6 +150,11 @@ const BlogDashboard = () => {
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={confirmDeleteBlog}
         blogTitle={deleteTitle}
+      />
+      <SuccessModal
+        isOpen={isDeleteSuccessModalOpen}
+        text={`Blog has been deleted successfully!`}
+        onClose={() => setIsDeleteSuccessModalOpen(false)}
       />
     </section>
   );

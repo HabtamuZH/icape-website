@@ -9,6 +9,7 @@ import CareerFormModal from "./CareerFormModal";
 import UpdateCareerForm from "./UpdateCareerForm";
 import PostCareerForm from "./PostCareerForm";
 import ConfirmDeleteCareerModal from "./ConfirmDeleteCareerModal"; // New import
+import SuccessModal from "../blogs/SuccessModal";
 
 const CareerDashboard = () => {
   const [careers, setCareers] = useState([]);
@@ -20,6 +21,7 @@ const CareerDashboard = () => {
   const [deleteTitle, setDeleteTitle] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
+  const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] = useState(false);
 
   useEffect(() => {
     fetchCareers();
@@ -47,10 +49,11 @@ const CareerDashboard = () => {
     try {
       await careerService.delete(deleteId);
       setCareers((prev) => prev.filter((career) => career._id !== deleteId));
+      setIsDeleteModalOpen(false);
+      setIsDeleteSuccessModalOpen(true)
     } catch (error) {
       console.error("Error deleting career:", error);
     } finally {
-      setIsDeleteModalOpen(false);
       setDeleteId(null);
       setDeleteTitle("");
     }
@@ -138,6 +141,11 @@ const CareerDashboard = () => {
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={confirmDeleteCareer}
         careerTitle={deleteTitle}
+      />
+      <SuccessModal
+      isOpen={isDeleteSuccessModalOpen}
+      text={`Career has been deleted successfully!`}
+      onClose={() => setIsDeleteSuccessModalOpen(false)}
       />
     </section>
   );

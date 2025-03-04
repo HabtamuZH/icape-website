@@ -1,57 +1,57 @@
-import React, {useState, useEffect} from "react"
-import {Route, Routes, Navigate} from "react-router-dom"
-import Home from "../pages/Home"
-import About from "../pages/About"
-import ContactUs from "../pages/Contact"
-import Blogs from "../pages/Blogs"
-import Services from "../pages/Services"
-import ProjectDetails from "../components/projects/ProjectDetails"
-import Projects from "../components/projects/Projects"
-import AdminLayout from "../layout/AdminLayout"
-import MainLayout from "../layout/MainLayout"
-import Profile from "../admin/components/profile/Profile"
-import BlogDashboard from "../admin/components/blogs/Index"
-import Dashboard from "../admin/components/dashboard/Index"
-import OpportunityForm from "../admin/components/careerOpportunity/Index"
-import ApplicationView from "../admin/components/applications/ApplicationsView"
-// import Notifications from "../admin/components/Notifications"
-// import AdminSettings from "../admin/components/AdminSeetting"
-import AwardDetails from "../components/about/AwardDetails"
-import FeedbackDashboard from "../admin/components/feedback/Index"
-import Login from "../admin/components/login/Login"
-import LoadingSpinner from "../components/common/LoadingSpinner"
-import InternshipApplicationForm from "../components/career/forms/internApplications/InternshipApplicationForm"
-import CareerApplicationForm from "../components/career/forms/careerApplications/CareerApplicationForm"
-import Annoucement from "../components/career/Annoucement"
-import ProjectDashboard from "../admin/components/projects/Index"
-import AdminTeamManagement from "../admin/components/teamMember/AdminTeamManagement"
+import React, { useState, useEffect } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
+import Home from "../pages/Home";
+import About from "../pages/About";
+import ContactUs from "../pages/Contact";
+import Blogs from "../pages/Blogs";
+import Services from "../pages/Services";
+import ProjectDetails from "../components/projects/ProjectDetails";
+import Projects from "../components/projects/Projects";
+import AdminLayout from "../layout/AdminLayout";
+import MainLayout from "../layout/MainLayout";
+import Profile from "../admin/components/profile/Profile";
+import BlogDashboard from "../admin/components/blogs/Index";
+import Dashboard from "../admin/components/dashboard/Index";
+import OpportunityForm from "../admin/components/careerOpportunity/Index";
+import ApplicationView from "../admin/components/applications/ApplicationsView";
+import AwardDetails from "../components/about/AwardDetails";
+import FeedbackDashboard from "../admin/components/feedback/Index";
+import Login from "../admin/components/login/Login";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+import InternshipApplicationForm from "../components/career/forms/internApplications/InternshipApplicationForm";
+import CareerApplicationForm from "../components/career/forms/careerApplications/CareerApplicationForm";
+import Annoucement from "../components/career/Annoucement";
+import ProjectDashboard from "../admin/components/projects/Index";
+import AdminTeamManagement from "../admin/components/teamMember/AdminTeamManagement";
+import BlogDetails from "../components/Blogs/BlogDetails";
+import BlogList from "../components/Blogs/BlogList";
 
 // ProtectedRoute component to secure admin routes
-const ProtectedRoute = ({children}) => {
-  const token = localStorage.getItem("token")
-  return token ? children : <Navigate to='/login' />
-}
+const ProtectedRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+  return token ? children : <Navigate to="/login" />;
+};
 
 const RouteConfig = () => {
-  const [token, setToken] = useState(localStorage.getItem("token"))
-  const [loading, setLoading] = useState(true)
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
       setTimeout(() => {
-        setLoading(false)
-      }, 500)
-    }
-    checkAuth()
-  }, [])
+        setLoading(false);
+      }, 500);
+    };
+    checkAuth();
+  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token")
-    setToken(null)
-  }
+    localStorage.removeItem("token");
+    setToken(null);
+  };
 
   if (loading) {
-    return <LoadingSpinner />
+    return <LoadingSpinner />;
   }
 
   return (
@@ -63,7 +63,8 @@ const RouteConfig = () => {
         <Route path="/about" element={<About />} />
         <Route path="/awards/:id" element={<AwardDetails />} />
         <Route path="/contactus" element={<ContactUs />} />
-        <Route path="/blog" element={<Blogs />} />
+        <Route path="/blogs" element={<BlogList />} />
+        <Route path="/blogs/:id" element={<BlogDetails />} />
         <Route path="/services" element={<Services />} />
         <Route path="/career" element={<Annoucement />}>
           <Route index element={<Annoucement />} />{" "}
@@ -98,6 +99,6 @@ const RouteConfig = () => {
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
-}
+};
 
-export default RouteConfig
+export default RouteConfig;

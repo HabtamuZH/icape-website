@@ -1,3 +1,4 @@
+// backend/routes/blog.js
 import express from "express";
 import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
@@ -6,7 +7,6 @@ import Blog from "../models/blogs.js";
 
 const router = express.Router();
 
-// Configure Multer with Cloudinary storage for blog images
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
@@ -20,7 +20,7 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     if (allowedTypes.includes(file.mimetype)) {
@@ -31,29 +31,44 @@ const upload = multer({
   },
 });
 
-// Create a new blog post with a required image
+// Create a new blog post
 router.post("/", upload.single("image"), async (req, res) => {
-  const { title, description, fullText, author, category } = req.body;
+  const {
+    title,
+    subtitle,
+    description,
+    content,
+    author,
+    category,
+    tags,
+    excerpt,
+  } = req.body;
   try {
     if (!req.file) {
-      return res.status(400).json({ message: "Image file is required" });
+      return res
+        .status(400)
+        .json({ message: "Image file is required for new posts" });
     }
 
     const blogData = {
       title,
+      subtitle,
       description,
-      fullText,
+      content, // Use content instead of fullText
       author,
       category,
-      imageUrl: req.file.path, // Cloudinary URL
-      cloudinaryId: req.file.filename.split("/").pop().split(".")[0], // Extract public_id
+      date: new Date(),
+      imageUrl: req.file.path,
+      cloudinaryId: req.file.filename.split("/").pop().split(".")[0],
+      tags: tags ? tags.split(",").map((tag) => tag.trim()) : [],
+      excerpt,
     };
 
     const blog = new Blog(blogData);
     await blog.save();
-    res.status(201).json({ message: "Blog post added successfully", blog });
+    res.status(201).json({ message: "Blog post created successfully", blog });
   } catch (error) {
-    console.error("Error creating blog post:", error);
+    console.warn("Error creating blog post:", error);
     res
       .status(500)
       .json({ message: "Internal server error", error: error.message });
@@ -88,15 +103,32 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Update a blog post with optional image update
+// Update a blog post
 router.put("/:id", upload.single("image"), async (req, res) => {
   const { id } = req.params;
-  const { title, description, fullText, author, category } = req.body;
+  const {
+    title,
+    subtitle,
+    description,
+    content,
+    author,
+    category,
+    tags,
+    excerpt,
+  } = req.body;
   try {
-    const blogData = { title, description, fullText, author, category };
+    const blogData = {
+      title,
+      subtitle,
+      description,
+      content, // Use content instead of fullText
+      author,
+      category,
+      tags: tags ? tags.split(",").map((tag) => tag.trim()) : [],
+      excerpt,
+    };
 
     if (req.file) {
-      // Delete old image from Cloudinary if it exists
       const oldBlog = await Blog.findById(id);
       if (oldBlog && oldBlog.cloudinaryId) {
         await cloudinary.uploader.destroy(oldBlog.cloudinaryId);
@@ -123,7 +155,6 @@ router.delete("/:id", async (req, res) => {
     const blog = await Blog.findById(id);
     if (!blog) return res.status(404).json({ message: "Blog post not found" });
 
-    // Delete image from Cloudinary if it exists
     if (blog.cloudinaryId) {
       await cloudinary.uploader.destroy(blog.cloudinaryId);
     }

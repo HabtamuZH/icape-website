@@ -1,3 +1,4 @@
+// src/components/PostCareerForm.jsx
 import React, { useState } from "react";
 import careerService from "../../../services/careers-service";
 import FormHeader from "../blogs/FormHeader";
@@ -36,6 +37,7 @@ const PostCareerForm = ({ onClose }) => {
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0); // Progress state
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleInputChange = (e) => {
@@ -102,8 +104,18 @@ const PostCareerForm = ({ onClose }) => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
+    setUploadProgress(0); // Start progress at 0
+
     try {
-      await careerService.create(formData);
+      const res = await careerService.create(formData, {
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress(percentCompleted);
+        },
+      });
+      // console.log("Server response:", res.data);
       setFormData({
         title: "",
         description: "",
@@ -115,12 +127,14 @@ const PostCareerForm = ({ onClose }) => {
       setErrors({});
       setShowSuccessModal(true);
     } catch (error) {
+      console.error("Error submitting career:", error);
       setErrors({
         submit:
           error.response?.data?.message || "Failed to post career opportunity.",
       });
     } finally {
       setIsSubmitting(false);
+      setUploadProgress(0); // Reset progress
     }
   };
 
@@ -216,6 +230,19 @@ const PostCareerForm = ({ onClose }) => {
             options={buttonLinks}
             error={errors.buttonLink}
           />
+          {isSubmitting && (
+            <div className="sm:col-span-2">
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div
+                  className="bg-accent h-2.5 rounded-full"
+                  style={{ width: `${uploadProgress}%` }}
+                ></div>
+              </div>
+              <p className="text-primary text-sm mt-2 text-center">
+                Submitting: {uploadProgress}%
+              </p>
+            </div>
+          )}
         </div>
         {errors.submit && (
           <p className="text-red-500 text-sm text-center">{errors.submit}</p>

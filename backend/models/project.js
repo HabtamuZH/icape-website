@@ -1,3 +1,4 @@
+// backend/models/project.js
 import mongoose from "mongoose";
 
 const projectSchema = new mongoose.Schema(
@@ -14,11 +15,11 @@ const projectSchema = new mongoose.Schema(
       trim: true,
       maxlength: [100, "Role cannot exceed 100 characters"],
     },
-    description: {
+    content: {
       type: String,
-      required: [true, "Description is required"],
+      required: [true, "Content is required"],
       trim: true,
-    },
+    }, // Replaces description
     type: {
       type: String,
       required: [true, "Project type is required"],

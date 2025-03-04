@@ -1,11 +1,14 @@
+// src/components/Blog/UpdateForm.js
 import { useState, useEffect } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import blogService from "../../../services/blog-service";
 import FormHeader from "./FormHeader";
 import InputField from "./InputField";
+import SelectField from "./SelectField";
 import ImageUpload from "./ImageUpload";
 import SubmitButton from "./SubmitButton";
 import SuccessModal from "./SuccessModal";
-import SelectField from "./SelectField";
 
 const categories = [
   { value: "", label: "Select Category" },
@@ -16,30 +19,44 @@ const categories = [
 
 const UpdateForm = ({ initialData, onClose }) => {
   const [blogData, setBlogData] = useState({
-    title: initialData.title,
-    description: initialData.description,
-    author: initialData.author,
-    category: initialData.category,
-    fullText: initialData.fullText,
-    image: initialData.image,
+    title: initialData.title || "",
+    subtitle: initialData.subtitle || "",
+    description: initialData.description || "",
+    content: initialData.content || "",
+    author: initialData.author || "",
+    category: initialData.category || "",
+    date: initialData.date
+      ? new Date(initialData.date).toISOString().split("T")[0]
+      : new Date().toISOString().split("T")[0],
+    tags: initialData.tags ? initialData.tags.join(", ") : "",
+    excerpt: initialData.excerpt || "",
+    image: null,
   });
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState(
+    initialData.imageUrl || null
+  );
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0); // Progress state
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  // Populate form with initial data if editing
   useEffect(() => {
     if (initialData) {
       setBlogData({
         title: initialData.title || "",
+        subtitle: initialData.subtitle || "",
         description: initialData.description || "",
+        content: initialData.content || "",
         author: initialData.author || "",
         category: initialData.category || "",
-        fullText: initialData.fullText || "",
-        image: null, // Image stays null unless re-uploaded
+        date: initialData.date
+          ? new Date(initialData.date).toISOString().split("T")[0]
+          : new Date().toISOString().split("T")[0],
+        tags: initialData.tags ? initialData.tags.join(", ") : "",
+        excerpt: initialData.excerpt || "",
+        image: null,
       });
-      setImagePreview(initialData.image || null);
+      setImagePreview(initialData.imageUrl || null);
     }
   }, [initialData]);
 
@@ -47,6 +64,11 @@ const UpdateForm = ({ initialData, onClose }) => {
     const { name, value } = e.target;
     setBlogData({ ...blogData, [name]: value });
     validateField(name, value);
+  };
+
+  const handleContentChange = (value) => {
+    setBlogData({ ...blogData, content: value });
+    validateField("content", value);
   };
 
   const handleImageChange = (e) => {
@@ -77,10 +99,19 @@ const UpdateForm = ({ initialData, onClose }) => {
 
   const validateField = (field, value) => {
     let fieldErrors = { ...errors };
-    if (!value && field !== "image") {
+    if (
+      !value &&
+      field !== "image" &&
+      field !== "subtitle" &&
+      field !== "description" &&
+      field !== "tags" &&
+      field !== "excerpt"
+    ) {
       fieldErrors[field] = `${
         field.charAt(0).toUpperCase() + field.slice(1)
       } is required.`;
+    } else if (field === "title" && value.length > 100) {
+      fieldErrors[field] = "Title must be under 100 characters.";
     } else {
       fieldErrors[field] = "";
     }
@@ -91,8 +122,8 @@ const UpdateForm = ({ initialData, onClose }) => {
     const finalErrors = {};
     let isValid = true;
 
-    Object.keys(blogData).forEach((key) => {
-      if (!blogData[key] && key !== "image") {
+    ["title", "content", "author", "category"].forEach((key) => {
+      if (!blogData[key]) {
         finalErrors[key] = `${
           key.charAt(0).toUpperCase() + key.slice(1)
         } is required.`;
@@ -100,9 +131,8 @@ const UpdateForm = ({ initialData, onClose }) => {
       }
     });
 
-    // Only require image if creating a new blog, not editing
-    if (!initialData && !blogData.image) {
-      finalErrors.image = "Image is required.";
+    if (blogData.title.length > 100) {
+      finalErrors.title = "Title must be under 100 characters.";
       isValid = false;
     }
 
@@ -115,66 +145,62 @@ const UpdateForm = ({ initialData, onClose }) => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
+    setUploadProgress(0); // Start progress at 0
+
     const formData = new FormData();
-
-    formData.append("title", blogData.title);
-    formData.append("description", blogData.description);
-    formData.append("author", blogData.author);
-    formData.append("category", blogData.category);
-    formData.append("fullText", blogData.fullText);
-    formData.append("image", blogData.image);
-
-    blogService
-      .update(initialData._id, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      .then(() => clearForm())
-      .then(() => setShowSuccessModal(true))
-      .catch((err) => console.log(err.message))
-      .finally(() => setIsSubmitting(false));
-  };
-
-  const clearForm = () => {
-    setBlogData({
-      title: "",
-      description: "",
-      author: "",
-      category: "",
-      fullText: "",
-      image: null,
+    Object.entries(blogData).forEach(([key, value]) => {
+      if (key === "tags" && value) {
+        formData.append(key, value);
+      } else if (value !== null) {
+        formData.append(key, value);
+      }
     });
-    setImagePreview(null);
-    setErrors(null);
-    setShowSuccessModal(true);
+
+    try {
+      const res = await blogService.update(initialData._id, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress(percentCompleted);
+        },
+      });
+      // console.log("Server response:", res.data);
+      setShowSuccessModal(true);
+    } catch (err) {
+      console.error("Error updating blog:", err);
+      setErrors({ submit: "Failed to update blog. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+      setUploadProgress(0); // Reset progress
+    }
   };
 
-  if (showSuccessModal)
+  if (showSuccessModal) {
     return (
       <SuccessModal
         isOpen={showSuccessModal}
-        text={"Your blog been updated successfully!"}
+        text="Your blog has been updated successfully!"
         onClose={() => {
           setShowSuccessModal(false);
           onClose();
         }}
       />
     );
+  }
 
   return (
-    <div className="bg-light p-4 sm:p-8 rounded-xl shadow-lg border border-border  h-[95vh] overflow-y-auto">
+    <div className="bg-white p-4 sm:p-8 rounded-xl shadow-lg border border-gray-200 h-[95vh] overflow-y-auto">
       <FormHeader
-        title={"Edit Blog Post"}
-        description="Share your insights and stories with the iCAPE community."
+        title="Edit Blog Post"
+        description="Update your insights and stories with the community."
       />
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-6"
-        encType="multipart/form-data"
-      >
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           <div className="sm:col-span-2">
             <InputField
-              label="Blog Title"
+              label="Blog Title *"
               id="title"
               name="title"
               value={blogData.title}
@@ -183,8 +209,19 @@ const UpdateForm = ({ initialData, onClose }) => {
               error={errors.title}
             />
           </div>
+          <div className="sm:col-span-2">
+            <InputField
+              label="Subtitle"
+              id="subtitle"
+              name="subtitle"
+              value={blogData.subtitle}
+              onChange={handleChange}
+              placeholder="Enter a subtitle (optional)"
+              error={errors.subtitle}
+            />
+          </div>
           <InputField
-            label="Author Name"
+            label="Author Name *"
             id="author"
             name="author"
             value={blogData.author}
@@ -193,13 +230,12 @@ const UpdateForm = ({ initialData, onClose }) => {
             error={errors.author}
           />
           <SelectField
-            label="Category"
+            label="Category *"
             id="category"
             name="category"
             value={blogData.category}
             options={categories}
             onChange={handleChange}
-            placeholder="e.g., Architecture, Technology"
             error={errors.category}
           />
           <div className="sm:col-span-2">
@@ -211,21 +247,57 @@ const UpdateForm = ({ initialData, onClose }) => {
               rows="3"
               value={blogData.description}
               onChange={handleChange}
-              placeholder="Provide a brief summary of the blog post..."
+              placeholder="Provide a brief summary (optional)"
               error={errors.description}
             />
           </div>
           <div className="sm:col-span-2">
+            <label className="block mb-2 text-sm font-body font-medium text-gray-700">
+              Content *
+            </label>
+            <ReactQuill
+              value={blogData.content}
+              onChange={handleContentChange}
+              className="bg-white border border-gray-300 rounded-lg"
+              placeholder="Write your blog content here..."
+              modules={{
+                toolbar: [
+                  [{ header: [1, 2, 3, false] }],
+                  ["bold", "italic", "underline", "strike"],
+                  [{ list: "ordered" }, { list: "bullet" }],
+                  ["link", "image"],
+                  ["clean"],
+                ],
+              }}
+            />
+            {errors.content && (
+              <span className="text-red-500 text-xs mt-1 block">
+                {errors.content}
+              </span>
+            )}
+          </div>
+          <div className="sm:col-span-2">
             <InputField
-              label="Full Blog Content"
-              id="fullText"
-              name="fullText"
-              type="textarea"
-              rows="6"
-              value={blogData.fullText}
+              label="Tags (comma-separated)"
+              id="tags"
+              name="tags"
+              value={blogData.tags}
               onChange={handleChange}
-              placeholder="Write the full blog content here..."
-              error={errors.fullText}
+              placeholder="e.g., tech, programming, news"
+              error={errors.tags}
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <InputField
+              label="Excerpt"
+              id="excerpt"
+              name="excerpt"
+              type="textarea"
+              rows="3"
+              value={blogData.excerpt}
+              onChange={handleChange}
+              placeholder="A short summary (optional)"
+              error={errors.excerpt}
             />
           </div>
           <div className="sm:col-span-2">
@@ -237,18 +309,29 @@ const UpdateForm = ({ initialData, onClose }) => {
               error={errors.image}
             />
           </div>
+          {isSubmitting && (
+            <div className="sm:col-span-2">
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div
+                  className="bg-accent h-2.5 rounded-full"
+                  style={{ width: `${uploadProgress}%` }}
+                ></div>
+              </div>
+              <p className="text-gray-700 text-sm mt-2 text-center">
+                Updating: {uploadProgress}%
+              </p>
+            </div>
+          )}
         </div>
-
         {errors.submit && (
           <p className="text-red-500 text-sm text-center">{errors.submit}</p>
         )}
-
         <SubmitButton
           isSubmitting={isSubmitting}
           errors={errors}
           onSubmit={handleSubmit}
-          loadingText={"Updateing..."}
-          text={"Update Blog"}
+          loadingText="Updating..."
+          text="Update Blog"
         />
       </form>
     </div>

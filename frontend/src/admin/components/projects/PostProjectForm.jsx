@@ -1,4 +1,8 @@
+// src/components/Projects/PostProjectForm.js
 import { useState } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import imageCompression from "browser-image-compression";
 import FormHeader from "../blogs/FormHeader";
 import InputField from "../blogs/InputField";
 import SelectField from "../blogs/SelectField";
@@ -17,13 +21,14 @@ const PostProjectForm = ({ onClose }) => {
   const [projectData, setProjectData] = useState({
     name: "",
     role: "",
-    description: "",
+    content: "",
     type: "",
     images: [],
   });
   const [imagePreviews, setImagePreviews] = useState([]);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [errors, setErrors] = useState({});
-  const [serverError, setServerError] = useState(""); // Added serverError state
+  const [serverError, setServerError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -33,28 +38,46 @@ const PostProjectForm = ({ onClose }) => {
     validateField(name, value);
   };
 
-  const handleImageChange = (e) => {
+  const handleContentChange = (value) => {
+    setProjectData({ ...projectData, content: value });
+    validateField("content", value);
+  };
+
+  const handleImageChange = async (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 20) {
       setErrors({ ...errors, images: "Maximum 20 images allowed." });
       return;
     }
 
-    const validFiles = files.filter(file => {
-      if (file.size > 5 * 1024 * 1024) {
-        setErrors({ ...errors, images: "Each file must be less than 5MB." });
-        return false;
-      }
-      if (!["image/jpeg", "image/jpg", "image/png"].includes(file.type)) {
-        setErrors({ ...errors, images: "Only JPG, JPEG, and PNG files are allowed." });
-        return false;
-      }
-      return true;
-    });
+    const compressionOptions = {
+      maxSizeMB: 2,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
 
-    setProjectData({ ...projectData, images: validFiles });
-    setImagePreviews(validFiles.map(file => URL.createObjectURL(file)));
-    setErrors({ ...errors, images: "" });
+    try {
+      const compressedFiles = await Promise.all(
+        files.map(async (file) => {
+          if (!["image/jpeg", "image/jpg", "image/png"].includes(file.type)) {
+            setErrors({
+              ...errors,
+              images: "Only JPG, JPEG, and PNG files are allowed.",
+            });
+            return null;
+          }
+          return await imageCompression(file, compressionOptions);
+        })
+      );
+
+      const validFiles = compressedFiles.filter((file) => file !== null);
+      setProjectData({ ...projectData, images: validFiles });
+      setImagePreviews(validFiles.map((file) => URL.createObjectURL(file)));
+      setErrors({ ...errors, images: "" });
+    } catch (error) {
+      console.error("Image compression error:", error);
+      setErrors({ ...errors, images: "Failed to compress images." });
+    }
   };
 
   const handleRemoveImage = (index) => {
@@ -70,6 +93,8 @@ const PostProjectForm = ({ onClose }) => {
       fieldErrors[field] = `${
         field.charAt(0).toUpperCase() + field.slice(1)
       } is required.`;
+    } else if (field === "content" && value === "<p><br></p>") {
+      fieldErrors[field] = "Content cannot be empty.";
     } else {
       fieldErrors[field] = "";
     }
@@ -80,11 +105,14 @@ const PostProjectForm = ({ onClose }) => {
     const finalErrors = {};
     let isValid = true;
 
-    Object.keys(projectData).forEach((key) => {
-      if (!projectData[key] && key !== "images") {
+    ["name", "role", "content", "type"].forEach((key) => {
+      if (!projectData[key]) {
         finalErrors[key] = `${
           key.charAt(0).toUpperCase() + key.slice(1)
         } is required.`;
+        isValid = false;
+      } else if (key === "content" && projectData[key] === "<p><br></p>") {
+        finalErrors[key] = "Content cannot be empty.";
         isValid = false;
       }
     });
@@ -104,19 +132,32 @@ const PostProjectForm = ({ onClose }) => {
 
     setIsSubmitting(true);
     setServerError("");
+    setUploadProgress(0);
 
     const formData = new FormData();
     formData.append("name", projectData.name);
     formData.append("role", projectData.role);
-    formData.append("description", projectData.description);
+    formData.append("content", projectData.content);
     formData.append("type", projectData.type);
     projectData.images.forEach((image) => {
       formData.append("images", image);
     });
 
+    console.log("FormData contents:");
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
+
     try {
       const res = await projectService.create(formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "multipart/form-data" }, // Headers only
+        onUploadProgress: (progressEvent) => {
+          // Moved to config root
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress(percentCompleted);
+        },
       });
       console.log("Server response:", res.data);
       clearForm();
@@ -124,10 +165,12 @@ const PostProjectForm = ({ onClose }) => {
     } catch (err) {
       console.error("Error submitting project:", err);
       setServerError(
-        err.response?.data?.message || "Failed to post project. Network error."
+        err.response?.data?.message ||
+          "Failed to post project. Please try again."
       );
     } finally {
       setIsSubmitting(false);
+      setUploadProgress(0);
     }
   };
 
@@ -135,7 +178,7 @@ const PostProjectForm = ({ onClose }) => {
     setProjectData({
       name: "",
       role: "",
-      description: "",
+      content: "",
       type: "",
       images: [],
     });
@@ -163,11 +206,15 @@ const PostProjectForm = ({ onClose }) => {
           title="Publish a New Project"
           description="Showcase your latest architectural achievements."
         />
-        <form onSubmit={handleSubmit} className="space-y-6" encType="multipart/form-data">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6"
+          encType="multipart/form-data"
+        >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div className="sm:col-span-2">
               <InputField
-                label="Project Name"
+                label="Project Name *"
                 id="name"
                 name="name"
                 value={projectData.name}
@@ -177,7 +224,7 @@ const PostProjectForm = ({ onClose }) => {
               />
             </div>
             <InputField
-              label="Role"
+              label="Role *"
               id="role"
               name="role"
               value={projectData.role}
@@ -186,7 +233,7 @@ const PostProjectForm = ({ onClose }) => {
               error={errors.role}
             />
             <SelectField
-              label="Type"
+              label="Type *"
               id="type"
               name="type"
               value={projectData.type}
@@ -195,21 +242,33 @@ const PostProjectForm = ({ onClose }) => {
               error={errors.type}
             />
             <div className="sm:col-span-2">
-              <InputField
-                label="Description"
-                id="description"
-                name="description"
-                type="textarea"
-                rows="6"
-                value={projectData.description}
-                onChange={handleChange}
+              <label className="block mb-2 text-sm font-body font-medium text-primary">
+                Content *
+              </label>
+              <ReactQuill
+                value={projectData.content}
+                onChange={handleContentChange}
+                className="bg-light border border-border rounded-md"
                 placeholder="Describe the project..."
-                error={errors.description}
+                modules={{
+                  toolbar: [
+                    [{ header: [1, 2, 3, false] }],
+                    ["bold", "italic", "underline", "strike"],
+                    [{ list: "ordered" }, { list: "bullet" }],
+                    ["link", "image"],
+                    ["clean"],
+                  ],
+                }}
               />
+              {errors.content && (
+                <span className="text-red-500 text-xs mt-2 block">
+                  {errors.content}
+                </span>
+              )}
             </div>
             <div className="sm:col-span-2">
               <label className="block mb-2 text-sm font-body font-medium text-primary">
-                Upload Project Images (Max 20, 5MB each, JPG/PNG)
+                Upload Project Images * (Max 20, 2MB each, JPG/PNG)
               </label>
               <input
                 type="file"
@@ -239,7 +298,22 @@ const PostProjectForm = ({ onClose }) => {
                 </div>
               )}
               {errors.images && (
-                <span className="text-red-500 text-xs mt-2 block">{errors.images}</span>
+                <span className="text-red-500 text-xs mt-2 block">
+                  {errors.images}
+                </span>
+              )}
+              {isSubmitting && (
+                <div className="mt-4">
+                  <div className="w-full bg-gray-200 rounded-full h-2.5">
+                    <div
+                      className="bg-accent h-2.5 rounded-full"
+                      style={{ width: `${uploadProgress}%` }}
+                    ></div>
+                  </div>
+                  <p className="text-primary text-sm mt-2 text-center">
+                    Uploading: {uploadProgress}%
+                  </p>
+                </div>
               )}
             </div>
           </div>

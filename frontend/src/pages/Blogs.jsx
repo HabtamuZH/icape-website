@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import Blog from "./../components/Blogs/news"
+import BlogList from "../components/Blogs/BlogList";
 
 const Blogs = () => {
 
@@ -8,7 +8,7 @@ const Blogs = () => {
       }, []);
     return(
         <>
-            <Blog/>
+            <BlogList/>
         </>
     )
 }

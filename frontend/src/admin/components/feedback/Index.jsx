@@ -1,3 +1,4 @@
+// src/components/FeedbackDashboard.jsx
 import React, { useState, useEffect } from "react";
 import FeedbackTable from "./FeedbackTable";
 import SearchBar from "./SearchBar";
@@ -7,7 +8,6 @@ import LoadingSpinner from "../../../components/common/LoadingSpinner";
 import ErrorMessage from "./ErrorMessage";
 import feedbackService from "../../../services/feedback-service";
 import useFeedback from "../../hooks/useFeedbacks";
-// import ConfirmDeleteFeedbackModal from "./ConfirmDeleteFeedbackModal"; // New import
 import { motion } from "framer-motion";
 
 const FeedbackDashboard = () => {
@@ -19,8 +19,9 @@ const FeedbackDashboard = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [deleteName, setDeleteName] = useState("");
-  const { feedbacks, setFeedbacks, loading, error, setError, reload } =
-    useFeedback();
+  const [isMarkingRead, setIsMarkingRead] = useState(false); // Track marking as read
+  const [markReadProgress, setMarkReadProgress] = useState(0); // Progress for marking as read
+  const { feedbacks, setFeedbacks, loading, setLoading, error, setError } = useFeedback();
   const itemsPerPage = 5;
 
   // Filter feedback based on search query
@@ -42,36 +43,50 @@ const FeedbackDashboard = () => {
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleDeleteFeedback = (id, name) => {
-    setDeleteId(id);
-    setDeleteName(name);
-    setIsDeleteModalOpen(true);
+  // Refresh functionality
+  const handleReload = async () => {
+    setLoading(true);
+    try {
+      const res = await feedbackService.getAll();
+      setFeedbacks(res.data);
+    } catch (err) {
+      console.error("Error reloading feedback:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
-
-  // const confirmDeleteFeedback = async () => {
-  //   try {
-  //     await feedbackService.delete(deleteId);
-  //     setFeedbacks((prev) => prev.filter((item) => item._id !== deleteId));
-  //     if (selectedFeedback && selectedFeedback._id === deleteId) closeDetails();
-  //   } catch (err) {
-  //     setError(err.message);
-  //   } finally {
-  //     setIsDeleteModalOpen(false);
-  //     setDeleteId(null);
-  //     setDeleteName("");
-  //   }
-  // };
 
   const handleMarkAsRead = async (id) => {
     try {
       const updatedFeedback = feedbacks.find((item) => item._id === id);
       if (!updatedFeedback.isRead) {
-        await feedbackService.update(id, { isRead: true });
-        reload(); // Trigger reload to fetch updated data
+        setIsMarkingRead(true);
+        setMarkReadProgress(0); // Start progress at 0
+        await feedbackService.update(
+          id,
+          { isRead: true },
+          {
+            onUploadProgress: (progressEvent) => {
+              const percentCompleted = Math.round(
+                (progressEvent.loaded * 100) / progressEvent.total
+              );
+              setMarkReadProgress(percentCompleted);
+            },
+          }
+        );
+        setFeedbacks((prev) =>
+          prev.map((item) =>
+            item._id === id ? { ...item, isRead: true } : item
+          )
+        );
       }
     } catch (error) {
       console.error("Error marking feedback as read:", error);
       setError(error.message);
+    } finally {
+      setIsMarkingRead(false);
+      setMarkReadProgress(0); // Reset progress
     }
   };
 
@@ -108,7 +123,7 @@ const FeedbackDashboard = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={reload}
+            onClick={handleReload}
             className="px-4 py-2 bg-accent text-light font-body rounded-md shadow-md hover:bg-opacity-80 transition-all duration-200"
           >
             Refresh
@@ -120,9 +135,21 @@ const FeedbackDashboard = () => {
             currentFeedback={currentFeedback}
             indexOfFirstItem={indexOfFirstItem}
             handleRowClick={handleSelectFeedback}
-            handleDeleteFeedback={handleDeleteFeedback}
             handleMarkAsRead={handleMarkAsRead}
           />
+          {isMarkingRead && (
+            <div className="mt-4">
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div
+                  className="bg-accent h-2.5 rounded-full"
+                  style={{ width: `${markReadProgress}%` }}
+                ></div>
+              </div>
+              <p className="text-primary text-sm mt-2 text-center">
+                Marking as Read: {markReadProgress}%
+              </p>
+            </div>
+          )}
           {totalPages > 1 && (
             <Pagination
               currentPage={currentPage}
@@ -140,7 +167,6 @@ const FeedbackDashboard = () => {
             replyData={replyData}
             setReplyData={setReplyData}
             closeDetails={closeDetails}
-            handleDeleteFeedback={handleDeleteFeedback}
           />
         )}
       </div>

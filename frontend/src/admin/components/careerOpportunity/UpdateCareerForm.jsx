@@ -1,3 +1,4 @@
+// src/components/UpdateCareerForm.jsx
 import React, { useState, useEffect } from "react";
 import careerService from "../../../services/careers-service";
 import FormHeader from "../blogs/FormHeader";
@@ -29,8 +30,9 @@ const UpdateCareerForm = ({ initialData, onClose }) => {
     buttonLink: "",
   });
   const [errors, setErrors] = useState({});
-  const [serverError, setServerError] = useState(""); // Server-side error state
+  const [serverError, setServerError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0); // Progress state
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
@@ -110,30 +112,39 @@ const UpdateCareerForm = ({ initialData, onClose }) => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    setServerError(""); // Clear any previous server error
+    setServerError("");
+    setUploadProgress(0); // Start progress at 0
 
-    // Send plain JSON object instead of FormData
     const updateData = {
       title: formData.title,
       description: formData.description,
       type: formData.type,
       details: formData.details,
       buttonText: formData.buttonText,
-      buttonLink: formData.buttonLink || "", // Ensure optional field is sent
+      buttonLink: formData.buttonLink || "",
     };
 
-    careerService
-      .update(initialData._id, updateData)
-      .then(() => clearForm())
-      .then(() => setShowSuccessModal(true))
-      .catch((err) => {
-        console.error("Error updating career:", err);
-        setServerError(
-          err.response?.data?.message ||
-            "Failed to update career opportunity. Network error."
-        );
-      })
-      .finally(() => setIsSubmitting(false));
+    try {
+      const res = await careerService.update(initialData._id, updateData, {
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress(percentCompleted);
+        },
+      });
+      // console.log("Server response:", res.data);
+      clearForm();
+      setShowSuccessModal(true);
+    } catch (err) {
+      console.error("Error updating career:", err);
+      setServerError(
+        err.response?.data?.message || "Failed to update career opportunity."
+      );
+    } finally {
+      setIsSubmitting(false);
+      setUploadProgress(0); // Reset progress
+    }
   };
 
   const clearForm = () => {
@@ -148,19 +159,6 @@ const UpdateCareerForm = ({ initialData, onClose }) => {
     setErrors({});
     setShowSuccessModal(true);
   };
-
-  if (showSuccessModal) {
-    return (
-      <SuccessModal
-        isOpen={showSuccessModal}
-        text="Your career opportunity has been updated successfully!"
-        onClose={() => {
-          setShowSuccessModal(false);
-          onClose();
-        }}
-      />
-    );
-  }
 
   return (
     <div className="bg-light p-4 sm:p-8 rounded-xl shadow-lg border border-border h-[95vh] overflow-y-auto">
@@ -254,6 +252,19 @@ const UpdateCareerForm = ({ initialData, onClose }) => {
             placeholder="e.g., /careers/professional"
             error={errors.buttonLink}
           />
+          {isSubmitting && (
+            <div className="sm:col-span-2">
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div
+                  className="bg-accent h-2.5 rounded-full"
+                  style={{ width: `${uploadProgress}%` }}
+                ></div>
+              </div>
+              <p className="text-primary text-sm mt-2 text-center">
+                Updating: {uploadProgress}%
+              </p>
+            </div>
+          )}
         </div>
         {serverError && (
           <p className="text-red-500 text-sm text-center">{serverError}</p>
@@ -266,6 +277,16 @@ const UpdateCareerForm = ({ initialData, onClose }) => {
           text="Update Opportunity"
         />
       </form>
+      {showSuccessModal && (
+        <SuccessModal
+          isOpen={showSuccessModal}
+          text="Your career opportunity has been updated successfully!"
+          onClose={() => {
+            setShowSuccessModal(false);
+            onClose();
+          }}
+        />
+      )}
     </div>
   );
 };

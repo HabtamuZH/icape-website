@@ -16,7 +16,7 @@ const Navbar = () => {
     {name: "Services", path: "/services"},
     {name: "Career", path: "/career"},
     {name: "Projects", path: "/projects"},
-    {name: "Blogs", path: "/blog"}
+    {name: "Blogs", path: "/blogs"}
   ]
 
   // Close dropdowns when clicking outside
