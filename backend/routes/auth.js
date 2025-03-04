@@ -1,8 +1,9 @@
-import express from "express";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import User from "../models/User.js";
-import dotenv from "dotenv";
+// backend/routes/auth.js
+const express = require("express");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+const dotenv = require("dotenv");
 
 dotenv.config();
 
@@ -41,7 +42,9 @@ router.post("/", async (req, res) => {
 // POST: Logout user
 router.post("/logout", async (req, res) => {
   try {
-    res.status(200).json({ message: "User logged out successfully!", token: null });
+    res
+      .status(200)
+      .json({ message: "User logged out successfully!", token: null });
   } catch (error) {
     console.error("Logout Error:", error);
     res.status(500).json({ error: error.message });
@@ -55,7 +58,7 @@ router.get("/", async (req, res) => {
     if (!users.length) {
       return res.status(404).json({ error: "No users found" });
     }
-    
+
     res.status(200).send(users);
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -99,5 +102,4 @@ router.post("/register", async (req, res) => {
   }
 });
 
-
-export default router;
+module.exports = router;

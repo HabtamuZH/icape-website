@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+// backend/models/teamMember.js
+const mongoose = require("mongoose");
 
 const teamMemberSchema = new mongoose.Schema({
   avatar: {
@@ -47,4 +48,4 @@ const teamMemberSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("TeamMember", teamMemberSchema);
+module.exports = mongoose.model("TeamMember", teamMemberSchema);

@@ -1,9 +1,10 @@
-import express from "express";
-import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-import { cloudinary } from "../Config/cloudinary.js";
-import CareerApplication from "../models/CareerApplication.js";
-import InternshipApplication from "../models/InternshipApplication.js";
+// backend/routes/applications.js
+const express = require("express");
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const { cloudinary } = require("../Config/cloudinary");
+const CareerApplication = require("../models/CareerApplication");
+const InternshipApplication = require("../models/InternshipApplication");
 
 const router = express.Router();
 
@@ -129,4 +130,4 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

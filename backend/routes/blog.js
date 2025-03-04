@@ -1,9 +1,9 @@
 // backend/routes/blog.js
-import express from "express";
-import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-import { cloudinary } from "../Config/cloudinary.js";
-import Blog from "../models/blogs.js";
+const express = require("express");
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const { cloudinary } = require("../Config/cloudinary");
+const Blog = require("../models/blogs");
 
 const router = express.Router();
 
@@ -169,4 +169,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

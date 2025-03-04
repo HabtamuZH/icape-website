@@ -1,6 +1,7 @@
-import express from "express";
-import User from "../models/User.js";
-import authMiddleware from "../middleware/authMiddleware.js";
+// backend/routes/users.js
+const express = require("express");
+const User = require("../models/User");
+const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -107,10 +108,13 @@ router.put("/password", authMiddleware, async (req, res) => {
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const isMatch = await user.matchPassword(currentPassword);
-    if (!isMatch) return res.status(400).json({ message: "Current password is incorrect" });
+    if (!isMatch)
+      return res.status(400).json({ message: "Current password is incorrect" });
 
     if (newPassword.length < 8) {
-      return res.status(400).json({ message: "New password must be at least 8 characters long" });
+      return res
+        .status(400)
+        .json({ message: "New password must be at least 8 characters long" });
     }
 
     user.password = newPassword;
@@ -122,4 +126,4 @@ router.put("/password", authMiddleware, async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

@@ -1,5 +1,7 @@
-import { v2 as cloudinary } from "cloudinary";
-import dotenv from "dotenv";
+// src/config/cloudinary.js
+const { v2: cloudinary } = require("cloudinary");
+const dotenv = require("dotenv");
+
 dotenv.config();
 
 cloudinary.config({
@@ -8,19 +10,5 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Upload an image
-// const uploadResult = await cloudinary.uploader
-//   .upload(
-//     "https://res.cloudinary.com/demo/image/upload/getting-started/shoes.jpg",
-//     {
-//       public_id: "shoes",
-//     }
-//   )
-//   .catch((error) => {
-//     console.log(error);
-//   });
-
-//   console.log(uploadResult)
-
-export default cloudinary.uploader;
-export {cloudinary}
+module.exports = cloudinary.uploader;
+module.exports.cloudinary = cloudinary;

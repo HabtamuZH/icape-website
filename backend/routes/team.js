@@ -1,9 +1,10 @@
-import express from "express";
-import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-import { cloudinary } from "../Config/cloudinary.js";
-import TeamMember from "../models/TeamMember.js";
-import authMiddleware from "../middleware/authMiddleware.js";
+// backend/routes/team.js
+const express = require("express");
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const { cloudinary } = require("../Config/cloudinary");
+const TeamMember = require("../models/TeamMember");
+const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -32,8 +33,8 @@ const upload = multer({
   },
 });
 
-// CREATE: Add a new team member with image (Admin only)authMiddleware,
-router.post("/",  upload.single("avatar"), async (req, res) => {
+// CREATE: Add a new team member with image (Admin only)
+router.post("/", upload.single("avatar"), async (req, res) => {
   try {
     const { name, title, desc, socialLinks } = req.body;
     if (!req.file) {
@@ -90,48 +91,43 @@ router.get("/:id", async (req, res) => {
 });
 
 // UPDATE: Update a team member with optional image (Admin only)
-router.put(
-  "/:id",
-//   authMiddleware,
-  upload.single("avatar"),
-  async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { name, title, desc, socialLinks } = req.body;
-      const updates = {
-        name,
-        title,
-        desc,
-        socialLinks: JSON.parse(socialLinks),
-      };
+router.put("/:id", upload.single("avatar"), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, title, desc, socialLinks } = req.body;
+    const updates = {
+      name,
+      title,
+      desc,
+      socialLinks: JSON.parse(socialLinks),
+    };
 
-      if (req.file) {
-        const oldTeamMember = await TeamMember.findById(id);
-        if (oldTeamMember && oldTeamMember.cloudinaryId) {
-          await cloudinary.uploader.destroy(oldTeamMember.cloudinaryId);
-        }
-        updates.avatar = req.file.path;
-        updates.cloudinaryId = req.file.filename.split("/").pop().split(".")[0];
+    if (req.file) {
+      const oldTeamMember = await TeamMember.findById(id);
+      if (oldTeamMember && oldTeamMember.cloudinaryId) {
+        await cloudinary.uploader.destroy(oldTeamMember.cloudinaryId);
       }
-
-      const teamMember = await TeamMember.findByIdAndUpdate(id, updates, {
-        new: true,
-      });
-      if (!teamMember)
-        return res.status(404).json({ message: "Team member not found" });
-      res
-        .status(200)
-        .json({ message: "Team member updated successfully", teamMember });
-    } catch (error) {
-      console.error("Error updating team member:", error);
-      res
-        .status(500)
-        .json({ message: "Internal server error", error: error.message });
+      updates.avatar = req.file.path;
+      updates.cloudinaryId = req.file.filename.split("/").pop().split(".")[0];
     }
-  }
-);
 
-// DELETE: Remove a team member (Admin only) authMiddleware,
+    const teamMember = await TeamMember.findByIdAndUpdate(id, updates, {
+      new: true,
+    });
+    if (!teamMember)
+      return res.status(404).json({ message: "Team member not found" });
+    res
+      .status(200)
+      .json({ message: "Team member updated successfully", teamMember });
+  } catch (error) {
+    console.error("Error updating team member:", error);
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+});
+
+// DELETE: Remove a team member (Admin only)
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -151,4 +147,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

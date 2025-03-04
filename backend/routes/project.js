@@ -1,9 +1,9 @@
 // backend/routes/projects.js
-import express from "express";
-import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-import { cloudinary } from "../Config/cloudinary.js";
-import Project from "../models/project.js";
+const express = require("express");
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const { cloudinary } = require("../Config/cloudinary");
+const Project = require("../models/project");
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 2 * 1024 * 1024 }, // Reduced to 2MB
+  limits: { fileSize: 5 * 1024 * 1024 }, // Reduced to 2MB
   fileFilter: (req, file, cb) => {
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     if (allowedTypes.includes(file.mimetype)) {
@@ -169,4 +169,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

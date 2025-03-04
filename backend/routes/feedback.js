@@ -1,8 +1,9 @@
-import { Router } from "express";
-import Feedback from "../models/Feedback.js";
-import authMiddleware from "../middleware/authMiddleware.js";
+// backend/routes/feedback.js
+const express = require("express");
+const Feedback = require("../models/Feedback");
+const authMiddleware = require("../middleware/authMiddleware");
 
-const router = Router();
+const router = express.Router();
 
 // POST: Submit new feedback (public)
 router.post("/", async (req, res) => {
@@ -16,7 +17,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// GET: Fetch all feedback (admin only)   authMiddleware,
+// GET: Fetch all feedback (admin only)
 router.get("/", async (req, res) => {
   try {
     const feedback = await Feedback.find().sort({ date: -1 });
@@ -57,4 +58,4 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

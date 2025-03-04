@@ -66,7 +66,7 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
     }
 
     const compressionOptions = {
-      maxSizeMB: 2,
+      maxSizeMB: 5,
       maxWidthOrHeight: 1920,
       useWebWorker: true,
     };
@@ -277,7 +277,7 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
           </div>
           <div className="sm:col-span-2">
             <label className="block mb-2 text-sm font-body font-medium text-primary">
-              Upload New Project Images (Max 20, 2MB each, JPG/PNG; replaces
+              Upload New Project Images (Max 20, 5MB each, JPG/PNG; replaces
               existing images)
             </label>
             <input

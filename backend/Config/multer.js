@@ -1,5 +1,6 @@
-import multer from "multer";
-import path from "path";
+// src/config/multerConfig.js
+const multer = require("multer");
+const path = require("path");
 
 // Configure Multer storage
 const storage = multer.diskStorage({
@@ -28,4 +29,4 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // Optional: Limit file size to 5MB
 });
 
-export default upload;
+module.exports = upload;

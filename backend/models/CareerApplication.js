@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const careerApplicationSchema = new mongoose.Schema({
   fullName: {
@@ -68,4 +68,4 @@ const CareerApplication = mongoose.model(
   careerApplicationSchema
 );
 
-export default CareerApplication;
+module.exports = CareerApplication;

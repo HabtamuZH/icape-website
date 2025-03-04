@@ -1,17 +1,18 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import connectDB from "./Config/db.js"; // Ensure correct case
-import User from "./models/User.js";
-import auth from "./routes/auth.js";
-import blog from "./routes/blog.js";
-import feedback from "./routes/feedback.js";
-import job from "./routes/job.js";
-import project from "./routes/project.js";
-import career from "./routes/career.js";
-import application from "./routes/applications.js";
-import team from "./routes/team.js";
-import users from "./routes/users.js";
+// backend/server.js
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const connectDB = require("./Config/db");
+const User = require("./models/User");
+const auth = require("./routes/auth");
+const blog = require("./routes/blog");
+const feedback = require("./routes/feedback");
+const job = require("./routes/job");
+const project = require("./routes/project");
+const career = require("./routes/career");
+const application = require("./routes/applications");
+const team = require("./routes/team");
+const users = require("./routes/users");
 
 dotenv.config();
 connectDB();
@@ -27,11 +28,12 @@ app.use("/api/feedbacks", feedback);
 app.use("/api/jobs", job);
 app.use("/api/projects", project);
 app.use("/api/careers", career);
-app.use("/api/applications", application)
-app.use("/api/teams" , team)
-
 app.use("/api/applications", application);
+app.use("/api/teams", team);
 app.use("/api/users", users);
+
+// Remove duplicate route (optional, kept as single line above)
+// app.use('/api/applications', application);
 
 // Home route
 app.get("/", (req, res) => {
@@ -41,27 +43,30 @@ app.get("/", (req, res) => {
 // In server.js
 const createAdmin = async () => {
   try {
-    const existingAdmin = await User.findOne({ email: "admin2@admin.com" });
+    const existingAdmin = await User.findOne({ email: "admin2@gmail.com" }); // Fixed email to match creation
 
     if (existingAdmin) {
-      console.log("Admin already exists",existingAdmin);
-      
+      console.log("Admin already exists", existingAdmin);
+      return; // Exit if admin exists
     }
-      const admin = new User({
-        firstName:'admin',
-        lastName: 'admin',
-        phone:'+251987654321',
-        email: "admin2@gmail.com",
-        password: "admin123",
-        role: "admin",
-      });
-      await admin.save();
-      console.log("Admin created successfully");
-    
+
+    const admin = new User({
+      firstName: "admin",
+      lastName: "admin",
+      phone: "+251987654321",
+      email: "admin2@gmail.com",
+      password: "admin123",
+      role: "admin",
+    });
+    await admin.save();
+    console.log("Admin created successfully");
   } catch (error) {
     console.error("Error creating admin:", error);
   }
 };
+
+// Run admin creation
+// createAdmin();
 
 // Start the server
 const PORT = process.env.PORT || 5000;

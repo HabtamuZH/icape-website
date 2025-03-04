@@ -1,5 +1,6 @@
-import express from "express";
-import CareerOpportunity from "../models/CareerOpportunity.js";
+// backend/routes/career.js
+const express = require("express");
+const CareerOpportunity = require("../models/CareerOpportunity");
 
 const router = express.Router();
 
@@ -87,4 +88,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

@@ -51,7 +51,7 @@ const PostProjectForm = ({ onClose }) => {
     }
 
     const compressionOptions = {
-      maxSizeMB: 2,
+      maxSizeMB: 5,
       maxWidthOrHeight: 1920,
       useWebWorker: true,
     };
@@ -268,7 +268,7 @@ const PostProjectForm = ({ onClose }) => {
             </div>
             <div className="sm:col-span-2">
               <label className="block mb-2 text-sm font-body font-medium text-primary">
-                Upload Project Images * (Max 20, 2MB each, JPG/PNG)
+                Upload Project Images * (Max 20, 5MB each, JPG/PNG)
               </label>
               <input
                 type="file"

@@ -1,5 +1,6 @@
-import fs from "fs";
-import uploader from "../Config/cloudinary.js";
+// backend/utils/cloudinaryUpload.js
+const fs = require("fs");
+const uploader = require("../Config/cloudinary");
 
 // Upload a single file to Cloudinary
 const uploadSingleFile = async (filePath, options = {}) => {
@@ -55,4 +56,4 @@ const uploadMultipleFiles = async (files, options = {}) => {
   }
 };
 
-export { uploadSingleFile, uploadMultipleFiles };
+module.exports = { uploadSingleFile, uploadMultipleFiles };
