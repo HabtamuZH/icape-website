@@ -32,21 +32,16 @@ const Vision = () => {
             Our Visions
           </h2>
 
-          <div className='mt-12 max-w-4xl mx-auto'>
+          <div className='mt-12 max-w-5xl mx-auto'>
             <div className='relative overflow-hidden group p-8 shadow-2xl rounded-lg bg-secondary border border-gray-300'>
               <div className="absolute inset-0 bg-[url('/texture.jpg')] opacity-10 group-hover:opacity-20 transition-opacity" />
               <div className='relative space-y-4'>
                 <p className='text-sm sm:text-xl md:text-2xl text-gray-800 font-light leading-relaxed font-body'>
                   We envision{" "}
                   <span className='text-accent'>Ethiopian cities</span> as
-                  global benchmarks of sustainable development, where{" "}
-                  <span className='text-green-400'>
-                    innovation meets tradition
-                  </span>
-                  , and communities thrive in{" "}
-                  <span className='text-yellow-400'>
+                  global benchmarks of sustainable development, where innovation meets tradition
+                  , and communities thrive in
                     harmony with their environment
-                  </span>
                   .
                 </p>
                 <div className='flex justify-center gap-4 mt-6 flex-wrap'>

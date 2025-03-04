@@ -69,7 +69,8 @@ const TeamMembers = () => {
           </p>
         </div>
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-          {team.map((member, idx) => (
+          {team.lenght > 0 ? (
+            team.map((member, idx) => (
             <div key={idx} className="team-card">
               <TeamCard
                 avatar={member.avatar}
@@ -79,7 +80,12 @@ const TeamMembers = () => {
                 socialLinks={member.socialLinks}
               />
             </div>
-          ))}
+          ))):(
+            <p>
+              Teams Members is Not found !
+            </p>
+          ) }
+  
         </div>
 
         <div className="mt-20 text-center reveal">
