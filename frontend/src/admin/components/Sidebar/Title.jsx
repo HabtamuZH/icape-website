@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { FaUserCircle } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 
-const TitleSection = ({ open }) => {
+const TitleSection = ({ open, onLogout }) => {
   return (
     <div className="mb-3 border-b border-border pb-3">
       <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-secondary">
@@ -21,7 +21,9 @@ const TitleSection = ({ open }) => {
             </motion.div>
           )}
         </div>
-        <BiLogOut className="text-red-600 mr-2" size={20} />
+        <button className="flex " onClick={onLogout}>
+          <BiLogOut className="text-red-600 mr-2" size={20} />
+        </button>
       </div>
     </div>
   );

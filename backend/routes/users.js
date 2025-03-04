@@ -76,7 +76,6 @@ router.get("/profile", authMiddleware, async (req, res) => {
 // @desc    Update user profile
 // @access  Private
 router.put("/profile", authMiddleware, async (req, res) => {
-  console.log("user update", req.user)
   const { firstName, lastName, email, phone } = req.body;
 
   try {
@@ -89,6 +88,7 @@ router.put("/profile", authMiddleware, async (req, res) => {
     user.phone = phone || user.phone;
 
     await user.save();
+
     res.status(200).json(user);
   } catch (error) {
     console.error("Error updating profile:", error);

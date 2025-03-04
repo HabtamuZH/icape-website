@@ -1,5 +1,5 @@
 // src/components/FeedbackDashboard.jsx
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import FeedbackTable from "./FeedbackTable";
 import SearchBar from "./SearchBar";
 import Pagination from "./Pagination";
@@ -16,12 +16,13 @@ const FeedbackDashboard = () => {
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyData, setReplyData] = useState({ subject: "", message: "" });
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState(null);
-  const [deleteName, setDeleteName] = useState("");
+  // const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  // const [deleteId, setDeleteId] = useState(null);
+  // const [deleteName, setDeleteName] = useState("");
   const [isMarkingRead, setIsMarkingRead] = useState(false); // Track marking as read
   const [markReadProgress, setMarkReadProgress] = useState(0); // Progress for marking as read
-  const { feedbacks, setFeedbacks, loading, setLoading, error, setError } = useFeedback();
+  const { feedbacks, setFeedbacks, loading, error, setError, load } =
+    useFeedback();
   const itemsPerPage = 5;
 
   // Filter feedback based on search query
@@ -42,20 +43,6 @@ const FeedbackDashboard = () => {
   const totalPages = Math.ceil(filteredFeedback.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-
-  // Refresh functionality
-  const handleReload = async () => {
-    setLoading(true);
-    try {
-      const res = await feedbackService.getAll();
-      setFeedbacks(res.data);
-    } catch (err) {
-      console.error("Error reloading feedback:", err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleMarkAsRead = async (id) => {
     try {
@@ -87,6 +74,7 @@ const FeedbackDashboard = () => {
     } finally {
       setIsMarkingRead(false);
       setMarkReadProgress(0); // Reset progress
+      load();
     }
   };
 
@@ -123,7 +111,7 @@ const FeedbackDashboard = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={handleReload}
+            onClick={load}
             className="px-4 py-2 bg-accent text-light font-body rounded-md shadow-md hover:bg-opacity-80 transition-all duration-200"
           >
             Refresh

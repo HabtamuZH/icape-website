@@ -8,6 +8,7 @@ import optionsData from "../../data/optionData";
 import useApplications from "../../hooks/useApplications";
 import useFeedback from "../../hooks/useFeedbacks";
 import { useLocation } from "react-router-dom";
+import useProfile from "../../hooks/useProfile";
 
 const Sidebar = ({ unreadCount }) => {
   const location = useLocation();
@@ -15,6 +16,7 @@ const Sidebar = ({ unreadCount }) => {
   const [open, setOpen] = useState(true);
   const [selected, setSelected] = useState(path || "/admin");
 
+  const { handleLogout } = useProfile();
   const { notif: appNotif } = useApplications();
   const { notif: feedbackNotif } = useFeedback();
 
@@ -35,7 +37,7 @@ const Sidebar = ({ unreadCount }) => {
         open ? "w-56" : "w-fit"
       }`}
     >
-      <TitleSection open={open} />
+      <TitleSection open={open} onLogout={handleLogout}/>
       <div className="space-y-2">
         {updatedOptionsData.map(({ Icon, title, link, notify }) => {
           if (title === "Applicants") notify = appNotif;

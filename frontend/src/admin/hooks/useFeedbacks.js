@@ -7,22 +7,25 @@ const useFeedback = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [notif, setNotif] = useState(null);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
-    const fetchFeedbacks = async () => {
-      try {
-        const res = await feedbackService.getAll();
+    feedbackService
+      .getAll()
+      .then((res) => {
         setFeedbacks(res.data);
-        const unreadCount = res.data.filter((feed) => !feed.isRead).length;
-        setNotif(unreadCount > 0 ? unreadCount : null);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchFeedbacks();
-  }, []); // Empty dependency array for initial fetch only
+        setNotif(feedbacks?.filter((app) => app.isRead === false).length);
+      })
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, [feedbacks]);
+
+  const load = () => {
+    setReload(!reload);
+  };
+
+  if (notif === 0)
+    return { feedbacks, setFeedbacks, loading, error, notif: null, load };
 
   return {
     feedbacks,
@@ -32,6 +35,7 @@ const useFeedback = () => {
     error,
     setError,
     notif,
+    load,
   };
 };
 

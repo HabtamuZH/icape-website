@@ -82,11 +82,8 @@ router.post("/", upload.single("cv"), async (req, res) => {
       return res.status(400).json({ message: "CV file is required" });
     }
 
-    console.log("Request Body:", req.body);
-
     const { opportunityType, ...rest } = req.body;
     const applicationData = { ...rest, cv: req.file.path };
-    console.log("Application Data:", req.file);
 
     let application;
 

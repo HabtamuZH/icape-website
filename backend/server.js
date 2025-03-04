@@ -41,18 +41,23 @@ app.get("/", (req, res) => {
 // In server.js
 const createAdmin = async () => {
   try {
-    const existingAdmin = await User.findOne({ email: "admin1@gmail.com" });
-    if (!existingAdmin) {
+    const existingAdmin = await User.findOne({ email: "admin2@admin.com" });
+
+    if (existingAdmin) {
+      console.log("Admin already exists",existingAdmin);
+      
+    }
       const admin = new User({
-        email: "admin1@gmail.com",
-        password: "admin123", // Will be hashed by pre-save hook
+        firstName:'admin',
+        lastName: 'admin',
+        phone:'+251987654321',
+        email: "admin2@gmail.com",
+        password: "admin123",
         role: "admin",
       });
       await admin.save();
       console.log("Admin created successfully");
-    } else {
-      console.log("Admin already exists");
-    }
+    
   } catch (error) {
     console.error("Error creating admin:", error);
   }

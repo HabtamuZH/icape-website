@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import userService from "../../services/user-service";
+import authService from "./../../services/auth-service";
+import { useNavigate } from "react-router-dom";
 
 const useProfile = () => {
+  const navigateTo = useNavigate();
   const [activeTab, setActiveTab] = useState("personal-info");
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState({
@@ -147,12 +150,24 @@ const useProfile = () => {
     }
   };
 
+  // Handle Logout
+  const handleLogout = () => {
+    authService
+      .logout()
+      .then(() => {
+        localStorage.removeItem("token");
+        navigateTo("/");
+      })
+      .catch((err) => console.log(err));
+  };
+
   return {
     activeTab,
     handleTabClick,
     editMode,
     handleEditClick,
     profile,
+    handleLogout,
     handleInputChange,
     handleSaveClick,
     handleCancelClick,
