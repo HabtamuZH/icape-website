@@ -23,7 +23,7 @@ const ContractAdminAndEngDesign = () => {
 
   return (
     <section
-      name="contract-admin-engineering"
+      name="contract"
       className="relative min-h-screen flex items-center justify-center bg-secondary overflow-hidden"
     >
       {/* Background Elements */}
@@ -65,7 +65,7 @@ const ContractAdminAndEngDesign = () => {
             vision to reality.
           </p>
           <Link
-            to="/services/contract-admin-and-engineering-design"
+            to="/services/constract-admin-and-engineering-design"
             className="discover-button px-8 py-4 bg-accent text-primary font-body font-semibold text-lg rounded-full border border-border shadow-sharp hover:bg-accent/90 hover:shadow-lg hover:-translate-y-1 transform transition-all duration-300 uppercase tracking-wider"
           >
             Explore Excellence

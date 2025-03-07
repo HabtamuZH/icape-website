@@ -1,10 +1,7 @@
 import { useEffect, useRef } from "react";
 import ScrollReveal from "scrollreveal";
 import { Link } from "react-router-dom";
-
-// Placeholder image (replace with your urban design/planning photo)
-const urbanDesignImg =
-  "https://images.unsplash.com/photo-1506703712098-7d3b6f1048c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"; // Bridge/urban scene
+import img from '../../../assets/photo15.jpg';
 
 const UrbanDesignHero = () => {
   const headingRef = useRef(null);
@@ -34,7 +31,7 @@ const UrbanDesignHero = () => {
   return (
     <section
       className="relative w-full h-screen flex items-center justify-center bg-cover bg-center bg-hero-gradient"
-      style={{ backgroundImage: `url(${urbanDesignImg})` }}
+      style={{ backgroundImage: `url(${img})` }}
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-dark bg-opacity-50 shadow-architectural" />

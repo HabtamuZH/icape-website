@@ -1,5 +1,4 @@
 import Hero from "./Hero";
-import Portfolio from "./Portfolio";
 import Process from "../common/Process";
 import ServiceOverview from "../common/ServiceOverview";
 import KeyFeatures from "../common/KeyFeatures";
@@ -8,6 +7,7 @@ import CTA from "../common/CTA";
 import { FaDraftingCompass, FaCube, FaLeaf, FaEye } from "react-icons/fa";
 import RelatedServices from "./../common/RelatedServices";
 import archDesignImg from "../../../assets/photo.jpg";
+import Portfolio from "./../common/Portfolio";
 
 const ctaContent = [
   {
@@ -107,13 +107,47 @@ const overviewContent = [
   },
 ];
 
+// Project data in a JS object (replace images with your actual project photos)
+const projects = [
+  {
+    title: "Urban Residential Tower",
+    year: "2023",
+    image:
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80",
+  },
+  {
+    title: "Modern Office Complex",
+    year: "2022",
+    image:
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80",
+  },
+  {
+    title: "Coastal Villa",
+    year: "2021",
+    image:
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80",
+  },
+  {
+    title: "Cultural Center",
+    year: "2020",
+    image:
+      "https://images.unsplash.com/photo-1504624720567-64a159072b13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80",
+  },
+];
+
 const ArchitecturalDesign = () => {
   return (
     <>
       <Hero />
       <ServiceOverview content={overviewContent} img={archDesignImg} />
-      <KeyFeatures features={features} />
-      <Portfolio />
+      <KeyFeatures
+        features={features}
+        title="Why Choose Our Architectural Design & Design Department"
+      />
+      <Portfolio
+        projects={projects}
+        title="Our Architectural Design Projects"
+      />
       <Process processSteps={processSteps} title={"Our Design Process"} />
       <Testimonials testimonials={testimonies} />
       <CTA content={ctaContent} />

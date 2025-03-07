@@ -4,6 +4,11 @@ import arcBg from "./../../../public/images/image17.jpg";
 import { Link } from "react-router-dom";
 
 const ArchitecturalDesign = () => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     const sr = ScrollReveal({
       reset: true, // Prevents re-animation
@@ -32,7 +37,7 @@ const ArchitecturalDesign = () => {
 
   return (
     <section
-      name="architectural-design"
+      name="arch"
       className="relative w-full min-h-screen overflow-hidden bg-secondary"
     >
       {/* Background Image with Overlay */}

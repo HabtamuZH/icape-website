@@ -1,10 +1,7 @@
 import { useEffect, useRef } from "react";
 import ScrollReveal from "scrollreveal";
 import { Link } from "react-router-dom";
-
-// Placeholder image (replace with your contract/engineering photo)
-const contractEngImg =
-  "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"; // Construction oversight
+import img from "../../../assets/photo12.jpg";
 
 const ContractAdminHero = () => {
   const headingRef = useRef(null);
@@ -13,7 +10,7 @@ const ContractAdminHero = () => {
 
   useEffect(() => {
     const sr = ScrollReveal({
-      distance: "50px", 
+      distance: "50px",
       duration: 1200,
       easing: "cubic-bezier(0.5, 0, 0, 1)",
       reset: false,
@@ -33,7 +30,7 @@ const ContractAdminHero = () => {
   return (
     <section
       className="relative w-full h-screen flex items-center justify-center bg-cover bg-center bg-hero-gradient"
-      style={{ backgroundImage: `url(${contractEngImg})` }}
+      style={{ backgroundImage: `url(${img})` }}
     >
       <div className="absolute inset-0 bg-dark bg-opacity-50 shadow-architectural" />
       <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-dark/40 animate-slow-spin" />

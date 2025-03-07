@@ -1,36 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useRef } from "react";
 import ScrollReveal from "scrollreveal";
 import { Link } from "react-router-dom";
 
-// Project data in a JS object (replace images with your actual project photos)
-const projects = [
-  {
-    title: "Urban Residential Tower",
-    year: "2023",
-    image:
-      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80",
-  },
-  {
-    title: "Modern Office Complex",
-    year: "2022",
-    image:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80",
-  },
-  {
-    title: "Coastal Villa",
-    year: "2021",
-    image:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80",
-  },
-  {
-    title: "Cultural Center",
-    year: "2020",
-    image:
-      "https://images.unsplash.com/photo-1504624720567-64a159072b13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80",
-  },
-];
-
-const Portfolio = () => {
+const Portfolio = ({ projects, title }) => {
   const headingRef = useRef(null);
   const projectsRef = useRef(null);
 
@@ -56,14 +29,14 @@ const Portfolio = () => {
   }, []);
 
   return (
-    <section className="w-full py-18 bg-secondary text-dark">
+    <section className="w-full py-20 bg-secondary text-dark">
       <div className="max-w-[80vw] mx-auto px-4">
         {/* Heading */}
         <h2
           ref={headingRef}
           className="text-3xl md:text-4xl font-heading text-primary text-center mb-12 animate-fadeIn drop-shadow-md"
         >
-          Our Architectural Design Projects
+          {title}
         </h2>
 
         {/* Projects Grid */}

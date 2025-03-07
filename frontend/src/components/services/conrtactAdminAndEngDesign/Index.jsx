@@ -1,6 +1,6 @@
 import CTA from "../common/CTA";
 import Hero from "./Hero";
-import Portfolio from "./Portfolio";
+import Portfolio from "../common/Portfolio";
 import ServiceOverview from "../common/ServiceOverview";
 import Testimonials from "./../common/Testimonial";
 import RelatedServices from "../common/RelatedServices";
@@ -12,7 +12,7 @@ import {
   FaClipboardCheck,
   FaChartLine,
 } from "react-icons/fa";
-import img from '../../../assets/photo11.jpg'
+import img from "../../../assets/photo11.jpg";
 
 const CtaContent = [
   {
@@ -108,20 +108,55 @@ const overviewContent = [
   },
 ];
 
+const contractProjects = [
+  {
+    title: "Commercial Complex Oversight",
+    year: "2023",
+    image:
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80",
+  },
+  {
+    title: "Industrial Facility Design",
+    year: "2022",
+    image:
+      "https://images.unsplash.com/photo-1581094282-33a6b996e4a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80",
+  },
+  {
+    title: "Residential Development",
+    year: "2021",
+    image:
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80",
+  },
+  {
+    title: "Infrastructure Upgrade",
+    year: "2020",
+    image:
+      "https://images.unsplash.com/photo-1506703712098-7d3b6f1048c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80",
+  },
+];
+
 const ContractAdminAndEngineeringDesign = () => {
   return (
     <>
       <Hero />
-      <ServiceOverview content={overviewContent} img={img}/>
-      <Features features={features} />
-      <Portfolio />
+      <ServiceOverview content={overviewContent} img={img} />
+      <Features
+        features={features}
+        title={"Why Choose Our Contract Administration & Engineering Design"}
+      />
+      <Portfolio
+        projects={contractProjects}
+        title="Our Contract Administration & Engineering Projects"
+      />
       <Process
         processSteps={processSteps}
         title={"Our Contract Administration Process"}
       />
       <Testimonials testimonials={testimonies} />
       <CTA content={CtaContent} />
-      <RelatedServices title={'contract administration and engineering design'}/>
+      <RelatedServices
+        title={"contract administration and engineering design"}
+      />
     </>
   );
 };

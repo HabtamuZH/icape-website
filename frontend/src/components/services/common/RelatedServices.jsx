@@ -4,8 +4,7 @@ import ScrollReveal from "scrollreveal";
 import { Link } from "react-router-dom";
 import services from "../../../data/services/services";
 
-const RelatedServices = ({title}) => {
-  
+const RelatedServices = ({ title }) => {
   const relatedServices = services.filter((service) => service.title !== title);
 
   const headingRef = useRef(null);
@@ -33,7 +32,7 @@ const RelatedServices = ({title}) => {
   }, []);
 
   return (
-    <section className="w-full py-18 bg-light text-dark">
+    <section className="w-full py-20 bg-light text-dark">
       <div className="max-w-[80vw] mx-auto px-4">
         {/* Heading */}
         <h2
@@ -48,13 +47,10 @@ const RelatedServices = ({title}) => {
           ref={servicesRef}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {relatedServices.map(({ title, description, icon }, index) => (
+          {relatedServices.map(({ title, link, description, icon }, index) => (
             <Link
               key={index}
-              to={`/services/${title
-                .toLowerCase()
-                .replace(/ & /g, "-")
-                .replace(/ /g, "-")}`} // Dynamic route
+              to={`${link}`.trim()}
               className="group bg-secondary p-6 rounded-xl2 shadow-architectural hover:shadow-sharp hover:scale-105 transition-all duration-300 ease-in-out flex flex-col items-center text-center"
             >
               {icon && (

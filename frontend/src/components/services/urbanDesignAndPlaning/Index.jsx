@@ -2,12 +2,12 @@ import CTA from "../common/CTA";
 import Testimonials from "../common/Testimonial";
 import KeyFeatures from "../common/KeyFeatures";
 import Hero from "./Hero";
-import Portfolio from "./Portfolio";
 import Process from "../common/Process";
 import ServiceOverview from "../common/ServiceOverview";
 import img from "../../../assets/photo8.jpg";
 import { FaCity, FaMap, FaUsers, FaRecycle } from "react-icons/fa";
 import RelatedServices from "../common/RelatedServices";
+import Portfolio from "./../common/Portfolio";
 
 const ctaContent = [
   {
@@ -105,13 +105,46 @@ const overviewContent = [
   },
 ];
 
+const projects = [
+  {
+    title: "Downtown Revitalization",
+    year: "2023",
+    image:
+      "https://images.unsplash.com/photo-1506703712098-7d3b6f1048c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80", // Urban bridge
+  },
+  {
+    title: "Green City Master Plan",
+    year: "2022",
+    image:
+      "https://images.unsplash.com/photo-1514565131-fce0801e5785?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80", // Cityscape
+  },
+  {
+    title: "Coastal Community Hub",
+    year: "2021",
+    image:
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80", // Coastal urban
+  },
+  {
+    title: "Transit-Oriented District",
+    year: "2020",
+    image:
+      "https://images.unsplash.com/photo-1444723121867-7a241cacace9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80", // Urban transit
+  },
+];
+
 const UrbanDesignAndPlaning = () => {
   return (
     <>
       <Hero />
       <ServiceOverview content={overviewContent} img={img} />
-      <KeyFeatures features={features} />
-      <Portfolio />
+      <KeyFeatures
+        features={features}
+        title={"Why Choose Our Urban Design & Planning"}
+      />
+      <Portfolio
+        projects={projects}
+        title="Our Urban Design & Planning Projects"
+      />
       <Process processSteps={processSteps} title={"Our Urban Design Process"} />
       <Testimonials testimonials={testimonies} />
       <CTA content={ctaContent} />

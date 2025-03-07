@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import ScrollReveal from "scrollreveal";
 
-const Features = ({ features }) => {
+const Features = ({ features, title }) => {
   const headingRef = useRef(null);
   const featuresRef = useRef(null);
 
@@ -28,14 +28,14 @@ const Features = ({ features }) => {
   }, []);
 
   return (
-    <section className="w-full py-18 bg-light text-dark">
+    <section className="w-full py-20 bg-light text-dark">
       <div className="max-w-[80vw] mx-auto px-4">
         {/* Heading */}
         <h2
           ref={headingRef}
           className="text-3xl md:text-4xl font-heading text-primary text-center mb-12 animate-fadeIn drop-shadow-md"
         >
-          Why Choose Our Urban Design & Planning
+          {title}
         </h2>
 
         {/* Features Grid */}

@@ -23,7 +23,7 @@ const UrbanDesignAndPlanning = () => {
 
   return (
     <section
-      name="urban-planning"
+      name="urban"
       className="relative min-h-screen flex items-center overflow-hidden bg-secondary"
     >
       {/* Background Overlay */}
@@ -42,7 +42,7 @@ const UrbanDesignAndPlanning = () => {
             thrive for generations.
           </p>
           <Link
-            to="/services/urban-design-planning"
+            to="/services/urban-design-and-planning"
             className="discover-button px-8 py-3 bg-accent text-primary font-body font-semibold text-base rounded-full border border-border shadow-sharp hover:bg-accent/90 hover:shadow-lg hover:-translate-y-1 transform transition-all duration-300 uppercase tracking-wide"
           >
             Discover More
