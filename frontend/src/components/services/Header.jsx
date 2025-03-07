@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import { useEffect } from "react";
 import ScrollReveal from "scrollreveal";
 import headerBg from "./../../../public/images/image4.jpg"; // Verify path
-import services from "../../data/serviceDescription"; // Ensure this exports an array
+import services from "../../data/services/services"; // Ensure this exports an array
 import { Link as ScrollLink } from "react-scroll";
 import { Link } from "react-router-dom";
 
