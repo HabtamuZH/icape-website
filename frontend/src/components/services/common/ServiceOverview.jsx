@@ -33,18 +33,24 @@ const ServiceOverview = ({ content, img }) => {
 
       <div className="max-w-[85vw] mx-auto px-6 sm:px-8 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 relative z-10">
         {/* Text Content */}
-        <div ref={sectionRef} className="lg:w-2/3 pr-0 lg:pr-16 space-y-8">
-          {content.map((item, index) => (
+        <div ref={sectionRef} className="lg:w-2/3 pr-0 lg:pr-2 space-y-8">
+          {content.map(({ title, subtitle, description }, index) => (
             <div key={index} className="space-y-6">
               <h2 className="text-4xl md:text-5xl font-heading font-bold text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent drop-shadow-md animate-fadeIn">
-                {item.title}
+                {title}
               </h2>
               <h3 className="text-xl md:text-2xl lg:text-3xl font-body text-accent animate-fadeIn">
-                {item.subtitle}
+                {subtitle}
               </h3>
-              <p className="text-lg md:text-xl font-body text-dark/90 leading-relaxed max-w-lg animate-fadeIn">
-                {item.description}
-              </p>
+
+              {description.map((desc, i) => (
+                <p
+                  key={i}
+                  className="text-lg md:text-lg font-body text-dark/90 leading-relaxed max-w-lg animate-fadeIn"
+                >
+                  {desc}
+                </p>
+              ))}
             </div>
           ))}
         </div>

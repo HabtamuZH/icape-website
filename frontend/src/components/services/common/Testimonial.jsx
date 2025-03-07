@@ -2,9 +2,7 @@
 import { useEffect, useRef } from "react";
 import ScrollReveal from "scrollreveal";
 
-
 const Testimonials = ({ testimonials }) => {
-  
   const headingRef = useRef(null);
   const testimonialsRef = useRef(null);
 
@@ -30,7 +28,7 @@ const Testimonials = ({ testimonials }) => {
   }, []);
 
   return (
-    <section className="w-full py-24 bg-secondary text-dark">
+    <section className="w-full py-16 bg-secondary text-dark">
       <div className="max-w-[80vw] mx-auto px-4">
         {/* Heading */}
         <h2
@@ -48,14 +46,9 @@ const Testimonials = ({ testimonials }) => {
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="bg-light p-6 rounded-xl2 shadow-architectural hover:shadow-sharp transition-all duration-300 ease-in-out flex flex-col items-center text-center"
+              className="bg-light p-6 rounded-xl2 shadow-architectural hover:shadow-sharp transition-all duration-300 ease-in-out flex flex-col  "
             >
-              <img
-                src={testimonial.image}
-                alt={`${testimonial.client} portrait`}
-                className="w-24 h-24 rounded-full object-cover mb-4 border-2 border-accent"
-              />
-              <p className="text-base font-body text-dark italic mb-4 leading-relaxed">
+              <p className="text-base font-body text-dark italic mb-4 leading-relaxed text-center">
                 &quot;{testimonial.quote}&quot;
               </p>
               <h3 className="text-lg font-heading text-primary">
