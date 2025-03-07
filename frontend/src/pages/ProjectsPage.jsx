@@ -1,15 +1,11 @@
-import Projects from '../projects/Projects'
-import { useEffect } from "react";
+import Projects from "../projects/Projects";
 
 const ProjectPage = () => {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-      }, []);
-    return (
-        <>
-        <Projects />
-        </>
-    )
-}
+  return (
+    <>
+      <Projects />
+    </>
+  );
+};
 
-export default ProjectPage
+export default ProjectPage;

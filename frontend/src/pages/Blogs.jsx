@@ -1,16 +1,11 @@
-import { useEffect } from "react";
 import BlogList from "../components/Blogs/BlogList";
 
 const Blogs = () => {
+  return (
+    <>
+      <BlogList />
+    </>
+  );
+};
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-      }, []);
-    return(
-        <>
-            <BlogList/>
-        </>
-    )
-}
-
-export default Blogs
+export default Blogs;

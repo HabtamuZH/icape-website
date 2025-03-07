@@ -9,10 +9,8 @@ import {
 import ScrollReveal from "scrollreveal"
 import SpotlightCard from "./SpotlightCard" // Ensure this component exists or remove if unused
 import {Link} from "react-router-dom"
-import teamImage from "../../../public/teamimages.jpg" // Verify paths
-import award1 from "../../../public/award.jpeg"
+import teamImage from "../../../public/teamimages.jpg" 
 import award2 from "../../../public/award1.jpeg"
-import award3 from "../../../public/award 2.jpeg"
 import awardBg from "../../../public/awardbg.jpg"
 import office from "../../../public/firstoffice.jpeg"
 import project from "../../../public/firstproject.jpg"

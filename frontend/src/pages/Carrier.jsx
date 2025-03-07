@@ -1,16 +1,11 @@
-import AnnouncementSection from "../components/career/Annoucement"
-import { useEffect } from "react";
+import AnnouncementSection from "../components/career/Annoucement";
 
+const Carrier = () => {
+  return (
+    <>
+      <AnnouncementSection />
+    </>
+  );
+};
 
-const Carrier= () => {
-    useEffect(() => {
-            window.scrollTo(0, 0);
-          }, []);
-    return(
-        <>
-        <AnnouncementSection/>
-        </>
-    )
-}
-
-export default Carrier
+export default Carrier;
