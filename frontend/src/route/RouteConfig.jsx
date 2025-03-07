@@ -75,7 +75,7 @@ const RouteConfig = () => {
           element={<ArchitecturalDesign />}
         />
         <Route
-          path="/services/urban-design-planning"
+          path="/services/urban-design-and-planning"
           element={<UrbanDesignAndPlaning />}
         />
         <Route
