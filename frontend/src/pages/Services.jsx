@@ -1,7 +1,7 @@
 import Header from "../components/services/Header";
 import ArchitecturalDesign from "../components/services/ArchitecturalDesign";
-import UrbanPlanning from "../components/services/UrbanPlanning";
-import InteriorDesign from "../components/services/InteriorDesign";
+import UrbanDesignAndPlanning from "../components/services/UrbanDesignAndPlanning";
+import ContractAdminAndEngDesign from "../components/services/ContractAdminAndEngDesign";
 import { useEffect } from "react";
 
 const Services = () => {
@@ -12,8 +12,8 @@ const Services = () => {
     <div>
       <Header />
       <ArchitecturalDesign />
-      <UrbanPlanning />
-      <InteriorDesign />
+      <UrbanDesignAndPlanning />
+      <ContractAdminAndEngDesign />
     </div>
   );
 };
