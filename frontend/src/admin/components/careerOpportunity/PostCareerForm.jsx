@@ -184,7 +184,7 @@ const PostCareerForm = ({ onClose }) => {
               Key Details / Benefits
             </label>
             {formData.details.map((detail, index) => (
-              <div key={index} className="flex items-center mb-3">
+              <div key={index} className="items-center mb-3">
                 <InputField
                   id={`detail-${index}`}
                   name={`details[${index}]`}
