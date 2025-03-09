@@ -1,4 +1,4 @@
-import { FaTwitter, FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaTwitter, FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -62,6 +62,14 @@ const Footer = () => {
         </aside>
         <nav>
           <div className="grid grid-flow-col gap-4">
+          <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Twitter"
+            >
+              <FaLinkedin className="w-6 h-6 text-secondary hover:text-accent transition duration-300" />
+            </a>
             <a
               href="https://twitter.com"
               target="_blank"
@@ -71,7 +79,7 @@ const Footer = () => {
               <FaTwitter className="w-6 h-6 text-secondary hover:text-accent transition duration-300" />
             </a>
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/share/15WcUqAadX/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"

@@ -2,12 +2,68 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="favicon" href="favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>iCAPE</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>iCAPE Studio - Architecture, Planning & Engineering Services</title>
+    <meta name="description" content="iCAPE Studio offers expert architecture, planning, and engineering services. Transform your vision into reality with our innovative designs and sustainable solutions." />
+    <meta name="keywords" content="architecture, planning, engineering, iCAPE Studio, architectural design, sustainable architecture, engineering services, urban planning" />
+    <meta name="author" content="iCAPE Studio" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph Tags for Social Media -->
+    <meta property="og:title" content="iCAPE Studio - Architecture, Planning & Engineering" />
+    <meta property="og:description" content="Discover top-tier architecture, planning, and engineering services at iCAPE Studio. Contact us for innovative and sustainable design solutions." />
+    <meta property="og:image" content="https://icape.studio/images/og-image.jpg" />
+    <meta property="og:url" content="https://icape.studio" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="iCAPE Studio - Architecture, Planning & Engineering" />
+    <meta name="twitter:description" content="Expert architecture, planning, and engineering services by iCAPE Studio. Innovative designs for your projects." />
+    <meta name="twitter:image" content="https://icape.studio/images/twitter-image.jpg" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://icape.studio" />
+
+    <!-- Preload Key Assets (Improve Performance) -->
+    <link rel="preload" href="/src/main.jsx" as="script" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Structured Data (Schema Markup for Architecture Firm) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "iCAPE Studio",
+        "url": "https://icape.studio",
+        "logo": "https://icape.studio/images/icape_Logo.png",
+        "description": "iCAPE Studio provides architecture, planning, and engineering services with a focus on innovative and sustainable design solutions.",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Equatorial Guinea St, Addis Ababa",
+          "addressLocality": "2Q9W+6V Addis Ababa",
+          "addressRegion": "Ethiopia, Addis Ababa",
+          "postalCode": "1000",
+          "addressCountry": "Ethiopia"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+251 913 263 030",
+          "contactType": "Customer Service"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/company/icape-studio",
+          "https://www.instagram.com/icapestudio",
+          "https://twitter.com/icapestudio"
+          "https://www.facebook.com/share/15WcUqAadX/"
+        ]
+      }
+    </script>
   </body>
 </html>

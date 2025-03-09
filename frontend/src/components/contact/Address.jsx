@@ -43,7 +43,7 @@ const AddressInformation = () => {
               transition={{ duration: 1, delay: 0.2 }}
             >
               <Phone className="w-7 h-7 text-blue-400" />
-              <span className="text-lg font-medium">+123 456 7890</span>
+              <span className="text-lg font-medium">+251 913 263 030</span>
             </motion.div>
 
             <motion.div
@@ -54,7 +54,7 @@ const AddressInformation = () => {
             >
               <Mail className="w-7 h-7 text-blue-400" />
               <span className="text-lg font-medium">
-                info@artifactcompany.com
+                info@icapestudio.com
               </span>
             </motion.div>
 
@@ -88,7 +88,7 @@ const AddressInformation = () => {
             </motion.a>
 
             <motion.a
-              href="https://wa.me/251910299794"
+              href="https://t.me/iCAPEConsulting"
               target="_blank"
               className="flex items-center justify-center bg-green-500 text-white px-6 py-3 rounded-lg font-semibold text-lg hover:bg-green-600 transition duration-300"
               initial={{ scale: 0.9 }}

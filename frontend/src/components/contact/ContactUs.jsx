@@ -88,11 +88,11 @@ const Contact = () => {
             {[
               {
                 icon: <Phone className="w-6 h-6 text-accent" />,
-                text: "+251 912 345 678",
+                text: "+251 913 263 030",
               },
               {
                 icon: <Mail className="w-6 h-6 text-accent" />,
-                text: "info@artifactcompany.com",
+                text: "info@icapestudio.com",
               },
               {
                 icon: <Clock className="w-6 h-6 text-accent" />,
@@ -113,12 +113,12 @@ const Contact = () => {
           <div className="mt-6 flex flex-col sm:flex-row gap-4">
             {[
               {
-                href: "mailto:info@artifactcompany.com",
+                href: "mailto:info@icapestudio.com",
                 text: "Email Us",
                 icon: <ArrowRight className="ml-2 w-5 h-5" />,
               },
               {
-                href: "https://wa.me/251912345678",
+                href: "https://t.me/iCAPEConsulting",
                 text: "Live Chat",
                 icon: <MessageCircle className="ml-2 w-5 h-5" />,
               },
