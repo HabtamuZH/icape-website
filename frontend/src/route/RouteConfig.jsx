@@ -25,7 +25,7 @@ import ProjectDashboard from "../admin/components/projects/Index";
 import AdminTeamManagement from "../admin/components/teamMember/AdminTeamManagement";
 import BlogDetails from "../components/Blogs/BlogDetails";
 import BlogList from "../components/Blogs/BlogList";
-import ArchitecturalDesign from "../components/services/arcDesign";
+import ArchitecturalDesign from "../components/services/arcDesign/Index";
 import UrbanDesignAndPlaning from './../components/services/urbanDesignAndPlaning/Index';
 import ContractAdminAndEngineeringDesign from './../components/services/conrtactAdminAndEngDesign/Index';
 
