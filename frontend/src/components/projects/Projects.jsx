@@ -33,10 +33,10 @@ const Projects = () => {
   useEffect(() => {
     const type = location.pathname.split('/').pop().toUpperCase();
     setProjectType(
-      type === 'ARCHITECTURE' || type === 'URBAN' || type === 'INTERIOR' ? type : 'ALL'
+      type === 'ARCHITECTURE DESIGN' || type === 'URBAN DESIGN' || type === 'CONTRACT ADMINISTRATION AND ENGINEERING DESIGN' ? type : 'ALL'
     );
     setFilterType(
-      type === 'ARCHITECTURE' || type === 'URBAN' || type === 'INTERIOR' ? type : 'ALL'
+      type === 'ARCHITECTURE DESIGN' || type === 'URBAN DESIGN' || type === 'ENGINEERING DESIGN' ? type : 'ALL'
     );
   }, [location]);
 
@@ -80,9 +80,9 @@ const Projects = () => {
             onChange={(e) => setFilterType(e.target.value)}
           >
             <option value="ALL">All Projects</option>
-            <option value="ARCHITECTURE">Architecture</option>
-            <option value="URBAN">Urban Planning</option>
-            <option value="INTERIOR">Interior Design</option>
+            <option value="ARCHITECTURE DESIGN">Architecture Design</option>
+            <option value="URBAN DESIGN">Urban Planning && Design</option>
+            <option value="ENGINEERING DESIGN">Engineering Design</option>
           </select>
         </div>
 

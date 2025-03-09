@@ -4,9 +4,9 @@ import React from "react";
 const ProjectFilter = ({ typeFilter, setTypeFilter }) => {
   const types = [
     { value: "", label: "All Types" },
-    { value: "completed", label: "Completed" },
-    { value: "ongoing", label: "Ongoing" },
-    { value: "upcoming", label: "Upcoming" },
+    { value: "architectural design", label: "Architectural Design" },
+    { value: "urban design", label: "Urban Design And Planning" },
+    { value: "engineering design", label: "Contract Administration and Engineering Design" },
   ];
 
   return (

@@ -12,9 +12,9 @@ import projectService from "../../../services/project-service";
 
 const types = [
   { value: "", label: "Select Type" },
-  { value: "architecture", label: "Architecture" },
-  { value: "urban", label: "Urban Planning" },
-  { value: "interior", label: "Interior Design" },
+  { value: "architecture design", label: "Architecture Design" },
+  { value: "urban design", label: "Urban Planning Design" },
+  { value: "engineering design", label: "Contract Administration and Engineering Design" },
 ];
 
 const PostProjectForm = ({ onClose }) => {

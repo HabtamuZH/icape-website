@@ -12,9 +12,9 @@ import SuccessModal from "../blogs/SuccessModal";
 
 const types = [
   { value: "", label: "Select Type" },
-  { value: "completed", label: "Completed" },
-  { value: "ongoing", label: "Ongoing" },
-  { value: "upcoming", label: "Upcoming" },
+  { value: "architecture design", label: "Architectural Design" },
+  { value: "urban design", label: "Urban Planning and Design" },
+  { value: "engineering design", label: "Contract Adminstration and Engineering Design" },
 ];
 
 const UpdateProjectForm = ({ initialData, onClose }) => {

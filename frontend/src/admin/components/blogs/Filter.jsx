@@ -4,9 +4,9 @@ import React from "react";
 const BlogFilter = ({ categoryFilter, setCategoryFilter }) => {
   const categories = [
     { value: "", label: "All Categories" },
-    { value: "arch", label: "Architecture" },
-    { value: "tech", label: "Technology" },
-    { value: "dev", label: "Development" },
+    { value: "architectural design", label: "Architectural Design" },
+    { value: "urban design", label: "Urban Design And Planning" },
+    { value: "engineering design", label: "Contract Administration and Engineering Design" },
   ];
 
   return (

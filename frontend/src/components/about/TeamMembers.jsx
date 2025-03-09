@@ -68,7 +68,7 @@ const TeamMembers = () => {
             A passionate team committed to innovation and excellence.
           </p>
         </div>
-        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+        <div className={ `${team} ? "grid gap-8 sm:grid-cols-2 md:grid-cols-3":""`}>
           {team.lenght > 0 ? (
             team.map((member, idx) => (
             <div key={idx} className="team-card">
@@ -81,7 +81,7 @@ const TeamMembers = () => {
               />
             </div>
           ))):(
-            <p>
+            <p className="font-body text-center">
               Teams Members is Not found !
             </p>
           ) }

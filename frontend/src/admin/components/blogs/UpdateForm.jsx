@@ -12,9 +12,9 @@ import SuccessModal from "./SuccessModal";
 
 const categories = [
   { value: "", label: "Select Category" },
-  { value: "arch", label: "Architecture" },
-  { value: "tech", label: "Technology" },
-  { value: "dev", label: "Development" },
+  { value: "architectural design", label: "Architectural Design, Design Department" },
+  { value: "urban design", label: "Urban Design And Planning" },
+  { value: "engineering design", label: "Contract Administration and Engineering Design" },
 ];
 
 const UpdateForm = ({ initialData, onClose }) => {

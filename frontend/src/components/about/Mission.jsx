@@ -68,9 +68,9 @@ const Mission = () => {
         </div>
 
         {/* Enhanced Mission Pillars */}
-        <div className="grid gap-16 md:gap-24">
+        {/* <div className="grid gap-16 md:gap-24"> */}
           {/* Global Impact Section */}
-          <div className="grid md:grid-cols-2 gap-8 items-center mission-element">
+          {/* <div className="grid md:grid-cols-2 gap-8 items-center mission-element">
             <div className="relative group flex justify-center shadow-2xl rounded-lg bg-secondary">
               <div className="absolute rounded-3xl blur opacity-30 group-hover:opacity-50 transition-all" />
               <div className="relative p-8 bg-secondary rounded-3xl space-y-6">
@@ -114,7 +114,7 @@ const Mission = () => {
                 </span>
               </div>
             </SpotlightCard>
-          </div>
+          </div> */}
 
           {/* Innovation Section
           <div className='grid md:grid-cols-2 gap-8 items-center mission-element'>
@@ -161,7 +161,7 @@ const Mission = () => {
           </div> */}
 
           {/* Community Empowerment Section */}
-          <div className="grid md:grid-cols-2 gap-8 items-center mission-element ">
+          {/* <div className="grid md:grid-cols-2 gap-8 items-center mission-element ">
             <div className="relative group flex justify-center shadow-2xl rounded-lg bg-secondary">
               <div className="absolute rounded-3xl blur opacity-30 group-hover:opacity-50 transition-all" />
               <div className="relative p-8  rounded-3xl space-y-6  bg-secondary ">
@@ -217,8 +217,8 @@ const Mission = () => {
                 </span>
               </div>
             </SpotlightCard>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
       </div>
     </section>
   );

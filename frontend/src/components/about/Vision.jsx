@@ -66,7 +66,7 @@ const Vision = () => {
         {/* Enhanced Vision Cards Grid */}
         <div className='grid gap-8 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 vision-element'>
           {/* Innovation Card */}
-          <div className='group relative overflow-hidden h-full shadow-2xl rounded-lg bg-secondary'>
+          {/* <div className='group relative overflow-hidden h-full shadow-2xl rounded-lg bg-secondary'>
             <div className="absolute inset-0 bg-[url('/innovation-bg.jpg')] opacity-30 group-hover:opacity-40 transition-opacity" />
             <div className='relative md:p-8 h-full flex flex-col'>
               <div className='mb-6 flex justify-center'>
@@ -102,10 +102,10 @@ const Vision = () => {
                 </ul>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Global Impact Card */}
-          <div className='group relative overflow-hidden h-full shadow-2xl rounded-lg bg-secondary'>
+          {/* <div className='group relative overflow-hidden h-full shadow-2xl rounded-lg bg-secondary'>
             <div className="absolute inset-0 bg-[url('/global-bg.jpg')] opacity-30 group-hover:opacity-40 transition-opacity" />
             <div className='relative md:p-8 h-full flex flex-col'>
               <div className='mb-6 flex justify-center'>
@@ -132,7 +132,7 @@ const Vision = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Sustainable Growth Card
           <div className='group relative overflow-hidden h-full shadow-2xl rounded-lg bg-secondary'>

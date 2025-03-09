@@ -156,7 +156,7 @@ const useProfile = () => {
       .logout()
       .then(() => {
         localStorage.removeItem("token");
-        navigateTo("/");
+        navigateTo("/login");
       })
       .catch((err) => console.log(err));
   };

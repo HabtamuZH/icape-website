@@ -23,7 +23,7 @@ const BlogList = () => {
     const fetchBlogs = async () => {
       try {
         const res = await blogService.getAll();
-        console.log("API Response:", res.data);
+        // console.log("API Response:", res.data);
         setBlogs(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error("Error fetching blogs:", err);

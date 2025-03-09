@@ -44,7 +44,7 @@ const AwardDetails = () => {
     const fetchAwardData = () => {
       const foundAward = awardsDatabase[id] || defaultAward
       setAward(foundAward)
-      console.log("Award fetched for ID:", id, foundAward)
+      // console.log("Award fetched for ID:", id, foundAward)
     }
 
     fetchAwardData()
