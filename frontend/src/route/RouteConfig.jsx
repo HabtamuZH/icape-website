@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "../pages/Home";
 import About from "../pages/About";
 import ContactUs from "../pages/Contact";
-import Blogs from "../pages/Blogs";
 import Services from "../pages/Services";
 import ProjectDetails from "../components/projects/ProjectDetails";
 import Projects from "../components/projects/Projects";
@@ -25,6 +25,9 @@ import ProjectDashboard from "../admin/components/projects/Index";
 import AdminTeamManagement from "../admin/components/teamMember/AdminTeamManagement";
 import BlogDetails from "../components/Blogs/BlogDetails";
 import BlogList from "../components/Blogs/BlogList";
+import ArchitecturalDesign from "../components/services/arcDesign";
+import UrbanDesignAndPlaning from './../components/services/urbanDesignAndPlaning/Index';
+import ContractAdminAndEngineeringDesign from './../components/services/conrtactAdminAndEngDesign/Index';
 
 // ProtectedRoute component to secure admin routes
 const ProtectedRoute = ({ children }) => {
@@ -33,6 +36,7 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const RouteConfig = () => {
+  // eslint-disable-next-line no-unused-vars
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [loading, setLoading] = useState(true);
 
@@ -66,6 +70,18 @@ const RouteConfig = () => {
         <Route path="/blogs" element={<BlogList />} />
         <Route path="/blogs/:id" element={<BlogDetails />} />
         <Route path="/services" element={<Services />} />
+        <Route
+          path="/services/architectural-design"
+          element={<ArchitecturalDesign />}
+        />
+        <Route
+          path="/services/urban-design-and-planning"
+          element={<UrbanDesignAndPlaning />}
+        />
+        <Route
+          path="/services/constract-admin-and-engineering-design"
+          element={<ContractAdminAndEngineeringDesign />}
+        />
         <Route path="/career" element={<Annoucement />}>
           <Route index element={<Annoucement />} />{" "}
           {/* Default view for /career */}

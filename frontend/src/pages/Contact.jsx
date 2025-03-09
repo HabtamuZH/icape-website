@@ -1,15 +1,11 @@
-import Contact from "../components/contact/ContactUs"
-import { useEffect } from "react";
+import Contact from "../components/contact/ContactUs";
 
 const ContactUs = () => {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-      }, []);
-    return(
-        <>
-            <Contact/>
-        </>
-    )
-}
+  return (
+    <>
+      <Contact />
+    </>
+  );
+};
 
-export default ContactUs
+export default ContactUs;

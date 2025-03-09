@@ -1,11 +1,12 @@
+/* eslint-disable react/prop-types */
 import { useEffect } from "react";
 import ScrollReveal from "scrollreveal";
 import headerBg from "./../../../public/images/image4.jpg"; // Verify path
-import services from "../../data/serviceDescription"; // Ensure this exports an array
+import services from "../../data/services/services"; // Ensure this exports an array
 import { Link as ScrollLink } from "react-scroll";
 import { Link } from "react-router-dom";
 
-const Header = ({ home }) => {
+const Header = ({ home = false }) => {
   useEffect(() => {
     const sr = ScrollReveal({
       reset: true,
@@ -46,10 +47,6 @@ const Header = ({ home }) => {
         {/* Service Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-12 lg:mt-16">
           {services.map((service, index) => {
-            const sectionId = service.title
-              .toLowerCase()
-              .trim()
-              .replace(/\s+/g, "-");
             return (
               <div
                 key={index}
@@ -78,7 +75,7 @@ const Header = ({ home }) => {
                   <Link
                     to={{
                       pathname: "/services",
-                      state: { scrollTo: sectionId }, // Pass section ID via state
+                      state: { scrollTo: service.sectionId },
                     }}
                     className="mt-4 text-accent font-body text-sm lg:text-base hover:text-accent/80 transition-colors"
                   >
@@ -86,7 +83,7 @@ const Header = ({ home }) => {
                   </Link>
                 ) : (
                   <ScrollLink
-                    to={sectionId}
+                    to={service.sectionId}
                     smooth={true}
                     duration={500}
                     offset={-80}

@@ -1,5 +1,5 @@
 import {useState} from "react"
-import {FaUser, FaEnvelope, FaLock, FaCamera} from "react-icons/fa"
+import {FaUser, FaEnvelope, FaLock} from "react-icons/fa"
 import {Link} from "react-router-dom"
 import axios from "axios"
 

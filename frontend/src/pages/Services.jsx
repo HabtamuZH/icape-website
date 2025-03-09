@@ -1,19 +1,16 @@
 import Header from "../components/services/Header";
 import ArchitecturalDesign from "../components/services/ArchitecturalDesign";
-import UrbanPlanning from "../components/services/UrbanPlanning";
-import InteriorDesign from "../components/services/InteriorDesign";
-import { useEffect } from "react";
+import UrbanDesignAndPlanning from "../components/services/UrbanDesignAndPlanning";
+import ContractAdminAndEngDesign from "../components/services/ContractAdminAndEngDesign";
 
 const Services = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+
   return (
     <div>
       <Header />
       <ArchitecturalDesign />
-      <UrbanPlanning />
-      <InteriorDesign />
+      <UrbanDesignAndPlanning />
+      <ContractAdminAndEngDesign />
     </div>
   );
 };

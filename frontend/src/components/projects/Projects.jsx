@@ -40,10 +40,6 @@ const Projects = () => {
     );
   }, [location]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const filteredProjects = projects.filter((project) => {
     const matchesSearch = project.name
       .toLowerCase()

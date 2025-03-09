@@ -5,6 +5,7 @@ import blogService from "../../services/blog-service";
 import LoadingSpinner from "../common/LoadingSpinner";
 import BlogFilter from "./BlogFilter";
 import BlogCard from "./BlogCard";
+import Error from "../common/Error";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
@@ -71,13 +72,7 @@ const BlogList = () => {
       </div>
     );
   }
-  if (error) {
-    return (
-      <p className="min-h-screen text-center text-red-500 py-12 text-xl font-semibold">
-        Error: {error}
-      </p>
-    );
-  }
+  if (error) return <Error message={error} variant="danger" />;
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 sm:py-16 md:py-32 px-4 sm:px-6 md:px-8">

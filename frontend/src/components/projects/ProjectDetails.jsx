@@ -1,5 +1,5 @@
 // src/components/Projects/ProjectDetails.js
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 
@@ -21,10 +21,6 @@ const ProjectDetails = () => {
       </div>
     );
   }
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   const openModal = (image) => {
     setSelectedImage(image);

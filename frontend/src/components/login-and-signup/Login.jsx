@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import {useState} from "react"
 import {FaEnvelope, FaGoogle, FaLock} from "react-icons/fa"
 import {Link, useNavigate} from "react-router-dom"
 import axios from "axios"
