@@ -1,4 +1,4 @@
-import {useEffect} from "react"
+import { useEffect } from "react"
 import {
   FaHistory,
   FaBuilding,
@@ -8,15 +8,16 @@ import {
 } from "react-icons/fa"
 import ScrollReveal from "scrollreveal"
 import SpotlightCard from "./SpotlightCard" // Ensure this component exists or remove if unused
-import {Link} from "react-router-dom"
-import teamImage from "../../../public/teamimages.jpg" 
+import { Link } from "react-router-dom"
+import teamImage from "../../../public/teamimages.jpg"
 import award2 from "../../../public/award1.jpeg"
 import awardBg from "../../../public/awardbg.jpg"
 import office from "../../../public/firstoffice.jpeg"
 import project from "../../../public/firstproject.jpg"
 import team from "../../../public/workteam.jpg"
 import companyBg from "../../../public/companyBg.jpeg"
-import {Link as ScrollLink} from 'react-scroll';
+import { photo4 } from "../../assets/index"
+import { Link as ScrollLink } from 'react-scroll';
 
 const CompanyHistory = () => {
   useEffect(() => {
@@ -28,10 +29,10 @@ const CompanyHistory = () => {
     })
     window.scrollTo(0, 0)
 
-    sr.reveal(".reveal", {opacity: 0, interval: 200})
-    sr.reveal(".reveal-2", {opacity: 0, interval: 300})
-    sr.reveal(".reveal-3", {opacity: 0, interval: 400})
-    sr.reveal(".reveal-4", {opacity: 0, interval: 500})
+    sr.reveal(".reveal", { opacity: 0, interval: 200 })
+    sr.reveal(".reveal-2", { opacity: 0, interval: 300 })
+    sr.reveal(".reveal-3", { opacity: 0, interval: 400 })
+    sr.reveal(".reveal-4", { opacity: 0, interval: 500 })
   }, [])
 
   // Award data to pass to AwardDetails
@@ -217,25 +218,26 @@ const CompanyHistory = () => {
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                 {[
                   {
-                    title: "Urban Planning",
-                    image: "urbanPlan.jpeg",
-                    route: "/projects/completed",
-                    description: "Master plans shaping sustainable cities"
-                  },
-                  {
                     title: "Architectural Design",
-                    image: "/arcDesign.jpeg",
-                    route: "/projects/ongoing",
-                    description: "Innovative structures defining skylines"
+                    image: "/src/assets/photo7.jpg",
+                    route: "/services/architectural-design",
+                    description: "Innovative and sustainable design solutions for modern architecture."
                   },
                   {
-                    title: "Sustainable Solutions",
-                    image: "/sustainableDesign.jpeg",
-                    route: "/projects/upcoming",
-                    description: "Eco-friendly future-forward designs"
+                    title: "Urban Planning and Design",
+                    image: "/src/assets/photo4.jpg",
+                    route: "/services/urban-design-and-planning",
+                    description: "Efficient and forward-thinking urban planning services for thriving communities."
+                  },
+                  {
+                    title: "Contract Administration and Engineering Design",
+                    image: "/src/assets/photo16.jpg",
+                    route: "services/contract-administration-and-engineering-design",
+                    description: "EDelivering projects with precision through expert contract management and engineering design."
                   }
-                ].map((service, index) => (
-                  <Link
+                ].map((service, index) => {
+                  console.log(service.image)
+                  return (<Link
                     key={index}
                     to={service.route}
                     className='group relative block overflow-hidden rounded-xl hover:shadow-xl transition-all'
@@ -260,8 +262,9 @@ const CompanyHistory = () => {
                       <FaArrowRight className='inline-block mr-1' />
                       Explore
                     </div>
-                  </Link>
-                ))}
+                  </Link>)
+                }
+                )}
               </div>
               <div className='mt-6 text-center'>
                 <Link
@@ -342,10 +345,10 @@ const CompanyHistory = () => {
               Get Started <FaArrowRight />
             </Link>
             <Link
-              to='/services'
+              to='/projects'
               className='px-4 md:px-8 py-2 md:py-3 border border-primary rounded-lg hover:border-accent hover:text-accent transition-colors font-body'
             >
-              View Our Services
+              View Our Projects
             </Link>
           </div>
         </div>
