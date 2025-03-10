@@ -16,8 +16,10 @@ import office from "../../../public/firstoffice.jpeg"
 import project from "../../../public/firstproject.jpg"
 import team from "../../../public/workteam.jpg"
 import companyBg from "../../../public/companyBg.jpeg"
-import { photo4 } from "../../assets/index"
 import { Link as ScrollLink } from 'react-scroll';
+import imgUrban from "../../../public/photo4.jpg";
+import imgArch from "../../../public/photo7.jpg";
+import imgEng from "../../../public/photo16.jpg";
 
 const CompanyHistory = () => {
   useEffect(() => {
@@ -219,19 +221,19 @@ const CompanyHistory = () => {
                 {[
                   {
                     title: "Architectural Design",
-                    image: "/src/assets/photo7.jpg",
+                    image: { imgArch},
                     route: "/services/architectural-design",
                     description: "Innovative and sustainable design solutions for modern architecture."
                   },
                   {
                     title: "Urban Planning and Design",
-                    image: "/src/assets/photo4.jpg",
+                    image: { imgUrban},
                     route: "/services/urban-design-and-planning",
                     description: "Efficient and forward-thinking urban planning services for thriving communities."
                   },
                   {
                     title: "Contract Administration and Engineering Design",
-                    image: "/src/assets/photo16.jpg",
+                    image: { imgEng},
                     route: "services/contract-administration-and-engineering-design",
                     description: "EDelivering projects with precision through expert contract management and engineering design."
                   }
