@@ -28,6 +28,10 @@ import BlogList from "../components/Blogs/BlogList";
 import ArchitecturalDesign from "../components/services/arcDesign/Index";
 import UrbanDesignAndPlaning from './../components/services/urbanDesignAndPlaning/Index';
 import ContractAdminAndEngineeringDesign from './../components/services/conrtactAdminAndEngDesign/Index';
+import Journey from "../components/about/CompanyHistory";
+import Mission from "../components/about/Mission";
+import Vision from "../components/about/Vision";
+import Teams from "../components/about/TeamMembers"
 
 // ProtectedRoute component to secure admin routes
 const ProtectedRoute = ({ children }) => {
@@ -65,6 +69,10 @@ const RouteConfig = () => {
         <Route index element={<Home />} />
         <Route path="/login" element={<Login setToken={setToken} />} />
         <Route path="/about" element={<About />} />
+        <Route path="/about/journey" element={<Journey/>} />
+        <Route path="/about/mission" element={<Mission />} />
+        <Route path="/about/vision" element={<Vision />} />
+        <Route path="/about/teams" element={<Teams />} />
         <Route path="/awards/:id" element={<AwardDetails />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/blogs" element={<BlogList />} />

@@ -7,47 +7,47 @@ const Footer = () => {
       <footer className="bg-primary text-secondary p-10 grid grid-cols-1 md:grid-cols-3 gap-8">
         <nav>
           <h6 className="footer-title text-accent font-heading text-lg font-semibold mb-4">
+            Projects
+          </h6>
+          <Link className="link link-hover text-secondary font-body block mb-2" to="/projects">
+          Architectural Design
+          </Link>
+          <Link className="link link-hover text-secondary font-body block mb-2" to="/projects">
+          Urban Design And Planning
+          </Link>
+          <Link className="link link-hover text-secondary font-body block" to="/projects">
+          Engineering Design
+          </Link>
+        </nav>
+        <nav>
+          <h6 className="footer-title text-accent font-heading text-lg font-semibold mb-4">
             Services
           </h6>
-          <Link className="link link-hover text-secondary font-body block mb-2" to="/services">
-            Architectural Design
+          <Link className="link link-hover text-secondary font-body block mb-2" to="/services/architectural-design">
+          Architectural Design, Design Department
           </Link>
-          <Link className="link link-hover text-secondary font-body block mb-2" to="/services">
-            Urban Planning
+          <Link className="link link-hover text-secondary font-body block mb-2" to="/services/urban-design-and-planning">
+          Urban Design And Planning
           </Link>
-          <Link className="link link-hover text-secondary font-body block" to="/services">
-            Interior Design
+          <Link className="link link-hover text-secondary font-body block" to="/services/contract-administration-and-engineering-design">
+          Contract Administration and Engineering Design
           </Link>
         </nav>
         <nav>
           <h6 className="footer-title text-accent font-heading text-lg font-semibold mb-4">
             About Us
           </h6>
-          <Link className="link link-hover text-secondary font-body block mb-2" to="/about">
+          <Link className="link link-hover text-secondary font-body block mb-2" to="/about/journey">
             Our Journey
           </Link>
-          <Link className="link link-hover text-secondary font-body block mb-2" to="/about">
+          <Link className="link link-hover text-secondary font-body block mb-2" to="/about/mission">
             Our Mission
           </Link>
-          <Link className="link link-hover text-secondary font-body block mb-2" to="/about">
+          <Link className="link link-hover text-secondary font-body block mb-2" to="about/vision">
             Our Vision
           </Link>
-          <Link className="link link-hover text-secondary font-body block" to="/about">
+          <Link className="link link-hover text-secondary font-body block" to="about/teams">
             Meet Our Team
-          </Link>
-        </nav>
-        <nav>
-          <h6 className="footer-title text-accent font-heading text-lg font-semibold mb-4">
-            Legal
-          </h6>
-          <Link className="link link-hover text-secondary font-body block mb-2" to="">
-            Terms of Use
-          </Link>
-          <Link className="link link-hover text-secondary font-body block mb-2" to="">
-            Privacy Policy
-          </Link>
-          <Link className="link link-hover text-secondary font-body block" to="">
-            Cookie Policy
           </Link>
         </nav>
       </footer>
@@ -63,7 +63,7 @@ const Footer = () => {
         <nav>
           <div className="grid grid-flow-col gap-4">
           <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/icape-consulting"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Twitter"
@@ -71,7 +71,7 @@ const Footer = () => {
               <FaLinkedin className="w-6 h-6 text-secondary hover:text-accent transition duration-300" />
             </a>
             <a
-              href="https://twitter.com"
+              href="https://x.com/IcapeConsulting"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Twitter"
@@ -85,14 +85,6 @@ const Footer = () => {
               aria-label="Facebook"
             >
               <FaFacebook className="w-6 h-6 text-secondary hover:text-accent transition duration-300" />
-            </a>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-            >
-              <FaInstagram className="w-6 h-6 text-secondary hover:text-accent transition duration-300" />
             </a>
           </div>
         </nav>
