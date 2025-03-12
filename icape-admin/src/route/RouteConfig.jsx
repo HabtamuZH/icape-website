@@ -44,11 +44,11 @@ const RouteConfig = () => {
   return (
     <Routes>
       {/* Public Routes */}
-        <Route index  element={<Login setToken={setToken} />} />
+        <Route path="/login"  element={<Login setToken={setToken} />} />
 
       {/* Admin Routes */}
       <Route
-        path="/admin"
+        path="/"
         element={
           <ProtectedRoute>
             <AdminLayout onLogout={handleLogout} />
