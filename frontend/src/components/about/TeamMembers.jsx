@@ -14,7 +14,10 @@ const TeamMembers = () => {
     const fetchTeamMembers = async () => {
       try {
         const response = await teamService.getAll();
-        setTeam(response.data);
+        console.log("API Response:", response); // Debug raw response
+        const data = Array.isArray(response) ? response : response.data || [];
+        setTeam(data);
+        console.log("Team Data:", data); // Debug processed data
       } catch (err) {
         setError("Failed to fetch team members. Please try again later.");
         console.error("Error fetching team:", err);
@@ -58,7 +61,7 @@ const TeamMembers = () => {
     );
 
   return (
-    <section name="teams" className="py-24 h-screen bg-secondary">
+    <section name="teams" className="py-24 bg-secondary">
       <div className="max-w-screen-xl mx-auto px-6 text-center">
         <div className="max-w-2xl mx-auto mb-12 sr-community-empowerment">
           <h3 className="text-primary text-3xl font-bold sm:text-5xl font-heading">
@@ -68,24 +71,31 @@ const TeamMembers = () => {
             A passionate team committed to innovation and excellence.
           </p>
         </div>
-        <div className={ `${team} ? "grid gap-8 sm:grid-cols-2 md:grid-cols-3":""`}>
-          {team.lenght > 0 ? (
+
+        <div
+          className={
+            team.length > 0
+              ? "grid gap-8 sm:grid-cols-2 md:grid-cols-3"
+              : ""
+          }
+        >
+          {team.length > 0 ? (
             team.map((member, idx) => (
-            <div key={idx} className="team-card">
-              <TeamCard
-                avatar={member.avatar}
-                name={member.name}
-                title={member.title}
-                desc={member.desc}
-                socialLinks={member.socialLinks}
-              />
-            </div>
-          ))):(
+              <div key={idx} className="team-card">
+                <TeamCard
+                  avatar={member.avatar}
+                  name={member.name}
+                  title={member.title}
+                  desc={member.desc}
+                  socialLinks={member.socialLinks}
+                />
+              </div>
+            ))
+          ) : (
             <p className="font-body text-center">
-              Teams Members is Not found !
+              Team Members Not Found!
             </p>
-          ) }
-  
+          )}
         </div>
 
         <div className="mt-20 text-center reveal">
