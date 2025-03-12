@@ -67,7 +67,7 @@ const RouteConfig = () => {
       {/* Public Routes */}
       <Route path="/" element={<MainLayout isLoading={loading} />}>
         <Route index element={<Home />} />
-        <Route path="/login" element={<Login setToken={setToken} />} />
+        {/* <Route path="/login" element={<Login setToken={setToken} />} /> */}
         <Route path="/about" element={<About />} />
         <Route path="/about/journey" element={<Journey/>} />
         <Route path="/about/mission" element={<Mission />} />
@@ -101,7 +101,7 @@ const RouteConfig = () => {
       </Route>
 
       {/* Admin Routes */}
-      <Route
+      {/* <Route
         path="/admin"
         element={
           <ProtectedRoute>
@@ -117,7 +117,7 @@ const RouteConfig = () => {
         <Route path="View-feedbacks" element={<FeedbackDashboard />} />
         <Route path="opportunity-form" element={<OpportunityForm />} />
         <Route path="application-views" element={<ApplicationView />} />
-      </Route>
+      </Route> */}
 
       {/* Catch-all redirect */}
       <Route path="*" element={<Navigate to="/" />} />
