@@ -1,20 +1,19 @@
-/* eslint-disable react/prop-types */
-// import avatar from '/'
-
 const ProfileHeader = ({ profile }) => {
   return (
-    <div>
-      <div className="text-center pt-16">
-        {/* <div className="relative inline-block">
-          <img
+    <div className="bg-gradient-to-b from-indigo-50 to-white  pb-8">
+      <div className="text-center">
+        <div className="relative inline-block">
+          {/* <img
             src="/adminAvatar.jpg"
             alt="Profile"
-            className="rounded-full border-4 border-white w-56 h-56 object-cover shadow-lg"
-          />
-        </div> */}
-        <h3 className="my-4 text-2xl font-bold text-gray-800">
-          {profile?.firstName.toUpperCase() || ""} {profile?.lastName.toUpperCase() || ""}
+            className="rounded-full border-4 border-white w-32 h-32 object-cover shadow-xl transition-transform duration-300 hover:scale-105"
+          /> */}
+        </div>
+        <h3 className="mt-4 text-3xl font-bold text-gray-900">
+          {profile?.firstName?.toUpperCase() || ""}{" "}
+          {profile?.lastName?.toUpperCase() || ""}
         </h3>
+        <p className="text-gray-500 mt-2">{profile?.email}</p>
       </div>
     </div>
   );

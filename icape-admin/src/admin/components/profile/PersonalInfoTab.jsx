@@ -1,7 +1,4 @@
-/* eslint-disable react/prop-types */
-
 import { FaEdit } from "react-icons/fa";
-
 const PersonalInfoTab = ({
   profile,
   editMode,
@@ -12,11 +9,11 @@ const PersonalInfoTab = ({
   handleCancelClick,
 }) => {
   return (
-    <div>
-      <h5 className="text-2xl font-bold text-gray-800 mb-6">
+    <div className="p-6">
+      <h5 className="text-3xl font-semibold text-gray-900 mb-8">
         Personal Information
       </h5>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* First Name */}
         <div>
           <label className="block text-gray-700 font-medium mb-2">
@@ -25,22 +22,22 @@ const PersonalInfoTab = ({
           <div className="relative">
             <input
               type="text"
-              className={`w-full px-4 py-2 bg-white text-gray-800 border ${
-                errors.firstName ? "border-red-500" : "border-gray-300"
-              } rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+              className={`w-full px-4 py-3 bg-white text-gray-800 border ${
+                errors.firstName ? "border-red-500" : "border-gray-200"
+              } rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 shadow-sm transition duration-200`}
               value={profile?.firstName}
               onChange={(e) => handleInputChange("firstName", e.target.value)}
               disabled={!editMode.firstName}
             />
             <button
-              className="absolute right-2 top-2 text-gray-600 hover:text-indigo-600"
+              className="absolute right-3 top-3 text-gray-500 hover:text-indigo-500 transition duration-200"
               onClick={() => handleEditClick("firstName")}
             >
-              <FaEdit />
+              <FaEdit size={18} />
             </button>
           </div>
           {errors.firstName && (
-            <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
+            <p className="text-red-500 text-sm mt-2">{errors.firstName}</p>
           )}
         </div>
 
@@ -52,22 +49,22 @@ const PersonalInfoTab = ({
           <div className="relative">
             <input
               type="text"
-              className={`w-full px-4 py-2 bg-white text-gray-800 border ${
-                errors.lastName ? "border-red-500" : "border-gray-300"
-              } rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+              className={`w-full px-4 py-3 bg-white text-gray-800 border ${
+                errors.lastName ? "border-red-500" : "border-gray-200"
+              } rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 shadow-sm transition duration-200`}
               value={profile?.lastName}
               onChange={(e) => handleInputChange("lastName", e.target.value)}
               disabled={!editMode.lastName}
             />
             <button
-              className="absolute right-2 top-2 text-gray-600 hover:text-indigo-600"
+              className="absolute right-3 top-3 text-gray-500 hover:text-indigo-500 transition duration-200"
               onClick={() => handleEditClick("lastName")}
             >
-              <FaEdit />
+              <FaEdit size={18} />
             </button>
           </div>
           {errors.lastName && (
-            <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>
+            <p className="text-red-500 text-sm mt-2">{errors.lastName}</p>
           )}
         </div>
 
@@ -77,22 +74,22 @@ const PersonalInfoTab = ({
           <div className="relative">
             <input
               type="email"
-              className={`w-full px-4 py-2 border bg-white text-gray-800 ${
-                errors.email ? "border-red-500" : "border-gray-300"
-              } rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+              className={`w-full px-4 py-3 bg-white text-gray-800 border ${
+                errors.email ? "border-red-500" : "border-gray-200"
+              } rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 shadow-sm transition duration-200`}
               value={profile?.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
               disabled={!editMode.email}
             />
             <button
-              className="absolute right-2 top-2 text-gray-600 hover:text-indigo-600"
+              className="absolute right-3 top-3 text-gray-500 hover:text-indigo-500 transition duration-200"
               onClick={() => handleEditClick("email")}
             >
-              <FaEdit />
+              <FaEdit size={18} />
             </button>
           </div>
           {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            <p className="text-red-500 text-sm mt-2">{errors.email}</p>
           )}
         </div>
 
@@ -102,36 +99,36 @@ const PersonalInfoTab = ({
           <div className="relative">
             <input
               type="tel"
-              className={`w-full px-4 py-2 border bg-white text-gray-800 ${
-                errors.phone ? "border-red-500" : "border-gray-300"
-              } rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+              className={`w-full px-4 py-3 bg-white text-gray-800 border ${
+                errors.phone ? "border-red-500" : "border-gray-200"
+              } rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 shadow-sm transition duration-200`}
               value={profile?.phone}
               onChange={(e) => handleInputChange("phone", e.target.value)}
               disabled={!editMode.phone}
             />
             <button
-              className="absolute right-2 top-2 text-gray-600 hover:text-indigo-600"
+              className="absolute right-3 top-3 text-gray-500 hover:text-indigo-500 transition duration-200"
               onClick={() => handleEditClick("phone")}
             >
-              <FaEdit />
+              <FaEdit size={18} />
             </button>
           </div>
           {errors.phone && (
-            <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+            <p className="text-red-500 text-sm mt-2">{errors.phone}</p>
           )}
         </div>
       </div>
 
       {/* Save and Cancel Buttons */}
-      <div className="flex flex-col sm:flex-row justify-end gap-4 mt-6">
+      <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8">
         <button
-          className="bg-gray-500 text-white py-2 px-6 rounded-lg font-semibold hover:bg-gray-600 transition duration-300 ease-in-out"
+          className="bg-gray-200 text-gray-700 py-2 px-6 rounded-xl font-semibold hover:bg-gray-300 shadow-sm transition duration-200"
           onClick={handleCancelClick}
         >
           Cancel
         </button>
         <button
-          className="bg-indigo-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300 ease-in-out"
+          className="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white py-2 px-6 rounded-xl font-semibold hover:from-indigo-600 hover:to-indigo-700 shadow-md transition duration-200"
           onClick={handleSaveClick}
         >
           Save
@@ -140,5 +137,4 @@ const PersonalInfoTab = ({
     </div>
   );
 };
-
 export default PersonalInfoTab;

@@ -23,7 +23,7 @@ const projectSchema = new mongoose.Schema(
     type: {
       type: String,
       required: [true, "Project type is required"],
-      enum: ["architecture desig", "urban design", "engineering design"],
+      enum: ["architecture design", "urban design", "engineering design"],
       lowercase: true,
     },
     images: [

@@ -14,7 +14,10 @@ const types = [
   { value: "", label: "Select Type" },
   { value: "architecture design", label: "Architecture Design" },
   { value: "urban design", label: "Urban Planning Design" },
-  { value: "engineering design", label: "Contract Administration and Engineering Design" },
+  {
+    value: "engineering design",
+    label: "Contract Administration and Engineering Design",
+  },
 ];
 
 const PostProjectForm = ({ onClose }) => {
@@ -143,10 +146,10 @@ const PostProjectForm = ({ onClose }) => {
       formData.append("images", image);
     });
 
-    console.log("FormData contents:");
-    for (let pair of formData.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
-    }
+    // console.log("FormData contents:");
+    // for (let pair of formData.entries()) {
+    //   console.log(`${pair[0]}: ${pair[1]}`);
+    // }
 
     try {
       const res = await projectService.create(formData, {

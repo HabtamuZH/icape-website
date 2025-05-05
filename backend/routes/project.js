@@ -33,6 +33,9 @@ const upload = multer({
 
 // Create a new project
 router.post("/", upload.array("images", 20), async (req, res) => {
+  // Log the request body for debugging
+  // console.log("Client Request: ", req.body);
+
   const { name, role, content, type } = req.body;
   try {
     if (!name || !role || !content || !type) {
