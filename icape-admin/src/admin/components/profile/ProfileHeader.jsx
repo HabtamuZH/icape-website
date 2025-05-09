@@ -1,19 +1,20 @@
 const ProfileHeader = ({ profile }) => {
   return (
-    <div className="bg-gradient-to-b from-indigo-50 to-white  pb-8">
-      <div className="text-center">
+    <div className="bg-gradient-to-br from-indigo-600 to-indigo-800 text-white py-12">
+      <div className="container mx-auto px-4 text-center">
         <div className="relative inline-block">
-          {/* <img
-            src="/adminAvatar.jpg"
-            alt="Profile"
-            className="rounded-full border-4 border-white w-32 h-32 object-cover shadow-xl transition-transform duration-300 hover:scale-105"
-          /> */}
+          <div className="w-24 h-24 rounded-full bg-indigo-200 flex items-center justify-center mx-auto mb-4">
+            <span className="text-3xl font-bold text-indigo-800">
+              {profile?.firstName?.[0]?.toUpperCase() || ""}
+              {profile?.lastName?.[0]?.toUpperCase() || ""}
+            </span>
+          </div>
         </div>
-        <h3 className="mt-4 text-3xl font-bold text-gray-900">
-          {profile?.firstName?.toUpperCase() || ""}{" "}
-          {profile?.lastName?.toUpperCase() || ""}
+        <h3 className="text-4xl font-bold">
+          {profile?.firstName || ""} {profile?.lastName || ""}
         </h3>
-        <p className="text-gray-500 mt-2">{profile?.email}</p>
+        <p className="text-indigo-100 mt-2">{profile?.email || ""}</p>
+        <p className="text-indigo-200 mt-1">{profile?.phone || ""}</p>
       </div>
     </div>
   );

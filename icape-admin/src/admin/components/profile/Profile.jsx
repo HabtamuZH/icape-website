@@ -1,4 +1,4 @@
-import useProfile from "../../hooks/useProfile"; // Adjust path as needed
+import useProfile from "../../hooks/useProfile";
 import ProfileHeader from "./ProfileHeader";
 import ProfileNav from "./ProfileNav";
 import PersonalInfoTab from "./PersonalInfoTab";
@@ -12,6 +12,7 @@ const Profile = () => {
     editMode,
     handleEditClick,
     profile,
+    handleLogout,
     handleInputChange,
     handleSaveClick,
     handleCancelClick,
@@ -20,16 +21,30 @@ const Profile = () => {
     handleUpdatePassword,
     errors,
     loading,
+    notification,
   } = useProfile();
 
-  if (loading) return <LoadingSpinner />;
-
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gray-50 min-h-screen">
+      {loading && <LoadingSpinner />}
+      {notification && (
+        <div
+          className={`fixed top-4 right-4 p-4 rounded-lg shadow-lg ${
+            notification.type === "success" ? "bg-green-500" : "bg-red-500"
+          } text-white`}
+        >
+          {notification.message}
+        </div>
+      )}
       <ProfileHeader profile={profile} />
       <ProfileNav activeTab={activeTab} handleTabClick={handleTabClick} />
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div className="container mx-auto px-4 py-12">
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+          {errors.general && (
+            <div className="p-4 bg-red-100 text-red-700 border-b border-red-200">
+              {errors.general}
+            </div>
+          )}
           {activeTab === "personal-info" && (
             <PersonalInfoTab
               profile={profile}
@@ -50,6 +65,14 @@ const Profile = () => {
             />
           )}
         </div>
+      </div>
+      <div className="container mx-auto px-4 py-4">
+        <button
+          className="bg-red-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-red-700 shadow-md transition duration-300"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </div>
     </div>
   );

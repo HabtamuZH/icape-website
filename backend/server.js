@@ -51,11 +51,11 @@ const createAdmin = async () => {
     }
 
     const admin = new User({
-      firstName: "admin",
+      firstName: "icape",
       lastName: "admin",
-      phone: "+251987654321",
-      email: "admin2@gmail.com",
-      password: "admin123",
+      phone: "+251912345678",
+      email: "icapeadmin@gmail.com",
+      password: "admin@123",
       role: "admin",
     });
     await admin.save();
