@@ -11,7 +11,7 @@ const PersonalInfoTab = ({
 }) => {
   return (
     <div className="p-8">
-      <h5 className="text-2xl font-bold text-gray-900 mb-8">Personal Information</h5>
+      <h5 className="text-2xl font-bold text-gray-900 mb-8 text-center ">PERSONAL INFORMATIONS</h5>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* First Name */}
         <div>

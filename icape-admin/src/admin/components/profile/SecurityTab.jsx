@@ -19,7 +19,7 @@ const SecurityTab = ({
 
   return (
     <div className="p-8">
-      <h5 className="text-2xl font-bold text-gray-900 mb-8">Security Settings</h5>
+      <h5 className="text-2xl font-bold text-gray-900 mb-8 text-center">SECURITY SETTINGS</h5>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Current Password */}
         <div>

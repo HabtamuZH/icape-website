@@ -66,7 +66,7 @@ const Profile = () => {
           )}
         </div>
       </div>
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-4 flex justify-end">
         <button
           className="bg-red-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-red-700 shadow-md transition duration-300"
           onClick={handleLogout}
