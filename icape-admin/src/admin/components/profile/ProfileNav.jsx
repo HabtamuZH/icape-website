@@ -2,7 +2,7 @@ import { FaEdit, FaLock } from "react-icons/fa";
 
 const ProfileNav = ({ activeTab, handleTabClick }) => {
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-10">
+    <nav className="bg-white shadow-lg sticky top-0 -z-0">
       <div className="container mx-auto px-4">
         <div className="flex justify-center py-4">
           <div className="flex flex-wrap gap-4">

@@ -54,7 +54,7 @@ const ApplicationsView = () => {
 
   const handleViewDetails = (application) => {
     setSelectedApplication(application);
-    markAsRead(application._id);
+    markAsRead(application.id);
   };
 
   const handleCloseDetails = () => {

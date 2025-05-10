@@ -54,8 +54,8 @@ const FeedbackDashboard = () => {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete feedback");
-      setFeedback((prev) => prev.filter((item) => item._id !== id));
-      if (selectedFeedback && selectedFeedback._id === id) closeDetails();
+      setFeedback((prev) => prev.filter((item) => item.id !== id));
+      if (selectedFeedback && selectedFeedback.id === id) closeDetails();
     } catch (err) {
       setError(err.message);
     }

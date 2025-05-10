@@ -125,7 +125,7 @@ const UpdateCareerForm = ({ initialData, onClose }) => {
     };
 
     try {
-      const res = await careerService.update(initialData._id, updateData, {
+      const res = await careerService.update(initialData.id, updateData, {
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round(
             (progressEvent.loaded * 100) / progressEvent.total

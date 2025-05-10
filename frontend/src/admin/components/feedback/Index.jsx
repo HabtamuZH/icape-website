@@ -46,7 +46,7 @@ const FeedbackDashboard = () => {
 
   const handleMarkAsRead = async (id) => {
     try {
-      const updatedFeedback = feedbacks.find((item) => item._id === id);
+      const updatedFeedback = feedbacks.find((item) => item.id === id);
       if (!updatedFeedback.isRead) {
         setIsMarkingRead(true);
         setMarkReadProgress(0); // Start progress at 0
@@ -64,7 +64,7 @@ const FeedbackDashboard = () => {
         );
         setFeedbacks((prev) =>
           prev.map((item) =>
-            item._id === id ? { ...item, isRead: true } : item
+            item.id === id ? { ...item, isRead: true } : item
           )
         );
       }
@@ -80,7 +80,7 @@ const FeedbackDashboard = () => {
 
   const handleSelectFeedback = (item) => {
     setSelectedFeedback(item);
-    handleMarkAsRead(item._id);
+    handleMarkAsRead(item.id);
   };
 
   const closeDetails = () => {

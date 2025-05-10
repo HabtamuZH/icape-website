@@ -51,7 +51,7 @@ const ProjectCard = ({ project, onUpdate, onDelete }) => {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => onDelete(project._id,project.tittle)}
+          onClick={() => onDelete(project.id,project.tittle)}
           className="px-4 py-2 bg-red-500 text-light rounded-md hover:bg-red-600 transition-colors duration-200 font-body flex items-center gap-2"
         >
           <FaTrash /> Delete

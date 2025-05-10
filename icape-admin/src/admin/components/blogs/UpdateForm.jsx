@@ -157,7 +157,7 @@ const UpdateForm = ({ initialData, onClose }) => {
     });
 
     try {
-      const res = await blogService.update(initialData._id, formData, {
+      const res = await blogService.update(initialData.id, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round(

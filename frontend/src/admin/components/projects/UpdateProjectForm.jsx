@@ -161,7 +161,7 @@ const UpdateProjectForm = ({ initialData, onClose }) => {
     }
 
     try {
-     const res = await projectService.update(initialData._id, formData, {
+     const res = await projectService.update(initialData.id, formData, {
        headers: { "Content-Type": "multipart/form-data" },
        onUploadProgress: (progressEvent) => {
          const percentCompleted = Math.round(

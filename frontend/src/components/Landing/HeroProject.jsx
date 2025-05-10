@@ -64,7 +64,7 @@ const HeroProject = () => {
           {projects.length > 0 ? (
             projects.map((project, index) => (
               <motion.div
-                key={project._id}
+                key={project.id}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.2, ease: "easeOut" }}
@@ -73,7 +73,7 @@ const HeroProject = () => {
                 <ProjectCard
                   project={{
                     ...project,
-                    id: project._id, // Map _id to id for routing
+                    id: project.id, // Map id to id for routing
                     imageUrl:
                       project.images && project.images.length > 0
                         ? project.images[0].url

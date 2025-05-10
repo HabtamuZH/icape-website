@@ -19,7 +19,7 @@ const FeedbackTable = ({
         <tbody className="divide-y divide-border">
           {currentFeedback.map((item, index) => (
             <tr
-              key={item._id}
+              key={item.id}
               className={`hover:bg-accent hover:bg-opacity-10  ${
                 item.isRead ? "text-primary" : " bg-[#e9b070df] text-gray-800 "
               } cursor-pointer transition-colors `}

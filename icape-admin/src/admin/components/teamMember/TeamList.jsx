@@ -7,7 +7,7 @@ const TeamList = ({ team, onEdit, onDelete }) => {
     <div className="bg-secondary grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {team.map((member) => (
         <div
-          key={member._id}
+          key={member.id}
           className="bg-secondary border border-border rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1"
         >
           {/* Card Header: Avatar */}
@@ -60,7 +60,7 @@ const TeamList = ({ team, onEdit, onDelete }) => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => onDelete(member._id)}
+              onClick={() => onDelete(member.id)}
               className="px-4 py-2 bg-red-500 text-light rounded-md hover:bg-red-600 transition-colors duration-200 font-body flex items-center gap-2"
             >
               <FaTrash /> Delete

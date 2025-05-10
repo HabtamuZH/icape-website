@@ -81,7 +81,7 @@ const Annoucement = () => {
             <div className='opportunity-card grid grid-cols-1 gap-10 md:grid-cols-2'>
               {opportunities.map((opp) => (
                 <OpportunityCard
-                  key={opp._id}
+                  key={opp.id}
                   title={opp.title}
                   description={opp.description}
                   type={opp.type}

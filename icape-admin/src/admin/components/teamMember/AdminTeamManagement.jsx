@@ -205,7 +205,7 @@ const AdminTeamManagement = () => {
   };
 
   const handleEdit = (member) => {
-    setEditId(member._id);
+    setEditId(member.id);
     setFormData({
       image: null,
       name: member.name,

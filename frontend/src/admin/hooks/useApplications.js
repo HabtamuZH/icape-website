@@ -24,7 +24,7 @@ const useApplications = () => {
       .then(() => {
         setApplications(
           applications.map((app) =>
-            app._id === id ? { ...app, isRead: true } : app
+            app.id === id ? { ...app, isRead: true } : app
           )
         );
       })

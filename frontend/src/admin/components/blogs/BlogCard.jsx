@@ -54,7 +54,7 @@ const BlogCard = ({ blog, onUpdate, onDelete }) => {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => onDelete(blog._id, blog.title)}
+          onClick={() => onDelete(blog.id, blog.title)}
           className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors font-body flex items-center gap-2"
         >
           <FaTrash /> Delete

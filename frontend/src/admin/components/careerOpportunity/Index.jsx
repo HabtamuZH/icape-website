@@ -48,7 +48,7 @@ const CareerDashboard = () => {
   const confirmDeleteCareer = async () => {
     try {
       await careerService.delete(deleteId);
-      setCareers((prev) => prev.filter((career) => career._id !== deleteId));
+      setCareers((prev) => prev.filter((career) => career.id !== deleteId));
       setIsDeleteModalOpen(false);
       setIsDeleteSuccessModalOpen(true)
     } catch (error) {
@@ -108,7 +108,7 @@ const CareerDashboard = () => {
           {filteredCareers.length > 0 ? (
             filteredCareers.map((career) => (
               <CareerCard
-                key={career._id}
+                key={career.id}
                 career={career}
                 onUpdate={handleUpdateCareer}
                 onDelete={handleDeleteCareer} // Pass id and title

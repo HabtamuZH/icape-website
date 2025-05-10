@@ -52,7 +52,7 @@ const BlogDashboard = () => {
   const confirmDeleteBlog = async () => {
     try {
       await blogService.delete(deleteId);
-      setBlogs((prev) => prev.filter((blog) => blog._id !== deleteId));
+      setBlogs((prev) => prev.filter((blog) => blog.id !== deleteId));
       setIsDeleteModalOpen(false);
       setIsDeleteSuccessModalOpen(true);
     } catch (error) {
@@ -120,7 +120,7 @@ const BlogDashboard = () => {
           {filteredBlogs.length > 0 ? (
             filteredBlogs.map((blog) => (
               <BlogCard
-                key={blog._id}
+                key={blog.id}
                 blog={blog}
                 onUpdate={handleUpdateBlog}
                 onDelete={handleDeleteBlog}

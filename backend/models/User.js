@@ -92,7 +92,7 @@ User.prototype.matchPassword = async function (enteredPassword) {
 
 User.prototype.generateAuthToken = function () {
   return jwt.sign({ id: this.id, role: this.role }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
+    expiresIn: "24h",
   });
 };
 

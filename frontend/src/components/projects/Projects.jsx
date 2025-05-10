@@ -50,7 +50,7 @@ const Projects = () => {
   });
 
   const handleProjectClick = (projectId) => {
-    const project = filteredProjects.find((p) => p._id === projectId);
+    const project = filteredProjects.find((p) => p.id === projectId);
     navigate(`/projects/${projectId}`, { state: { project } });
   };
 
@@ -89,18 +89,18 @@ const Projects = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.length > 0 ? (
             filteredProjects.map((project, index) => (
-              <div key={project._id} className="mb-6">
+              <div key={project.id} className="mb-6">
                 <ProjectCard
                   project={{
                     ...project,
-                    id: project._id,
+                    id: project.id,
                     imageUrl:
                       project.images && project.images.length > 0
                         ? project.images[0].url
                         : 'https://via.placeholder.com/150',
                     index,
                   }}
-                  onClick={() => handleProjectClick(project._id)}
+                  onClick={() => handleProjectClick(project.id)}
                 />
               </div>
             ))

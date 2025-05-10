@@ -57,7 +57,7 @@ const ProjectDashboard = () => {
     if (!deleteId) return;
     try {
       await projectService.delete(deleteId);
-      setProjects((prev) => prev.filter((project) => project._id !== deleteId));
+      setProjects((prev) => prev.filter((project) => project.id !== deleteId));
       setIsDeleteModalOpen(false);
       setIsDeleteSuccessModalOpen(true); // Show success modal
     } catch (error) {
@@ -125,7 +125,7 @@ const ProjectDashboard = () => {
           {filteredProjects.length > 0 ? (
             filteredProjects.map((project) => (
               <ProjectCard
-                key={project._id}
+                key={project.id}
                 project={project}
                 onUpdate={handleUpdateProject}
                 onDelete={handleDeleteProject}
