@@ -43,7 +43,7 @@ app.get("/", (req, res) => {
 // In server.js
 const createAdmin = async () => {
   try {
-    const existingAdmin = await User.findOne({ email: "admin2@gmail.com" }); // Fixed email to match creation
+    const existingAdmin = await User.findOne({ email: "icapeadmin@gmail.com" }); // Fixed email to match creation
 
     if (existingAdmin) {
       console.log("Admin already exists", existingAdmin);
@@ -66,7 +66,7 @@ const createAdmin = async () => {
 };
 
 // Run admin creation
-// createAdmin();
+createAdmin();
 
 // Start the server
 const PORT = process.env.PORT || 5000;

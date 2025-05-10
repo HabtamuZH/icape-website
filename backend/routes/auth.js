@@ -12,25 +12,25 @@ const router = express.Router();
 // POST: Login a user
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
-  console.log("Requested Data:", req.body);
+  // console.log("Requested Data:", req.body);
 
   try {
     const user = await User.findOne({ email });
-    console.log("User:", user);
+    // console.log("User:", user);
 
     if (!user) {
       return res.status(400).json({ error: "Invalid email credentials" });
     }
 
     const isMatch = await user.matchPassword(password);
-    console.log("Password Match:", isMatch);
+    // console.log("Password Match:", isMatch);
 
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid password credentials" });
     }
 
     const token = user.generateAuthToken();
-    console.log("Token:", token);
+    // console.log("Token:", token);
 
     res.status(200).json({ message: "User login successful!", token });
   } catch (error) {

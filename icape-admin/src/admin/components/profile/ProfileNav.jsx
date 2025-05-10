@@ -9,7 +9,7 @@ const ProfileNav = ({ activeTab, handleTabClick }) => {
             <button
               className={`py-3 px-8 rounded-xl font-semibold flex items-center transition duration-300 ${
                 activeTab === "personal-info"
-                  ? "bg-indigo-600 text-white shadow-md"
+                  ? "bg-primary text-white shadow-md"
                   : "text-gray-700 hover:bg-indigo-100"
               }`}
               onClick={() => handleTabClick("personal-info")}
@@ -20,7 +20,7 @@ const ProfileNav = ({ activeTab, handleTabClick }) => {
             <button
               className={`py-3 px-8 rounded-xl font-semibold flex items-center transition duration-300 ${
                 activeTab === "security"
-                  ? "bg-indigo-600 text-white shadow-md"
+                  ? "bg-primary text-white shadow-md"
                   : "text-gray-700 hover:bg-indigo-100"
               }`}
               onClick={() => handleTabClick("security")}
