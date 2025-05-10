@@ -10,6 +10,7 @@ import { FaSearch } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const AdminTeamManagement = () => {
+  const token = localStorage.getItem("token");
   const [team, setTeam] = useState([]);
   const [filteredTeam, setFilteredTeam] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -187,11 +188,13 @@ const AdminTeamManagement = () => {
       if (editId) {
         await teamService.update(editId, formDataToSubmit, {
           headers: { "Content-Type": "multipart/form-data" },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setSuccessMessage("Team member updated successfully!");
       } else {
         await teamService.create(formDataToSubmit, {
           headers: { "Content-Type": "multipart/form-data" },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setSuccessMessage("Team member added successfully!");
       }
@@ -228,7 +231,9 @@ const AdminTeamManagement = () => {
 
   const confirmDelete = async () => {
     try {
-      await teamService.delete(deleteId);
+      await teamService.delete(deleteId, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setSuccessMessage("Team member deleted successfully!");
     } catch (err) {
       console.error("Error deleting team member:", err);

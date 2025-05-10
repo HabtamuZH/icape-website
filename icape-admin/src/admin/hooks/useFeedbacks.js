@@ -1,4 +1,3 @@
-// src/hooks/useFeedbacks.js
 import { useEffect, useState } from "react";
 import feedbackService from "../../services/feedback-service";
 
@@ -10,22 +9,20 @@ const useFeedback = () => {
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     feedbackService
       .getAll()
       .then((res) => {
-        setFeedbacks(res.data);
-        setNotif(feedbacks?.filter((app) => app.isRead === false).length);
+        const allFeedbacks = res.data;
+        setFeedbacks(allFeedbacks);
+        const unreadCount = allFeedbacks.filter((app) => !app.isRead).length;
+        setNotif(unreadCount);
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
-  }, [feedbacks]);
+  }, [reload]); // Only trigger when reload is toggled
 
-  const load = () => {
-    setReload(!reload);
-  };
-
-  if (notif === 0)
-    return { feedbacks, setFeedbacks, loading, error, notif: null, load };
+  const load = () => setReload((prev) => !prev); // Toggle reload
 
   return {
     feedbacks,

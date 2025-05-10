@@ -45,6 +45,7 @@ const FeedbackDashboard = () => {
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleMarkAsRead = async (id) => {
+    console.log("id",id)
     try {
       const updatedFeedback = feedbacks.find((item) => item.id === id);
       if (!updatedFeedback.isRead) {

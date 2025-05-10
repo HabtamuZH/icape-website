@@ -22,7 +22,7 @@ const FeedbackDashboard = () => {
     const fetchFeedback = async () => {
       try {
         const response = await feedbackService.getAll();
-        console.log("API Response:", response);
+        // console.log("API Response:", response);
         const feedbackArray = Array.isArray(response) ? response : response.data || [];
         setFeedback(feedbackArray);
         setLoading(false);

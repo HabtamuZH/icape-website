@@ -12,7 +12,7 @@ import SuccessModal from "./SuccessModal";
 
 const categories = [
   { value: "", label: "Select Category" },
-  { value: "architectural design", label: "Architectural Design, Design Department" },
+  { value: "architectural design", label: "Architectural && Design Department" },
   { value: "urban design", label: "Urban Design And Planning" },
   { value: "engineering design", label: "Contract Administration and Engineering Design" },
 ];
