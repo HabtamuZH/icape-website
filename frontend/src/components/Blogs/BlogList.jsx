@@ -98,7 +98,7 @@ const BlogList = () => {
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {filteredBlogs.length > 0 ? (
-            filteredBlogs.map((blog) => <BlogCard key={blog._id} blog={blog} />)
+            filteredBlogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
           ) : (
             <p className="col-span-full text-center text-primary font-body text-lg">
               No blogs available

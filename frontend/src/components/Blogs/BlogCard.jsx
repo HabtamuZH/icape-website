@@ -5,7 +5,7 @@ import { Bookmark, Calendar, User } from "lucide-react";
 const BlogCard = ({ blog }) => {
   return (
     <Link
-      to={`/blogs/${blog._id}`}
+      to={`/blogs/${blog.id}`}
       className="blog-card bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer"
     >
       <img
