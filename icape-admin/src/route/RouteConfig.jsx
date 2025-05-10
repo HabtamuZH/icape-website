@@ -7,7 +7,7 @@ import BlogDashboard from "../admin/components/blogs/Index";
 import Dashboard from "../admin/components/dashboard/Index";
 import OpportunityForm from "../admin/components/careerOpportunity/Index";
 import ApplicationView from "../admin/components/applications/ApplicationsView";
-import FeedbackDashboard from "../admin/components/feedback/FeedbackDashboard";
+import FeedbackDashboard from "../admin/components/feedback/Index";
 import Login from "../admin/components/login/Login";
 import LoadingSpinner from "../common/LoadingSpinner";
 import AdminTeamManagement from "../admin/components/teamMember/AdminTeamManagement";

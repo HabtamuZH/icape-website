@@ -46,7 +46,7 @@ const ApplicationsTable = ({ applications, onViewDetails }) => {
           <tbody>
             {paginatedApplications.map((app, index) => (
               <tr
-                key={app._id}
+                key={app.id}
                 className={`border-b border-border hover:bg-secondary
                   ${
                     app.isRead

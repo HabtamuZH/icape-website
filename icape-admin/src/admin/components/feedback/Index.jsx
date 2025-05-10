@@ -45,7 +45,7 @@ const FeedbackDashboard = () => {
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleMarkAsRead = async (id) => {
-    console.log("id",id)
+    // console.log("id", id);
     try {
       const updatedFeedback = feedbacks.find((item) => item.id === id);
       if (!updatedFeedback.isRead) {
@@ -80,6 +80,7 @@ const FeedbackDashboard = () => {
   };
 
   const handleSelectFeedback = (item) => {
+    // console.log("item", item);
     setSelectedFeedback(item);
     handleMarkAsRead(item.id);
   };
@@ -104,19 +105,20 @@ const FeedbackDashboard = () => {
         <h1 className="text-2xl sm:text-4xl font-heading font-extrabold text-primary mb-6 sm:mb-8 text-center">
           User Feedback Dashboard
         </h1>
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-8 mb-6">
+        <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
+
           <SearchBar
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
           />
-          <motion.button
+          {/* <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={load}
+            onClick={()=>load()}
             className="px-4 py-2 bg-accent text-light font-body rounded-md shadow-md hover:bg-opacity-80 transition-all duration-200"
           >
             Refresh
-          </motion.button>
+          </motion.button> */}
         </div>
 
         <div>
@@ -124,7 +126,6 @@ const FeedbackDashboard = () => {
             currentFeedback={currentFeedback}
             indexOfFirstItem={indexOfFirstItem}
             handleRowClick={handleSelectFeedback}
-            handleMarkAsRead={handleMarkAsRead}
           />
           {isMarkingRead && (
             <div className="mt-4">

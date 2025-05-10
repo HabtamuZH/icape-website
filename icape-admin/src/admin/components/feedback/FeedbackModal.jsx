@@ -109,7 +109,7 @@ const FeedbackModal = ({ selectedFeedback, closeDetails }) => {
                 <p className="text-base sm:text-lg font-semibold text-accent">
                   Message
                 </p>
-                <p className="text-primary mt-1 break-words text-sm sm:text-base">
+                <p className="text-primary mt-1 break-words text-sm sm:text-base max-w-lg overflow-y-auto">
                   {selectedFeedback.message}
                 </p>
               </div>
