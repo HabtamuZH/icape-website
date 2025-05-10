@@ -1,8 +1,7 @@
-// backend/routes/projects.js
 const express = require("express");
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const { cloudinary } = require("../Config/cloudinary");
+const { cloudinary } = require("../config/cloudinary");
 const Project = require("../models/project");
 
 const router = express.Router();
@@ -20,7 +19,7 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // Reduced to 2MB
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
   fileFilter: (req, file, cb) => {
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     if (allowedTypes.includes(file.mimetype)) {
@@ -33,9 +32,6 @@ const upload = multer({
 
 // Create a new project
 router.post("/", upload.array("images", 20), async (req, res) => {
-  // Log the request body for debugging
-  // console.log("Client Request: ", req.body);
-
   const { name, role, content, type } = req.body;
   try {
     if (!name || !role || !content || !type) {
@@ -63,11 +59,8 @@ router.post("/", upload.array("images", 20), async (req, res) => {
       images,
     };
 
-    const project = new Project(projectData);
-    const savedProject = await project.save();
-    res
-      .status(201)
-      .json({ message: "Project added successfully", project: savedProject });
+    const project = await Project.create(projectData);
+    res.status(201).json({ message: "Project added successfully", project });
   } catch (error) {
     console.error("Full error creating project:", error.stack);
     res.status(500).json({
@@ -81,7 +74,9 @@ router.post("/", upload.array("images", 20), async (req, res) => {
 // Get all projects
 router.get("/", async (req, res) => {
   try {
-    const projects = await Project.find().sort({ createdAt: -1 });
+    const projects = await Project.findAll({
+      order: [["createdAt", "DESC"]], // Sort by createdAt descending
+    });
     res.status(200).json(projects);
   } catch (error) {
     console.error("Error fetching projects:", error);
@@ -95,7 +90,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const project = await Project.findById(id);
+    const project = await Project.findByPk(id);
     if (!project) return res.status(404).json({ message: "Project not found" });
     res.status(200).json(project);
   } catch (error) {
@@ -114,7 +109,7 @@ router.put("/:id", upload.array("images", 20), async (req, res) => {
     const projectData = { name, role, content, type };
 
     if (req.files && req.files.length > 0) {
-      const oldProject = await Project.findById(id);
+      const oldProject = await Project.findByPk(id);
       if (oldProject && oldProject.images && oldProject.images.length > 0) {
         await Promise.all(
           oldProject.images.map((image) =>
@@ -130,11 +125,17 @@ router.put("/:id", upload.array("images", 20), async (req, res) => {
       }));
     }
 
-    const project = await Project.findByIdAndUpdate(id, projectData, {
-      new: true,
-    });
-    if (!project) return res.status(404).json({ message: "Project not found" });
-    res.status(200).json({ message: "Project updated successfully", project });
+    const [updated] = await Project.update(projectData, { where: { id } });
+    if (!updated) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+    const updatedProject = await Project.findByPk(id);
+    res
+      .status(200)
+      .json({
+        message: "Project updated successfully",
+        project: updatedProject,
+      });
   } catch (error) {
     console.error("Full error updating project:", error.stack);
     res.status(500).json({
@@ -149,7 +150,7 @@ router.put("/:id", upload.array("images", 20), async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const project = await Project.findById(id);
+    const project = await Project.findByPk(id);
     if (!project) return res.status(404).json({ message: "Project not found" });
 
     if (project.images && project.images.length > 0) {
@@ -162,7 +163,7 @@ router.delete("/:id", async (req, res) => {
       );
     }
 
-    await Project.findByIdAndDelete(id);
+    await project.destroy();
     res.status(200).json({ message: "Project deleted successfully" });
   } catch (error) {
     console.error("Error deleting project:", error);

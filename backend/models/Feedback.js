@@ -1,18 +1,43 @@
-// backend/models/feedback.js
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const { sequelize } = require("../config/db");
+const { DataTypes } = require("sequelize");
 
-const feedbackSchema = new Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  message: { type: String, required: true },
-  date: { type: Date, default: Date.now },
-  isRead: {
-    type: Boolean,
-    default: false,
+const Feedback = sequelize.define(
+  "Feedback",
+  {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Name is required" },
+      },
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Email is required" },
+      },
+    },
+    message: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Message is required" },
+      },
+    },
+    date: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    isRead: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
-});
-
-const Feedback = mongoose.model("Feedback", feedbackSchema);
+  {
+    timestamps: false, // No createdAt/updatedAt, only date
+    tableName: "Feedbacks", // Match Mongoose model name
+  }
+);
 
 module.exports = Feedback;

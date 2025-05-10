@@ -1,4 +1,3 @@
-// backend/routes/job.js
 const express = require("express");
 const Job = require("../models/job");
 
@@ -8,10 +7,10 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   const { title, description, location } = req.body;
   try {
-    const job = new Job({ title, description, location });
-    await job.save();
+    const job = await Job.create({ title, description, location });
     res.status(201).json({ message: "Job listing added successfully", job });
   } catch (error) {
+    console.error("Error creating job:", error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -19,9 +18,10 @@ router.post("/", async (req, res) => {
 // Get all job listings
 router.get("/", async (req, res) => {
   try {
-    const jobs = await Job.find();
+    const jobs = await Job.findAll();
     res.status(200).json(jobs);
   } catch (error) {
+    console.error("Error fetching jobs:", error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -30,10 +30,11 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const job = await Job.findById(id);
+    const job = await Job.findByPk(id);
     if (!job) return res.status(404).json({ message: "Job not found" });
     res.status(200).json(job);
   } catch (error) {
+    console.error("Error fetching job:", error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -43,14 +44,19 @@ router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { title, description, location } = req.body;
   try {
-    const job = await Job.findByIdAndUpdate(
-      id,
+    const [updated] = await Job.update(
       { title, description, location },
-      { new: true }
+      { where: { id } }
     );
-    if (!job) return res.status(404).json({ message: "Job not found" });
-    res.status(200).json({ message: "Job updated successfully", job });
+    if (!updated) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+    const updatedJob = await Job.findByPk(id);
+    res
+      .status(200)
+      .json({ message: "Job updated successfully", job: updatedJob });
   } catch (error) {
+    console.error("Error updating job:", error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -59,10 +65,13 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const job = await Job.findByIdAndDelete(id);
-    if (!job) return res.status(404).json({ message: "Job not found" });
+    const deleted = await Job.destroy({ where: { id } });
+    if (!deleted) {
+      return res.status(404).json({ message: "Job not found" });
+    }
     res.status(200).json({ message: "Job deleted successfully" });
   } catch (error) {
+    console.error("Error deleting job:", error);
     res.status(500).json({ error: error.message });
   }
 });

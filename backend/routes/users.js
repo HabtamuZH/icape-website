@@ -1,4 +1,3 @@
-// backend/routes/users.js
 const express = require("express");
 const User = require("../models/User");
 const authMiddleware = require("../middleware/authMiddleware");
@@ -10,7 +9,9 @@ const router = express.Router();
 // @access  Public (consider restricting in production)
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find().select("-password");
+    const users = await User.findAll({
+      attributes: { exclude: ["password"] },
+    });
     res.status(200).json(users);
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -23,7 +24,9 @@ router.get("/", async (req, res) => {
 // @access  Private
 router.get("/:id", authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findByPk(req.user.id, {
+      attributes: { exclude: ["password"] },
+    });
     if (!user) return res.status(404).json({ message: "User not found" });
     res.status(200).json(user);
   } catch (error) {
@@ -39,10 +42,10 @@ router.post("/", async (req, res) => {
   const { firstName, lastName, email, phone, password } = req.body;
 
   try {
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ where: { email } });
     if (user) return res.status(400).json({ message: "User already exists" });
 
-    user = new User({
+    user = await User.create({
       firstName,
       lastName,
       email,
@@ -50,7 +53,6 @@ router.post("/", async (req, res) => {
       password,
     });
 
-    await user.save();
     const token = user.generateAuthToken();
     res.status(201).json({ token });
   } catch (error) {
@@ -64,7 +66,9 @@ router.post("/", async (req, res) => {
 // @access  Private
 router.get("/profile", authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findByPk(req.user.id, {
+      attributes: { exclude: ["password"] },
+    });
     if (!user) return res.status(404).json({ message: "User not found" });
     res.status(200).json(user);
   } catch (error) {
@@ -80,17 +84,22 @@ router.put("/profile", authMiddleware, async (req, res) => {
   const { firstName, lastName, email, phone } = req.body;
 
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findByPk(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    user.firstName = firstName || user.firstName;
-    user.lastName = lastName || user.lastName;
-    user.email = email || user.email;
-    user.phone = phone || user.phone;
+    const updates = {
+      firstName: firstName || user.firstName,
+      lastName: lastName || user.lastName,
+      email: email || user.email,
+      phone: phone || user.phone,
+    };
 
-    await user.save();
+    await user.update(updates);
+    const updatedUser = await User.findByPk(req.user.id, {
+      attributes: { exclude: ["password"] },
+    });
 
-    res.status(200).json(user);
+    res.status(200).json(updatedUser);
   } catch (error) {
     console.error("Error updating profile:", error);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -104,7 +113,7 @@ router.put("/password", authMiddleware, async (req, res) => {
   const { currentPassword, newPassword } = req.body;
 
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findByPk(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const isMatch = await user.matchPassword(currentPassword);
@@ -117,8 +126,7 @@ router.put("/password", authMiddleware, async (req, res) => {
         .json({ message: "New password must be at least 8 characters long" });
     }
 
-    user.password = newPassword;
-    await user.save();
+    await user.update({ password: newPassword });
     res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
     console.error("Error updating password:", error);

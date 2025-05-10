@@ -1,4 +1,3 @@
-// backend/routes/career.js
 const express = require("express");
 const CareerOpportunity = require("../models/CareerOpportunity");
 
@@ -7,8 +6,8 @@ const router = express.Router();
 // Fetch all career opportunities
 router.get("/", async (req, res) => {
   try {
-    const opportunities = await CareerOpportunity.find().sort({
-      createdAt: -1,
+    const opportunities = await CareerOpportunity.findAll({
+      order: [["createdAt", "DESC"]], // Sort by createdAt descending
     });
     res.status(200).json(opportunities);
   } catch (error) {
@@ -23,7 +22,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const opportunity = await CareerOpportunity.findById(id);
+    const opportunity = await CareerOpportunity.findByPk(id);
     if (!opportunity) {
       return res.status(404).json({ message: "Career opportunity not found" });
     }
@@ -39,9 +38,8 @@ router.get("/:id", async (req, res) => {
 // POST: Create a new career opportunity
 router.post("/", async (req, res) => {
   try {
-    const opportunity = new CareerOpportunity(req.body);
-    const savedOpportunity = await opportunity.save();
-    res.status(201).json(savedOpportunity);
+    const opportunity = await CareerOpportunity.create(req.body);
+    res.status(201).json(opportunity);
   } catch (error) {
     console.error("Error creating opportunity:", error);
     res
@@ -53,14 +51,13 @@ router.post("/", async (req, res) => {
 // PATCH: Update a career opportunity
 router.put("/:id", async (req, res) => {
   try {
-    const updatedOpportunity = await CareerOpportunity.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    if (!updatedOpportunity) {
+    const [updated] = await CareerOpportunity.update(req.body, {
+      where: { id: req.params.id },
+    });
+    if (!updated) {
       return res.status(404).json({ message: "Career opportunity not found" });
     }
+    const updatedOpportunity = await CareerOpportunity.findByPk(req.params.id);
     res.status(200).json(updatedOpportunity);
   } catch (error) {
     console.error("Error updating opportunity:", error);
@@ -73,12 +70,11 @@ router.put("/:id", async (req, res) => {
 // DELETE: Delete a career opportunity
 router.delete("/:id", async (req, res) => {
   try {
-    const deletedOpportunity = await CareerOpportunity.findByIdAndDelete(
-      req.params.id
-    );
-    if (!deletedOpportunity) {
+    const opportunity = await CareerOpportunity.findByPk(req.params.id);
+    if (!opportunity) {
       return res.status(404).json({ message: "Career opportunity not found" });
     }
+    await opportunity.destroy();
     res.status(200).json({ message: "Career opportunity deleted" });
   } catch (error) {
     console.error("Error deleting opportunity:", error);

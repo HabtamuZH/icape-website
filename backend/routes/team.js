@@ -1,8 +1,7 @@
-// backend/routes/team.js
 const express = require("express");
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const { cloudinary } = require("../Config/cloudinary");
+const { cloudinary } = require("../config/cloudinary");
 const TeamMember = require("../models/TeamMember");
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -34,22 +33,23 @@ const upload = multer({
 });
 
 // CREATE: Add a new team member with image (Admin only)
-router.post("/", upload.single("avatar"), async (req, res) => {
+router.post("/", authMiddleware, upload.single("avatar"), async (req, res) => {
   try {
     const { name, title, desc, socialLinks } = req.body;
     if (!req.file) {
       return res.status(400).json({ message: "Avatar image is required" });
     }
 
-    const teamMember = new TeamMember({
+    const teamMemberData = {
       avatar: req.file.path, // Cloudinary URL
       cloudinaryId: req.file.filename.split("/").pop().split(".")[0], // Extract public_id
       name,
       title,
       desc,
-      socialLinks: JSON.parse(socialLinks), // Parse JSON string from FormData
-    });
-    await teamMember.save();
+      socialLinks: socialLinks ? JSON.parse(socialLinks) : [], // Parse JSON string from FormData
+    };
+
+    const teamMember = await TeamMember.create(teamMemberData);
     res
       .status(201)
       .json({ message: "Team member added successfully", teamMember });
@@ -64,7 +64,9 @@ router.post("/", upload.single("avatar"), async (req, res) => {
 // READ: Get all team members (Public)
 router.get("/", async (req, res) => {
   try {
-    const teamMembers = await TeamMember.find().sort({ createdAt: -1 });
+    const teamMembers = await TeamMember.findAll({
+      order: [["createdAt", "DESC"]], // Sort by createdAt descending
+    });
     res.status(200).json(teamMembers);
   } catch (error) {
     console.error("Error fetching team members:", error);
@@ -78,9 +80,10 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const teamMember = await TeamMember.findById(id);
-    if (!teamMember)
+    const teamMember = await TeamMember.findByPk(id);
+    if (!teamMember) {
       return res.status(404).json({ message: "Team member not found" });
+    }
     res.status(200).json(teamMember);
   } catch (error) {
     console.error("Error fetching team member:", error);
@@ -91,53 +94,62 @@ router.get("/:id", async (req, res) => {
 });
 
 // UPDATE: Update a team member with optional image (Admin only)
-router.put("/:id", upload.single("avatar"), async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name, title, desc, socialLinks } = req.body;
-    const updates = {
-      name,
-      title,
-      desc,
-      socialLinks: JSON.parse(socialLinks),
-    };
+router.put(
+  "/:id",
+  authMiddleware,
+  upload.single("avatar"),
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, title, desc, socialLinks } = req.body;
+      const updates = {
+        name,
+        title,
+        desc,
+        socialLinks: socialLinks ? JSON.parse(socialLinks) : [],
+      };
 
-    if (req.file) {
-      const oldTeamMember = await TeamMember.findById(id);
-      if (oldTeamMember && oldTeamMember.cloudinaryId) {
-        await cloudinary.uploader.destroy(oldTeamMember.cloudinaryId);
+      if (req.file) {
+        const oldTeamMember = await TeamMember.findByPk(id);
+        if (oldTeamMember && oldTeamMember.cloudinaryId) {
+          await cloudinary.uploader.destroy(oldTeamMember.cloudinaryId);
+        }
+        updates.avatar = req.file.path;
+        updates.cloudinaryId = req.file.filename.split("/").pop().split(".")[0];
       }
-      updates.avatar = req.file.path;
-      updates.cloudinaryId = req.file.filename.split("/").pop().split(".")[0];
-    }
 
-    const teamMember = await TeamMember.findByIdAndUpdate(id, updates, {
-      new: true,
-    });
-    if (!teamMember)
-      return res.status(404).json({ message: "Team member not found" });
-    res
-      .status(200)
-      .json({ message: "Team member updated successfully", teamMember });
-  } catch (error) {
-    console.error("Error updating team member:", error);
-    res
-      .status(500)
-      .json({ message: "Internal server error", error: error.message });
+      const [updated] = await TeamMember.update(updates, { where: { id } });
+      if (!updated) {
+        return res.status(404).json({ message: "Team member not found" });
+      }
+      const updatedTeamMember = await TeamMember.findByPk(id);
+      res
+        .status(200)
+        .json({
+          message: "Team member updated successfully",
+          teamMember: updatedTeamMember,
+        });
+    } catch (error) {
+      console.error("Error updating team member:", error);
+      res
+        .status(500)
+        .json({ message: "Internal server error", error: error.message });
+    }
   }
-});
+);
 
 // DELETE: Remove a team member (Admin only)
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
-    const teamMember = await TeamMember.findById(id);
-    if (!teamMember)
+    const teamMember = await TeamMember.findByPk(id);
+    if (!teamMember) {
       return res.status(404).json({ message: "Team member not found" });
+    }
     if (teamMember.cloudinaryId) {
       await cloudinary.uploader.destroy(teamMember.cloudinaryId);
     }
-    await TeamMember.findByIdAndDelete(id);
+    await teamMember.destroy();
     res.status(200).json({ message: "Team member deleted successfully" });
   } catch (error) {
     console.error("Error deleting team member:", error);

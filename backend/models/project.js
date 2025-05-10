@@ -1,51 +1,79 @@
-// backend/models/project.js
-const mongoose = require("mongoose");
+const { sequelize } = require("../config/db");
+const { DataTypes } = require("sequelize");
 
-const projectSchema = new mongoose.Schema(
+const Project = sequelize.define(
+  "Project",
   {
     name: {
-      type: String,
-      required: [true, "Project name is required"],
+      type: DataTypes.STRING(100),
+      allowNull: false,
       trim: true,
-      maxlength: [100, "Project name cannot exceed 100 characters"],
+      validate: {
+        notEmpty: { msg: "Project name is required" },
+        len: [1, 100], // Max length 100
+      },
     },
     role: {
-      type: String,
-      required: [true, "Project role is required"],
+      type: DataTypes.STRING(100),
+      allowNull: false,
       trim: true,
-      maxlength: [100, "Role cannot exceed 100 characters"],
+      validate: {
+        notEmpty: { msg: "Project role is required" },
+        len: [1, 100], // Max length 100
+      },
     },
     content: {
-      type: String,
-      required: [true, "Content is required"],
+      type: DataTypes.TEXT,
+      allowNull: false,
       trim: true,
-    }, // Replaces description
-    type: {
-      type: String,
-      required: [true, "Project type is required"],
-      enum: ["architecture design", "urban design", "engineering design"],
-      lowercase: true,
-    },
-    images: [
-      {
-        url: {
-          type: String,
-          required: [true, "Image URL is required"],
-        },
-        cloudinaryId: {
-          type: String,
-        },
+      validate: {
+        notEmpty: { msg: "Content is required" },
       },
-    ],
+    },
+    type: {
+      type: DataTypes.ENUM(
+        "architecture design",
+        "urban design",
+        "engineering design"
+      ),
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Project type is required" },
+      },
+      set(value) {
+        this.setDataValue("type", value.toLowerCase()); // Enforce lowercase
+      },
+    },
+    images: {
+      type: DataTypes.TEXT, // Store as JSON string
+      allowNull: false,
+      get() {
+        const value = this.getDataValue("images");
+        return value ? JSON.parse(value) : [];
+      },
+      set(value) {
+        if (!Array.isArray(value) || value.length === 0) {
+          throw new Error("At least one image is required");
+        }
+        value.forEach((img) => {
+          if (!img.url) {
+            throw new Error("Image URL is required");
+          }
+        });
+        this.setDataValue("images", JSON.stringify(value));
+      },
+      defaultValue: "[]",
+    },
   },
   {
-    timestamps: true,
+    timestamps: true, // Adds createdAt and updatedAt
+    tableName: "Projects", // Match Mongoose model name
   }
 );
 
-projectSchema.pre("save", function (next) {
-  this.updatedAt = Date.now();
-  next();
+// Hook to update updatedAt before updating
+Project.addHook("beforeUpdate", (project) => {
+  project.updatedAt = new Date();
 });
 
-module.exports = mongoose.model("Project", projectSchema);
+module.exports = Project;

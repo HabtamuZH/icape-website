@@ -1,10 +1,10 @@
-// backend/routes/applications.js
 const express = require("express");
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const { cloudinary } = require("../Config/cloudinary");
+const { cloudinary } = require("../config/cloudinary");
 const CareerApplication = require("../models/CareerApplication");
 const InternshipApplication = require("../models/InternshipApplication");
+const { Op } = require("sequelize");
 
 const router = express.Router();
 
@@ -28,15 +28,16 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
+// GET: Fetch all applications
 router.get("/", async (req, res) => {
   try {
-    const careerApplications = await CareerApplication.find();
-    const internshipApplications = await InternshipApplication.find();
+    const careerApplications = await CareerApplication.findAll();
+    const internshipApplications = await InternshipApplication.findAll();
 
     const allApplications = [
       ...careerApplications,
       ...internshipApplications,
-    ].sort((a, b) => b.submittedAt - a.submittedAt);
+    ].sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
 
     res.status(200).json(allApplications);
   } catch (error) {
@@ -47,12 +48,17 @@ router.get("/", async (req, res) => {
   }
 });
 
-// New endpoint: Monthly applicant stats
+// GET: Monthly applicant stats
 router.get("/monthly", async (req, res) => {
   try {
-    const applications = await CareerApplication.find()
-      .concat(await InternshipApplication.find())
-      .sort({ submittedAt: 1 }); // Sort ascending for chronological order
+    const careerApplications = await CareerApplication.findAll({
+      order: [["submittedAt", "ASC"]],
+    });
+    const internshipApplications = await InternshipApplication.findAll({
+      order: [["submittedAt", "ASC"]],
+    });
+
+    const applications = [...careerApplications, ...internshipApplications];
 
     const monthlyCounts = applications.reduce((acc, app) => {
       const date = new Date(app.submittedAt);
@@ -77,6 +83,7 @@ router.get("/monthly", async (req, res) => {
   }
 });
 
+// POST: Submit a new application
 router.post("/", upload.single("cv"), async (req, res) => {
   try {
     if (!req.file) {
@@ -90,17 +97,16 @@ router.post("/", upload.single("cv"), async (req, res) => {
 
     switch (opportunityType) {
       case "Professional Career Opportunities":
-        application = new CareerApplication(applicationData);
+        application = await CareerApplication.create(applicationData);
         break;
       case "Internship Program 2025":
-        application = new InternshipApplication(applicationData);
+        application = await InternshipApplication.create(applicationData);
         break;
       default:
         return res.status(400).json({ message: "Invalid opportunity type" });
     }
 
-    const savedApplication = await application.save();
-    res.status(201).json(savedApplication);
+    res.status(201).json(application);
   } catch (error) {
     console.error("Error submitting application:", error);
     res
@@ -109,24 +115,37 @@ router.post("/", upload.single("cv"), async (req, res) => {
   }
 });
 
+// PUT: Mark application as read
 router.put("/:id", async (req, res) => {
-  console.log(req.params.id);
   try {
     const id = req.params.id;
-    const careerApplication =
-      (await CareerApplication.findById(id)) ||
-      (await InternshipApplication.findById(id));
+    let application = await CareerApplication.findByPk(id);
+    let model = CareerApplication;
 
-    careerApplication.isRead = true;
-    await careerApplication.save();
-    res.status(200).send({
-      ...careerApplication,
+    if (!application) {
+      application = await InternshipApplication.findByPk(id);
+      model = InternshipApplication;
+    }
+
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    await model.update({ isRead: true }, { where: { id } });
+    const updatedApplication = await model.findByPk(id);
+
+    res.status(200).json({
+      ...updatedApplication.toJSON(),
       message: "Application marked as read",
     });
   } catch (error) {
+    console.error("Error marking application as read:", error);
     res
       .status(500)
-      .send({ message: error.message || "Failed to mark Application as read" });
+      .json({
+        message: "Failed to mark Application as read",
+        error: error.message,
+      });
   }
 });
 

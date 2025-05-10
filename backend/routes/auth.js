@@ -1,7 +1,4 @@
-// backend/routes/auth.js
 const express = require("express");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const dotenv = require("dotenv");
 
@@ -12,26 +9,21 @@ const router = express.Router();
 // POST: Login a user
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
-  // console.log("Requested Data:", req.body);
 
   try {
-    const user = await User.findOne({ email });
-    // console.log("User:", user);
+    const user = await User.findOne({ where: { email } });
 
     if (!user) {
       return res.status(400).json({ error: "Invalid email credentials" });
     }
 
     const isMatch = await user.matchPassword(password);
-    // console.log("Password Match:", isMatch);
 
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid password credentials" });
     }
 
     const token = user.generateAuthToken();
-    // console.log("Token:", token);
-
     res.status(200).json({ message: "User login successful!", token });
   } catch (error) {
     console.error("Login Error:", error);
@@ -54,7 +46,7 @@ router.post("/logout", async (req, res) => {
 // GET: Fetch all users (for debugging, secure in production)
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.findAll();
     if (!users.length) {
       return res.status(404).json({ error: "No users found" });
     }
@@ -70,31 +62,30 @@ router.get("/", async (req, res) => {
 router.post("/register", async (req, res) => {
   const { email, password, role, googleId } = req.body;
   try {
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res.status(400).json({ error: "Email already registered" });
     }
 
     if (googleId) {
-      const existingGoogleUser = await User.findOne({ googleId });
+      const existingGoogleUser = await User.findOne({ where: { googleId } });
       if (existingGoogleUser) {
         return res.status(400).json({ error: "Google ID already registered" });
       }
     }
 
-    const user = new User({
+    const user = await User.create({
       email,
-      password, // Will be hashed by pre-save hook
-      role: role || "user", // Default to "user" if not provided
-      googleId: googleId || null, // Optional, defaults to null
+      password, // Will be hashed by beforeCreate hook
+      role: role || "user",
+      googleId: googleId || null,
     });
 
-    await user.save();
     const token = user.generateAuthToken();
     res.status(201).json({ message: "User registered successfully!", token });
   } catch (error) {
     console.error("Registration error:", error);
-    if (error.code === 11000) {
+    if (error.name === "SequelizeUniqueConstraintError") {
       res.status(400).json({ error: "Duplicate email or Google ID" });
     } else {
       res.status(500).json({ error: error.message });

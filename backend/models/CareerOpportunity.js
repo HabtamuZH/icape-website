@@ -1,80 +1,97 @@
-// backend/models/careerOpportunity.js
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const { sequelize } = require("../config/db");
+const { DataTypes } = require("sequelize");
 
-const careerOpportunitySchema = new Schema({
-  title: {
-    type: String,
-    required: [true, "Opportunity title is required"],
-    trim: true,
-    maxlength: [100, "Title cannot exceed 100 characters"],
-  },
-  description: {
-    type: String,
-    required: [true, "Description is required"],
-    trim: true,
-    maxlength: [1000, "Description cannot exceed 1000 characters"],
-  },
-  type: {
-    type: String,
-    required: [true, "Opportunity type is required"],
-    enum: {
-      values: [
+const CareerOpportunity = sequelize.define(
+  "CareerOpportunity",
+  {
+    title: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      trim: true,
+      validate: {
+        notEmpty: { msg: "Opportunity title is required" },
+        len: [1, 100], // Max length 100
+      },
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      trim: true,
+      validate: {
+        notEmpty: { msg: "Description is required" },
+        len: [1, 1000], // Max length 1000
+      },
+    },
+    type: {
+      type: DataTypes.ENUM(
         "Full-time & Part-time Positions",
         "Paid Internship (Summer/Fall 2025)",
-        "Contract",
-      ],
-      message: "Invalid opportunity type",
+        "Contract"
+      ),
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Opportunity type is required" },
+      },
+    },
+    details: {
+      type: DataTypes.TEXT, // Store as JSON string
+      allowNull: false,
+      get() {
+        const value = this.getDataValue("details");
+        return value ? JSON.parse(value) : [];
+      },
+      set(value) {
+        if (!Array.isArray(value) || value.length === 0) {
+          throw new Error("At least one detail is required");
+        }
+        this.setDataValue("details", JSON.stringify(value));
+      },
+      defaultValue: "[]",
+    },
+    buttonText: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+      trim: true,
+      validate: {
+        notEmpty: { msg: "Button text is required" },
+        len: [1, 50], // Max length 50
+      },
+    },
+    buttonLink: {
+      type: DataTypes.STRING,
+      defaultValue: "",
+      // validate: {
+      //   is: [/^\/[a-zA-Z0-9\-\/]*$/, "Button link must be a valid URL path"], // Uncomment if required
+      // },
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
     },
   },
-  details: {
-    type: [String],
-    required: [true, "At least one detail is required"],
-    validate: {
-      validator: (arr) => arr.length > 0,
-      message: "Details array cannot be empty",
-    },
-    default: [],
-  },
-  buttonText: {
-    type: String,
-    required: [true, "Button text is required"],
-    trim: true,
-    maxlength: [50, "Button text cannot exceed 50 characters"],
-  },
-  buttonLink: {
-    type: String,
-    // required: [true, "Button link is required"],
-    // trim: true,
-    // match: [/^\/[a-zA-Z0-9\-\/]*$/, "Button link must be a valid URL path"],
-    default: "",
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-  isActive: {
-    type: Boolean,
-    default: true,
-  },
-});
-
-// Middleware to update `updatedAt` before saving
-careerOpportunitySchema.pre("save", function (next) {
-  this.updatedAt = Date.now();
-  next();
-});
-
-// Index for efficient searching by title and type
-careerOpportunitySchema.index({ title: 1, type: 1 });
-
-const CareerOpportunity = mongoose.model(
-  "CareerOpportunity",
-  careerOpportunitySchema
+  {
+    timestamps: false, // Manage createdAt/updatedAt manually
+    tableName: "CareerOpportunities",
+    indexes: [
+      {
+        fields: ["title", "type"],
+        unique: false,
+      },
+    ],
+  }
 );
+
+// Hook to update updatedAt before saving
+CareerOpportunity.addHook("beforeUpdate", (opportunity) => {
+  opportunity.updatedAt = new Date();
+});
 
 module.exports = CareerOpportunity;

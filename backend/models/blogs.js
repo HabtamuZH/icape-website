@@ -1,23 +1,66 @@
-// backend/models/blogs.js
-const mongoose = require("mongoose");
+const { sequelize } = require("../config/db");
+const { DataTypes } = require("sequelize");
 
-const blogSchema = new mongoose.Schema(
+const Blog = sequelize.define(
+  "Blog",
   {
-    title: { type: String, required: true, trim: true, maxLength: 100 },
-    subtitle: { type: String, trim: true },
-    description: { type: String }, // Optional short description
-    content: { type: String, required: true }, // Replaces fullText
-    author: { type: String, required: true },
-    category: { type: String, required: true },
-    date: { type: Date, default: Date.now },
-    imageUrl: { type: String }, // Optional, handled by Cloudinary
-    cloudinaryId: { type: String },
-    tags: [{ type: String, trim: true }],
-    excerpt: { type: String, trim: true },
+    title: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      trim: true,
+      validate: {
+        len: [1, 100], // Max length 100
+      },
+    },
+    subtitle: {
+      type: DataTypes.STRING,
+      trim: true,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      trim: true,
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    author: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    date: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    imageUrl: {
+      type: DataTypes.STRING,
+    },
+    cloudinaryId: {
+      type: DataTypes.STRING,
+    },
+    tags: {
+      type: DataTypes.TEXT, // Store as JSON string
+      get() {
+        const value = this.getDataValue("tags");
+        return value ? JSON.parse(value) : [];
+      },
+      set(value) {
+        this.setDataValue("tags", JSON.stringify(value || []));
+      },
+    },
+    excerpt: {
+      type: DataTypes.TEXT,
+      trim: true,
+    },
   },
   {
-    timestamps: true,
+    timestamps: true, // Adds createdAt and updatedAt
+    tableName: "Blogs", // Match Mongoose model name
   }
 );
 
-module.exports = mongoose.model("Blog", blogSchema);
+module.exports = Blog;

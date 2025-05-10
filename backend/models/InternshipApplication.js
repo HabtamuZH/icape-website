@@ -1,72 +1,103 @@
-// backend/models/internshipApplication.js
-const mongoose = require("mongoose");
+const { sequelize } = require("../config/db");
+const { DataTypes } = require("sequelize");
 
-const internshipApplicationSchema = new mongoose.Schema({
-  fullName: {
-    type: String,
-    required: [true, "Full name is required"],
-    trim: true,
-    maxlength: [100, "Full name cannot exceed 100 characters"],
-  },
-  email: {
-    type: String,
-    required: [true, "Email is required"],
-    trim: true,
-    // match: [/^\S+@\S+\.\S+$/, "Please provide a valid email"]
-  },
-  phoneNumber: {
-    type: String,
-    required: [true, "Phone number is required"],
-    trim: true,
-    // match: [/^\+?[1-9]\d{1,14}$/, "Please provide a valid phone number"]
-  },
-  opportunityType: {
-    type: String,
-    required: [true, "Opportunity type is required"],
-    enum: ["Internship Program 2025"],
-    default: "Internship Program 2025",
-  },
-  studentStatus: {
-    type: String,
-    required: [true, "Student status is required"],
-    enum: ["Current Student", "Recent Graduate"],
-  },
-  reason: {
-    type: String,
-    required: [true, "Reason for applying is required"],
-    trim: true,
-    maxlength: [1000, "Reason cannot exceed 1000 characters"],
-  },
-  skills: {
-    type: String,
-    required: [true, "Skills are required"],
-    trim: true,
-    maxlength: [1000, "Skills cannot exceed 1000 characters"],
-  },
-  availability: {
-    type: String,
-    required: [true, "Availability is required"],
-    enum: ["Summer 2025", "Fall 2025"],
-  },
-  cv: {
-    type: String, // Cloudinary URL
-    required: [true, "CV is required"],
-  },
-  submittedAt: {
-    type: Date,
-    default: Date.now,
-  },
-  isRead: {
-    type: Boolean,
-    default: false,
-  },
-});
-
-internshipApplicationSchema.index({ email: 1, submittedAt: -1 });
-
-const InternshipApplication = mongoose.model(
+const InternshipApplication = sequelize.define(
   "InternshipApplication",
-  internshipApplicationSchema
+  {
+    fullName: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      trim: true,
+      validate: {
+        notEmpty: { msg: "Full name is required" },
+        len: [1, 100], // Max length 100
+      },
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      trim: true,
+      validate: {
+        notEmpty: { msg: "Email is required" },
+        // isEmail: { msg: "Please provide a valid email" }, // Uncomment if match validator is needed
+      },
+    },
+    phoneNumber: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      trim: true,
+      validate: {
+        notEmpty: { msg: "Phone number is required" },
+        // is: [/^\+?[1-9]\d{1,14}$/, "Please provide a valid phone number"], // Uncomment if match validator is needed
+      },
+    },
+    opportunityType: {
+      type: DataTypes.ENUM("Internship Program 2025"),
+      allowNull: false,
+      defaultValue: "Internship Program 2025",
+      validate: {
+        notEmpty: { msg: "Opportunity type is required" },
+      },
+    },
+    studentStatus: {
+      type: DataTypes.ENUM("Current Student", "Recent Graduate"),
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Student status is required" },
+      },
+    },
+    reason: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      trim: true,
+      validate: {
+        notEmpty: { msg: "Reason for applying is required" },
+        len: [1, 1000], // Max length 1000
+      },
+    },
+    skills: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      trim: true,
+      validate: {
+        notEmpty: { msg: "Skills are required" },
+        len: [1, 1000], // Max length 1000
+      },
+    },
+    availability: {
+      type: DataTypes.ENUM("Summer 2025", "Fall 2025"),
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Availability is required" },
+      },
+    },
+    cv: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "CV is required" },
+      },
+    },
+    submittedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    isRead: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+  },
+  {
+    timestamps: false, // No createdAt/updatedAt, only submittedAt
+    tableName: "InternshipApplications",
+    indexes: [
+      {
+        fields: ["email", "submittedAt"],
+        unique: false,
+        order: { submittedAt: "DESC" },
+      },
+    ],
+  }
 );
 
 module.exports = InternshipApplication;

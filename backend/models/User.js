@@ -1,34 +1,99 @@
-// backend/models/User.js
-const mongoose = require("mongoose");
+const { sequelize } = require("../config/db");
+const { DataTypes, Sequelize } = require("sequelize");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const userSchema = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  phone: { type: String, required: true },
-  password: { type: String, required: true },
-  role: { type: String, enum: ["admin", "user"], default: "user" },
+const User = sequelize.define(
+  "User",
+  {
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "First name is required" },
+      },
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Last name is required" },
+      },
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: { msg: "Email is required" },
+        isEmail: { msg: "Invalid email format" },
+      },
+    },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Phone is required" },
+      },
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Password is required" },
+      },
+    },
+    role: {
+      type: DataTypes.ENUM("admin", "user"),
+      defaultValue: "user",
+    },
+    googleId: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: true,
+    },
+  },
+  {
+    timestamps: false,
+    tableName: "Users",
+    indexes: [
+      {
+        unique: true,
+        fields: ["email"],
+      },
+      {
+        unique: true,
+        fields: ["googleId"],
+        where: { googleId: { [Sequelize.Op.ne]: null } },
+      },
+    ],
+  }
+);
+
+// 🔒 Hash password before creating/updating
+User.beforeCreate(async (user) => {
+  if (user.password) {
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+  }
 });
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
+User.beforeUpdate(async (user) => {
+  if (user.changed("password")) {
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+  }
 });
 
-userSchema.methods.matchPassword = async function (enteredPassword) {
+// ✅ Define instance methods manually
+User.prototype.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-userSchema.methods.generateAuthToken = function () {
-  return jwt.sign({ id: this._id, role: this.role }, process.env.JWT_SECRET, {
+User.prototype.generateAuthToken = function () {
+  return jwt.sign({ id: this.id, role: this.role }, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
 };
-
-const User = mongoose.model("User", userSchema);
 
 module.exports = User;

@@ -1,8 +1,7 @@
-// backend/routes/blog.js
 const express = require("express");
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const { cloudinary } = require("../Config/cloudinary");
+const { cloudinary } = require("../config/cloudinary");
 const Blog = require("../models/blogs");
 
 const router = express.Router();
@@ -54,7 +53,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       title,
       subtitle,
       description,
-      content, // Use content instead of fullText
+      content,
       author,
       category,
       date: new Date(),
@@ -64,8 +63,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       excerpt,
     };
 
-    const blog = new Blog(blogData);
-    await blog.save();
+    const blog = await Blog.create(blogData);
     res.status(201).json({ message: "Blog post created successfully", blog });
   } catch (error) {
     console.warn("Error creating blog post:", error);
@@ -78,11 +76,13 @@ router.post("/", upload.single("image"), async (req, res) => {
 // Get all blog posts
 router.get("/", async (req, res) => {
   try {
-    const blogs = await Blog.find().sort({ date: -1 });
+    const blogs = await Blog.findAll({
+      order: [["date", "DESC"]], // Sort by date descending
+    });
     res.status(200).json(blogs);
   } catch (error) {
     console.error("Error fetching blogs:", error);
-    res
+    res.status
       .status(500)
       .json({ message: "Internal server error", error: error.message });
   }
@@ -92,7 +92,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const blog = await Blog.findById(id);
+    const blog = await Blog.findByPk(id);
     if (!blog) return res.status(404).json({ message: "Blog post not found" });
     res.status(200).json(blog);
   } catch (error) {
@@ -121,7 +121,7 @@ router.put("/:id", upload.single("image"), async (req, res) => {
       title,
       subtitle,
       description,
-      content, // Use content instead of fullText
+      content,
       author,
       category,
       tags: tags ? tags.split(",").map((tag) => tag.trim()) : [],
@@ -129,7 +129,7 @@ router.put("/:id", upload.single("image"), async (req, res) => {
     };
 
     if (req.file) {
-      const oldBlog = await Blog.findById(id);
+      const oldBlog = await Blog.findByPk(id);
       if (oldBlog && oldBlog.cloudinaryId) {
         await cloudinary.uploader.destroy(oldBlog.cloudinaryId);
       }
@@ -137,9 +137,14 @@ router.put("/:id", upload.single("image"), async (req, res) => {
       blogData.cloudinaryId = req.file.filename.split("/").pop().split(".")[0];
     }
 
-    const blog = await Blog.findByIdAndUpdate(id, blogData, { new: true });
-    if (!blog) return res.status(404).json({ message: "Blog post not found" });
-    res.status(200).json({ message: "Blog updated successfully", blog });
+    const [updated] = await Blog.update(blogData, { where: { id } });
+    if (!updated)
+      return res.status(404).json({ message: "Blog post not found" });
+
+    const updatedBlog = await Blog.findByPk(id);
+    res
+      .status(200)
+      .json({ message: "Blog updated successfully", blog: updatedBlog });
   } catch (error) {
     console.error("Error updating blog:", error);
     res
@@ -152,14 +157,14 @@ router.put("/:id", upload.single("image"), async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const blog = await Blog.findById(id);
+    const blog = await Blog.findByPk(id);
     if (!blog) return res.status(404).json({ message: "Blog post not found" });
 
     if (blog.cloudinaryId) {
       await cloudinary.uploader.destroy(blog.cloudinaryId);
     }
 
-    await Blog.findByIdAndDelete(id);
+    await blog.destroy();
     res.status(200).json({ message: "Blog deleted successfully" });
   } catch (error) {
     console.error("Error deleting blog:", error);

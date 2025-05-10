@@ -1,8 +1,7 @@
-// backend/server.js
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const connectDB = require("./Config/db");
+const { connectDB } = require("./config/db");
 const User = require("./models/User");
 const auth = require("./routes/auth");
 const blog = require("./routes/blog");
@@ -32,9 +31,6 @@ app.use("/api/applications", application);
 app.use("/api/teams", team);
 app.use("/api/users", users);
 
-// Remove duplicate route (optional, kept as single line above)
-// app.use('/api/applications', application);
-
 // Home route
 app.get("/", (req, res) => {
   res.send(`iCAPE Backend API is running...`);
@@ -43,14 +39,16 @@ app.get("/", (req, res) => {
 // In server.js
 const createAdmin = async () => {
   try {
-    const existingAdmin = await User.findOne({ email: "icapeadmin@gmail.com" }); // Fixed email to match creation
+    const existingAdmin = await User.findOne({
+      where: { email: "icapeadmin@gmail.com" },
+    });
 
     if (existingAdmin) {
-      console.log("Admin already exists", existingAdmin);
+      console.log("Admin already exists", existingAdmin.toJSON());
       return; // Exit if admin exists
     }
 
-    const admin = new User({
+    const admin = await User.create({
       firstName: "icape",
       lastName: "admin",
       phone: "+251912345678",
@@ -58,7 +56,6 @@ const createAdmin = async () => {
       password: "admin@123",
       role: "admin",
     });
-    await admin.save();
     console.log("Admin created successfully");
   } catch (error) {
     console.error("Error creating admin:", error);
@@ -66,7 +63,7 @@ const createAdmin = async () => {
 };
 
 // Run admin creation
-createAdmin();
+// createAdmin();
 
 // Start the server
 const PORT = process.env.PORT || 5000;
