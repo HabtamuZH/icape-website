@@ -1,127 +1,171 @@
-import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
-import { IoClose } from "react-icons/io5";
-import ScrollReveal from "scrollreveal";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
+import clsx from "clsx";
 
 const Navbar = () => {
-  const [activeDropdown, setActiveDropdown] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navbarRef = useRef(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
 
   // Navigation links configuration
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Services", path: "/services" },
-    { name: "Career", path: "/career" },
     { name: "Projects", path: "/projects" },
+    { name: "Career", path: "/career" },
     { name: "Blogs", path: "/blogs" }
-  ]
+  ];
 
-  // Close dropdowns when clicking outside
-  const handleClickOutside = (event) => {
-    if (navbarRef.current && !navbarRef.current.contains(event.target)) {
-      setActiveDropdown(null);
-      setIsMenuOpen(false);
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Close menu on route change
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
     }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // Initialize ScrollReveal animation
-  useEffect(() => {
-    ScrollReveal().reveal(".navbar", {
-      origin: "top",
-      distance: "50px",
-      duration: 1000,
-      easing: "ease-in-out",
-      reset: false,
-    });
-  }, []);
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
 
   return (
-    <nav
-      ref={navbarRef}
-      className="navbar bg-secondary/70 backdrop-blur-[34px] shadow-lg fixed top-4 left-4 right-4 w-[calc(100%-2rem)] z-50 rounded-lg flex justify-between px-6 py-3 items-center border border-white/20"
-    >
-      {/* Logo */}
-      <Link to="/" className="flex flex-col justify-start items-start">
-        <div
-          className="text-xl font-bold text-gray-900 "
-        >
-          iCAPE
-        </div>
-        <span className="text-sm text-gray-700 font-normal hidden sm:block" >
-          Architecture + Planning + Engineering
-        </span>
-      </Link>
-      {/* Hamburger Menu (Mobile) */}
-      <button
-        className="lg:hidden text-accent text-2xl focus:outline-none"
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
+    <>
+      <nav
+        className={clsx(
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          isScrolled
+            ? "bg-secondary-light/90 dark:bg-dark-surface/90 backdrop-blur-md shadow-sm"
+            : "bg-transparent"
+        )}
       >
-        <span
-          className={`inline-block transition-all duration-300 ease-in-out ${isMenuOpen
-              ? "rotate-90 opacity-0 scale-75"
-              : "rotate-0 opacity-100 scale-100"
-            }`}
-        >
-          <FaBars className={isMenuOpen ? "hidden" : "block"} />
-        </span>
-        <span
-          className={`inline-block transition-all duration-300 ease-in-out absolute  right-6 scale-150 ${isMenuOpen
-              ? "rotate-0 opacity-100 scale-100"
-              : "-rotate-90 opacity-0 scale-75"
-            }`}
-        >
-          <IoClose className={isMenuOpen ? "block" : "hidden"} />
-        </span>
-      </button>
+        <div className="container-custom">
+          <div className="flex items-center justify-between h-16 md:h-20">
+            {/* Logo */}
+            <Link
+              to="/"
+              className="flex flex-col justify-center group"
+            >
+              <span className="text-xl md:text-2xl font-heading font-bold text-primary dark:text-dark-text tracking-tight">
+                iCAPE
+              </span>
+              <span className="text-[10px] md:text-xs text-text-secondary dark:text-dark-textSecondary font-body tracking-wider uppercase">
+                Architecture + Planning
+              </span>
+            </Link>
 
-      {/* Navigation (Desktop & Mobile) */}
-      <div
-        className={`absolute lg:static top-16 left-0 w-full lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none p-5 lg:p-0 flex flex-col lg:flex-row items-start lg:items-center space-y-4 lg:space-y-0 lg:space-x-6 rounded-lg transition-all duration-300 ${isMenuOpen ? "block" : "hidden lg:flex"
-          }`}
-      >
-        <ul className="lg:flex space-y-4 lg:space-y-0 lg:space-x-6 w-full lg:w-auto">
-          {navLinks.map((link, index) =>
-          (
-            <li key={index}>
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={clsx(
+                    "px-4 py-2 text-sm font-body font-medium rounded-lg transition-all duration-200",
+                    location.pathname === link.path
+                      ? "text-primary dark:text-dark-text bg-secondary dark:bg-dark-bg"
+                      : "text-text-secondary dark:text-dark-textSecondary hover:text-primary dark:hover:text-dark-text hover:bg-secondary/50 dark:hover:bg-dark-bg/50"
+                  )}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+
+            {/* Desktop Actions */}
+            <div className="hidden lg:flex items-center space-x-3">
+              <ThemeToggle />
               <Link
+                to="/contactus"
+                className="px-6 py-2.5 text-sm font-body font-medium text-secondary-light dark:text-primary bg-primary dark:bg-accent rounded-lg hover:bg-primary-light dark:hover:bg-accent-alt transition-all duration-200 hover:scale-105"
+              >
+                Contact Us
+              </Link>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <div className="flex items-center space-x-3 lg:hidden">
+              <ThemeToggle />
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="p-2 text-primary dark:text-dark-text hover:bg-secondary dark:hover:bg-dark-bg rounded-lg transition-colors"
+                aria-label="Toggle menu"
+              >
+                {isMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      <div
+        className={clsx(
+          "fixed inset-0 bg-primary/50 dark:bg-dark-bg/50 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300",
+          isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+        onClick={() => setIsMenuOpen(false)}
+      />
+
+      {/* Mobile Menu */}
+      <div
+        className={clsx(
+          "fixed top-16 md:top-20 right-0 bottom-0 w-full max-w-sm bg-secondary-light dark:bg-dark-surface z-40 lg:hidden transition-transform duration-300 shadow-2xl",
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
+        )}
+      >
+        <div className="flex flex-col h-full p-6 overflow-y-auto">
+          {/* Mobile Navigation Links */}
+          <nav className="flex flex-col space-y-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
                 to={link.path}
-                className="text-black !bg-gray-100 hover:!bg-gray-300 active:bg-gray-200 transition-colors duration-300 px-2 py-1 rounded-md block w-full"
-                onClick={() => setIsMenuOpen(false)}
+                className={clsx(
+                  "px-4 py-3 text-base font-body font-medium rounded-lg transition-all duration-200",
+                  location.pathname === link.path
+                    ? "text-primary dark:text-dark-text bg-secondary dark:bg-dark-bg"
+                    : "text-text-secondary dark:text-dark-textSecondary hover:text-primary dark:hover:text-dark-text hover:bg-secondary/50 dark:hover:bg-dark-bg/50"
+                )}
               >
                 {link.name}
               </Link>
-            </li>
-          )
-          )}
-        </ul>
+            ))}
+          </nav>
 
-        {/* Contact Button (Mobile & Desktop) */}
-        {isMenuOpen ? <Link
-          to="/contactus"
-          onClick={() => setIsMenuOpen(false)}
-          className="btn btn-primary px-6 py-2 text-white font-semibold border-none rounded-full bg-accent hover:bg-primary transition duration-300 w-full lg:w-auto"
-        >
-          Contact Us
-        </Link> : <></>}
+          {/* Mobile Contact Button */}
+          <div className="mt-auto pt-6 border-t border-border dark:border-dark-border">
+            <Link
+              to="/contactus"
+              className="block w-full px-6 py-3 text-center text-sm font-body font-medium text-secondary-light dark:text-primary bg-primary dark:bg-accent rounded-lg hover:bg-primary-light dark:hover:bg-accent-alt transition-all duration-200"
+            >
+              Contact Us
+            </Link>
+          </div>
+        </div>
       </div>
-      <div className="hidden lg:block ">
-        <Link
-          to="/contactus"
-
-          className="btn btn-primary px-6 py-2 text-white font-semibold border-none rounded-full bg-accent hover:bg-primary transition duration-300 "
-        >
-          Contact Us
-        </Link>
-      </div>
-    </nav>
+    </>
   );
 };
 

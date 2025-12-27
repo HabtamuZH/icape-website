@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { FaArrowRight } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { Linkedin, Mail, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import ScrollReveal from "scrollreveal";
-import TeamCard from "../common/TeamCard";
+import ArchitecturalBackground from "../common/ArchitecturalBackground";
+import LoadingSpinner from "../common/LoadingSpinner";
 import teamService from "../../services/team-service";
 
 const TeamMembers = () => {
@@ -14,10 +15,8 @@ const TeamMembers = () => {
     const fetchTeamMembers = async () => {
       try {
         const response = await teamService.getAll();
-        console.log("API Response:", response); // Debug raw response
         const data = Array.isArray(response) ? response : response.data || [];
         setTeam(data);
-        console.log("Team Data:", data); // Debug processed data
       } catch (err) {
         setError("Failed to fetch team members. Please try again later.");
         console.error("Error fetching team:", err);
@@ -27,92 +26,144 @@ const TeamMembers = () => {
     };
 
     fetchTeamMembers();
-
-    // ScrollReveal animations
-    ScrollReveal().reveal(".team-card", {
-      delay: 300,
-      distance: "30px",
-      origin: "bottom",
-      opacity: 0,
-      duration: 1000,
-      reset: true,
-      scale: 0.9,
-      easing: "ease-in-out",
-      interval: 200,
-    });
-    ScrollReveal().reveal(".sr-community-empowerment", {
-      opacity: 0,
-      x: -50,
-      duration: 1000,
-      delay: 600,
-      reset: true,
-    });
   }, []);
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="text-center text-primary font-body py-4">
-        Loading team members...
+      <div className="min-h-screen flex items-center justify-center bg-secondary dark:bg-dark-bg">
+        <LoadingSpinner />
       </div>
     );
-  if (error)
+  }
+
+  if (error) {
     return (
-      <div className="text-center text-red-500 font-body py-4">{error}</div>
+      <div className="min-h-screen flex items-center justify-center bg-secondary dark:bg-dark-bg">
+        <p className="text-red-500 font-body">{error}</p>
+      </div>
     );
+  }
 
   return (
-    <section name="teams" className="py-24 bg-secondary">
-      <div className="max-w-screen-xl mx-auto px-6 text-center">
-        <div className="max-w-2xl mx-auto mb-12 sr-community-empowerment">
-          <h3 className="text-primary text-3xl font-bold sm:text-5xl font-heading">
-            Meet Our Team
-          </h3>
-          <p className="text-gray-700 mt-3 text-xl font-body">
-            A passionate team committed to innovation and excellence.
-          </p>
-        </div>
-
-        <div
-          className={
-            team.length > 0
-              ? "grid gap-8 sm:grid-cols-2 md:grid-cols-3"
-              : ""
-          }
-        >
-          {team.length > 0 ? (
-            team.map((member, idx) => (
-              <div key={idx} className="team-card">
-                <TeamCard
-                  avatar={member.avatar}
-                  name={member.name}
-                  title={member.title}
-                  desc={member.desc}
-                  socialLinks={member.socialLinks}
-                />
-              </div>
-            ))
-          ) : (
-            <p className="font-body text-center">
-              Team Members Not Found!
+    <section className="min-h-screen py-20 md:py-32">
+        <div className="container-custom">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-20"
+          >
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary dark:text-dark-text mb-6">
+              Meet Our Team
+            </h1>
+            <p className="text-lg md:text-xl font-body text-text-secondary dark:text-dark-textSecondary max-w-3xl mx-auto">
+              A passionate team of architects, engineers, and designers committed to innovation and excellence
             </p>
-          )}
-        </div>
+          </motion.div>
 
-        <div className="mt-20 text-center reveal">
-          <h3 className="text-2xl font-bold text-primary mb-4 font-heading">
-            Shape Spaces That Inspire!
-          </h3>
-          <div className="flex justify-center gap-4">
+          {/* Team Grid */}
+          {team.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+              {team.map((member, index) => (
+                <motion.div
+                  key={member.id || index}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="group"
+                >
+                  <div className="bg-white/5 dark:bg-white/5 backdrop-blur-md rounded-2xl overflow-hidden border border-white/10 dark:border-white/5 hover:border-accent dark:hover:border-accent transition-all duration-300 hover:scale-105">
+                    {/* Avatar */}
+                    <div className="aspect-square overflow-hidden bg-secondary dark:bg-dark-bg">
+                      {member.avatar ? (
+                        <img
+                          src={member.avatar}
+                          alt={member.name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-accent/10 dark:bg-accent/20">
+                          <span className="text-6xl font-heading font-bold text-accent">
+                            {member.name?.charAt(0) || "?"}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Info */}
+                    <div className="p-6">
+                      <h3 className="text-xl font-heading font-bold text-primary dark:text-dark-text mb-2">
+                        {member.name}
+                      </h3>
+                      <p className="text-sm font-body text-accent mb-3">
+                        {member.title}
+                      </p>
+                      {member.desc && (
+                        <p className="text-sm font-body text-text-secondary dark:text-dark-textSecondary mb-4 line-clamp-2">
+                          {member.desc}
+                        </p>
+                      )}
+
+                      {/* Social Links */}
+                      {member.socialLinks && (
+                        <div className="flex gap-3">
+                          {member.socialLinks.linkedin && (
+                            <a
+                              href={member.socialLinks.linkedin}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-10 h-10 rounded-lg bg-accent/10 dark:bg-accent/20 flex items-center justify-center text-accent hover:bg-accent hover:text-secondary-light dark:hover:text-primary transition-all duration-300"
+                            >
+                              <Linkedin className="w-5 h-5" />
+                            </a>
+                          )}
+                          {member.socialLinks.email && (
+                            <a
+                              href={`mailto:${member.socialLinks.email}`}
+                              className="w-10 h-10 rounded-lg bg-accent/10 dark:bg-accent/20 flex items-center justify-center text-accent hover:bg-accent hover:text-secondary-light dark:hover:text-primary transition-all duration-300"
+                            >
+                              <Mail className="w-5 h-5" />
+                            </a>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20">
+              <p className="text-lg font-body text-text-secondary dark:text-dark-textSecondary">
+                No team members found
+              </p>
+            </div>
+          )}
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-center bg-white/5 dark:bg-white/5 backdrop-blur-md rounded-2xl p-12 border border-white/10 dark:border-white/5"
+          >
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary dark:text-dark-text mb-4">
+              Shape Spaces That Inspire!
+            </h2>
+            <p className="text-lg font-body text-text-secondary dark:text-dark-textSecondary mb-8 max-w-2xl mx-auto">
+              Join our team of passionate professionals and help us create extraordinary architectural solutions
+            </p>
             <Link
               to="/career"
-              className="px-4 md:px-8 py-2 md:py-3 text-gray-800 bg-accent hover:bg-opacity-80 rounded-lg flex items-center gap-2 transition-colors font-body"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-primary rounded-lg font-body font-semibold hover:bg-accent-alt transition-all duration-300 hover:scale-105"
             >
-              Join Our Team <FaArrowRight />
+              Join Our Team
+              <ArrowRight className="w-5 h-5" />
             </Link>
-          </div>
+          </motion.div>
         </div>
-      </div>
-    </section>
+      </section>
   );
 };
 

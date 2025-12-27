@@ -1,226 +1,90 @@
-import {
-  FaGlobe,
-  FaLightbulb,
-  FaHandsHelping,
-  FaChartLine,
-  FaUsers,
-} from "react-icons/fa";
-import ScrollReveal from "scrollreveal";
-import { useEffect } from "react";
-import SpotlightCard from "./SpotlightCard";
-import { Link } from "react-router-dom";
-import { Link as ScrollLink } from "react-scroll";
-import global from "../../../public/arcDesign.jpeg";
-import innovation from "../../../public/workteam.jpg";
-import community from "../../../public/teamimages.jpg";
+import { motion } from "framer-motion";
+import ArchitecturalBackground from "../common/ArchitecturalBackground";
+import { Target, CheckCircle2 } from "lucide-react";
 
 const Mission = () => {
-  useEffect(() => {
-    ScrollReveal().reveal(".mission-element", {
-      opacity: 0,
-      duration: 1000,
-      distance: "50px",
-      interval: 200,
-      reset: true,
-    });
-  }, []);
+  const missions = [
+    "Deliver innovative architectural solutions that exceed client expectations",
+    "Promote sustainable and eco-friendly design practices",
+    "Foster a culture of creativity, collaboration, and continuous learning",
+    "Contribute to the development of Ethiopia's built environment",
+    "Maintain the highest standards of professional excellence and integrity",
+  ];
 
   return (
-    <section className="relative py-20 bg-secondary text-light">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Animated Section Title */}
-        <div className="mb-20 mission-element">
-          <h2 className="text-4xl font-bold tracking-tight sm:text-6xl text-center text-primary font-heading">
-            Our Missions
-          </h2>
+    <section className="min-h-screen py-20 md:py-32 flex items-center">
+        <div className="container-custom">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Content Side */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-16 h-16 rounded-xl bg-accent/10 dark:bg-accent/20 flex items-center justify-center">
+                  <Target className="w-8 h-8 text-accent" />
+                </div>
+                <h1 className="text-4xl md:text-5xl font-heading font-bold text-primary dark:text-dark-text">
+                  Our Mission
+                </h1>
+              </div>
 
-          <div className="mt-12 max-w-5xl mx-auto mission-element">
-            <div className="relative overflow-hidden group shadow-2xl rounded-lg bg-secondary border border-gray-300">
-              <div className="absolute inset-0 bg-[url('/texture.jpg')] opacity-10 group-hover:opacity-20 transition-opacity" />
-              <div className="relative p-2 md:p-8 space-y-2 sm:space-y-4">
-                <p className=" md:mb-12 text-sm sm:text-xl md:text-2xl text-gray-600 font-light leading-relaxed font-body">
-                  We pioneer{" "}
-                  <span className="text-accent font-medium">
-                    sustainable architectural solutions
-                  </span>{" "}
-                  that harmonize cutting-edge technology with timeless
-                  craftsmanship. Our triple focus on environmental stewardship,
-                  technological innovation , arcDesign community empowerment
-                  drives every project.
-                </p>
-                <div className="flex justify-center gap-4 mt-12">
-                  <Link
-                    to="/projects"
-                    className="flex items-center text-sm px-2 py-1 md:px-6 md:py-3 bg-accent hover:bg-opacity-80 rounded-lg md:rounded-full transition-all font-body"
+              <p className="text-xl md:text-2xl font-body text-primary dark:text-dark-text mb-12 leading-relaxed">
+                To create exceptional architectural designs that inspire, endure, and harmonize with the environment while exceeding our clients' expectations.
+              </p>
+
+              <div className="space-y-4">
+                {missions.map((mission, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="flex items-start gap-4 group"
                   >
-                    <FaChartLine className="mr-2" /> Our Projects
-                  </Link>
-                  <ScrollLink
-                    to="teams"
-                    className="flex items-center px-2 md:px-6 py-1 md:py-3 border text-gray-800 border-primary hover:border-accent rounded-lg md:rounded-full transition-all font-body cursor-pointer"
-                  >
-                    <FaUsers className="mr-2" /> About Team
-                  </ScrollLink>
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent/10 dark:bg-accent/20 flex items-center justify-center mt-1 group-hover:bg-accent group-hover:scale-110 transition-all duration-300">
+                      <CheckCircle2 className="w-4 h-4 text-accent group-hover:text-secondary-light dark:group-hover:text-primary" />
+                    </div>
+                    <p className="text-base md:text-lg font-body text-text-secondary dark:text-dark-textSecondary leading-relaxed">
+                      {mission}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Visual Side */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative"
+            >
+              <div className="aspect-square rounded-2xl bg-white/5 dark:bg-white/5 backdrop-blur-md p-12 flex items-center justify-center border border-white/10 dark:border-white/5">
+                <div className="text-center">
+                  <div className="w-32 h-32 mx-auto mb-8 rounded-full bg-accent/20 dark:bg-accent/30 flex items-center justify-center">
+                    <Target className="w-16 h-16 text-accent" />
+                  </div>
+                  <h3 className="text-3xl md:text-4xl font-heading font-bold text-primary dark:text-dark-text mb-4">
+                    Excellence
+                  </h3>
+                  <p className="text-lg font-body text-text-secondary dark:text-dark-textSecondary">
+                    Driven by Purpose
+                  </p>
                 </div>
               </div>
-            </div>
+
+              {/* Decorative Elements */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 rounded-xl bg-accent/10 dark:bg-accent/20 -z-10" />
+              <div className="absolute -bottom-4 -left-4 w-32 h-32 rounded-xl bg-accent-alt/10 dark:bg-accent-alt/20 -z-10" />
+            </motion.div>
           </div>
         </div>
-
-        {/* Enhanced Mission Pillars */}
-        {/* <div className="grid gap-16 md:gap-24"> */}
-          {/* Global Impact Section */}
-          {/* <div className="grid md:grid-cols-2 gap-8 items-center mission-element">
-            <div className="relative group flex justify-center shadow-2xl rounded-lg bg-secondary">
-              <div className="absolute rounded-3xl blur opacity-30 group-hover:opacity-50 transition-all" />
-              <div className="relative p-8 bg-secondary rounded-3xl space-y-6">
-                <FaGlobe className="text-6xl text-orange-800 animate-float" />
-                <h3 className="text-4xl font-bold text-primary font-heading">
-                  Global Footprint
-                </h3>
-                <p className="text-lg text-gray-700 leading-relaxed font-body">
-                  Operating across 3 continents, we've delivered sustainable
-                  solutions for
-                  <span className="text-accent">
-                    {" "}
-                    150+ international projects
-                  </span>
-                  . Our cross-cultural teams combine local expertise with global
-                  best practices.
-                </p>
-                <div className="flex gap-2 flex-wrap">
-                  <span className="px-3 py-1 bg-accent/20 rounded-full text-orange-700 font-body">
-                    🌍 12 Countries
-                  </span>
-                  <span className="px-3 py-1 bg-accent/20 rounded-full text-orange-700 font-body">
-                    🏗️ 45M sq.ft Designed
-                  </span>
-                  <span className="px-3 py-1 bg-accent/20 rounded-full text-orange-700 font-body">
-                    🌱 60% Energy Savings
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <SpotlightCard className="h-full">
-              <img
-                src={global}
-                alt="Global projects collage"
-                className="w-full h-full object-cover rounded-2xl"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent flex items-end p-6">
-                <span className="text-light text-xs md:text-lg font-body">
-                  Shanghai Eco-Tower | Dubai Smart City | Nairobi Innovation Hub
-                </span>
-              </div>
-            </SpotlightCard>
-          </div> */}
-
-          {/* Innovation Section
-          <div className='grid md:grid-cols-2 gap-8 items-center mission-element'>
-            <SpotlightCard className='h-full order-last md:order-first'>
-              <img
-                src={innovation}
-                alt='Innovation showcase'
-                className='w-full h-full object-cover rounded-2xl'
-              />
-              <div className='absolute inset-0 bg-gradient-to-r from-primary via-transparent to-transparent flex items-center p-6'>
-                <span className='text-light text-xs md:text-lg font-body'>
-                  AI-Driven Design Systems | BIM Integration | Smart Building
-                  Solutions
-                </span>
-              </div>
-            </SpotlightCard>
-
-            <div className='relative group flex justify-center shadow-2xl rounded-lg bg-secondary'>
-              <div className='absolute rounded-3xl blur opacity-30 group-hover:opacity-50 transition-all' />
-              <div className='relative p-8 bg-secondary rounded-3xl space-y-6'>
-                <FaLightbulb className='text-6xl text-yellow-800 animate-pulse' />
-                <h3 className='text-4xl font-bold text-primary font-heading'>
-                  Tech Revolution
-                </h3>
-                <p className='text-lg text-gray-700 leading-relaxed font-body'>
-                  Our R&D hub drives industry transformation with:
-                </p>
-                <ul className='space-y-3 text-gray-500 font-body'>
-                  <li className='flex items-center gap-2'>
-                    <div className='w-2 h-2 bg-yellow-600 rounded-full' />
-                    Parametric design systems reducing planning time by 40%
-                  </li>
-                  <li className='flex items-center gap-2'>
-                    <div className='w-2 h-2 bg-yellow-600 rounded-full' />
-                    AI-powered sustainability analysis tools
-                  </li>
-                  <li className='flex items-center gap-2'>
-                    <div className='w-2 h-2 bg-yellow-600 rounded-full' />
-                    VR collaboration platforms for global teams
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div> */}
-
-          {/* Community Empowerment Section */}
-          {/* <div className="grid md:grid-cols-2 gap-8 items-center mission-element ">
-            <div className="relative group flex justify-center shadow-2xl rounded-lg bg-secondary">
-              <div className="absolute rounded-3xl blur opacity-30 group-hover:opacity-50 transition-all" />
-              <div className="relative p-8  rounded-3xl space-y-6  bg-secondary ">
-                <FaHandsHelping className="text-6xl text-green-800 animate-bounce" />
-                <h3 className="text-4xl font-bold text-primary font-heading">
-                  Community First
-                </h3>
-                <p className="text-lg text-gray-700 leading-relaxed font-body">
-                  We've empowered communities through:
-                </p>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-gray-700/30 rounded-xl">
-                    <div className="text-2xl font-bold text-green-800">
-                      15K+
-                    </div>
-                    <div className="text-sm text-gray-700 font-body">
-                      Training Hours
-                    </div>
-                  </div>
-                  <div className="p-4 bg-gray-700/30 rounded-xl">
-                    <div className="text-2xl font-bold text-green-800">
-                      $2.5M
-                    </div>
-                    <div className="text-sm text-gray-700 font-body">
-                      Community Investment
-                    </div>
-                  </div>
-                </div>
-                <div className="flex gap-2 flex-wrap">
-                  <span className="px-3 py-1 bg-green-500/20 rounded-full text-green-600 font-body">
-                    🏘️ Urban Renewal
-                  </span>
-                  <span className="px-3 py-1 bg-green-500/20 rounded-full text-green-600 font-body">
-                    📚 Education Programs
-                  </span>
-                  <span className="px-3 py-1 bg-green-500/20 rounded-full text-green-600 font-body">
-                    ⚕️ Health Initiatives
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <SpotlightCard className="h-full">
-              <img
-                src={community}
-                alt="Community projects"
-                className="w-full h-full object-cover rounded-2xl"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent flex items-end p-6">
-                <span className="text-light text-xs md:text-lg font-body">
-                  Kampala Youth Center | Mumbai Slum Redevelopment | Rio Green
-                  Spaces
-                </span>
-              </div>
-            </SpotlightCard>
-          </div> */}
-        {/* </div> */}
-      </div>
-    </section>
+      </section>
   );
 };
 

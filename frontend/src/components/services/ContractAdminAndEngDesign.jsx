@@ -24,7 +24,7 @@ const ContractAdminAndEngDesign = () => {
   return (
     <section
       name="contract"
-      className="relative min-h-screen flex items-center justify-center bg-secondary overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center bg-transparent overflow-hidden"
     >
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-accent/10 to-secondary/90 z-0" />

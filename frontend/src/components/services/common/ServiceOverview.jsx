@@ -1,75 +1,67 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useRef } from "react";
-import ScrollReveal from "scrollreveal";
+import { motion } from "framer-motion";
 
 const ServiceOverview = ({ content, img }) => {
-  const sectionRef = useRef(null);
-  const imageRef = useRef(null);
-
-  useEffect(() => {
-    const sr = ScrollReveal({
-      distance: "60px", // Increased for a more dramatic reveal
-      duration: 1400, // Smoother animation
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)", // Modern easing
-      reset: false, // One-time reveal
-    });
-
-    if (sectionRef.current) {
-      sr.reveal(sectionRef.current.children, {
-        origin: "bottom",
-        delay: 200,
-        interval: 250, // Slightly increased stagger
-      });
-    }
-    if (imageRef.current) {
-      sr.reveal(imageRef.current, { origin: "right", delay: 500 });
-    }
-  }, []);
-
   return (
-    <section className="relative w-full py-24 lg:py-32 bg-secondary text-dark overflow-hidden">
-      {/* Subtle Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-secondary via-secondary/95 to-accent/10 z-0" />
+    <section id="overview" className="relative w-full py-20 md:py-32 bg-transparent overflow-hidden">
+      {/* Decorative Background Glow */}
+      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-accent/5 dark:bg-accent/10 blur-[120px] -z-0" />
+      
+      <div className="container-custom relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Text Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
+            {content.map(({ title, subtitle, description }, index) => (
+              <div key={index} className="space-y-6">
+                <div>
+                  <h2 className="text-3xl md:text-5xl font-heading font-bold text-primary dark:text-dark-text mb-4 leading-tight">
+                    {title}
+                  </h2>
+                  <h3 className="text-xl md:text-2xl font-body text-accent font-semibold">
+                    {subtitle}
+                  </h3>
+                </div>
 
-      <div className="max-w-[85vw] mx-auto px-6 sm:px-8 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 relative z-10">
-        {/* Text Content */}
-        <div ref={sectionRef} className="lg:w-2/3 pr-0 lg:pr-2 space-y-8">
-          {content.map(({ title, subtitle, description }, index) => (
-            <div key={index} className="space-y-6">
-              <h2 className="text-4xl md:text-5xl font-heading font-bold text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent drop-shadow-md animate-fadeIn">
-                {title}
-              </h2>
-              <h3 className="text-xl md:text-2xl lg:text-3xl font-body text-accent animate-fadeIn">
-                {subtitle}
-              </h3>
+                <div className="space-y-4">
+                  {description.map((desc, i) => (
+                    <p
+                      key={i}
+                      className="text-lg font-body text-text-secondary dark:text-dark-textSecondary leading-relaxed"
+                    >
+                      {desc}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </motion.div>
 
-              {description.map((desc, i) => (
-                <p
-                  key={i}
-                  className="text-lg md:text-lg font-body text-dark/90 leading-relaxed max-w-lg animate-fadeIn"
-                >
-                  {desc}
-                </p>
-              ))}
+          {/* Image Section */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, x: 30 }}
+            whileInView={{ opacity: 1, scale: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative"
+          >
+            <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border border-border dark:border-dark-border">
+              <img
+                src={img}
+                alt="Service overview"
+                className="w-full h-auto object-cover aspect-[4/3] hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+              />
             </div>
-          ))}
-        </div>
-
-        {/* Image */}
-        <div
-          ref={imageRef}
-          className="lg:w-1/2 mt-16 lg:mt-0 flex justify-center"
-        >
-          <div className="relative group max-w-md lg:max-w-lg">
-            <img
-              src={img}
-              alt={`${content[0]?.title} Example`}
-              className="w-full h-[400px] object-cover rounded-xl2 shadow-architectural group-hover:shadow-sharp transition-all duration-500 ease-in-out transform group-hover:scale-105"
-              loading="lazy"
-            />
-            {/* Subtle Overlay */}
-            <div className="absolute inset-0 bg-dark bg-opacity-0 group-hover:bg-opacity-20 rounded-xl2 transition-all duration-500 ease-in-out" />
-          </div>
+            
+            {/* Architectural Accent Frame */}
+            <div className="absolute -bottom-6 -right-6 w-full h-full border-2 border-accent/20 dark:border-accent/40 rounded-2xl -z-10" />
+          </motion.div>
         </div>
       </div>
     </section>

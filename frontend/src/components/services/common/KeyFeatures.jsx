@@ -1,66 +1,72 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useRef } from "react";
-import ScrollReveal from "scrollreveal";
+import { motion } from "framer-motion";
 
 const Features = ({ features, title }) => {
-  const headingRef = useRef(null);
-  const featuresRef = useRef(null);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
 
-  // ScrollReveal Setup
-  useEffect(() => {
-    const sr = ScrollReveal({
-      distance: "50px",
-      duration: 1200,
-      easing: "cubic-bezier(0.5, 0, 0, 1)",
-      reset: false,
-    });
-
-    if (headingRef.current) {
-      sr.reveal(headingRef.current, { origin: "bottom", delay: 200 });
-    }
-    if (featuresRef.current) {
-      sr.reveal(featuresRef.current.children, {
-        origin: "bottom",
-        delay: 400,
-        interval: 200,
-      });
-    }
-  }, []);
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  };
 
   return (
-    <section className="w-full py-20 bg-light text-dark">
-      <div className="max-w-[80vw] mx-auto px-4">
+    <section className="w-full py-20 md:py-32 bg-transparent overflow-hidden">
+      <div className="container-custom">
         {/* Heading */}
-        <h2
-          ref={headingRef}
-          className="text-3xl md:text-4xl font-heading text-primary text-center mb-12 animate-fadeIn drop-shadow-md"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16 lg:mb-20"
         >
-          {title}
-        </h2>
+          <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary dark:text-dark-text tracking-tight">
+            {title}
+          </h2>
+          <div className="w-20 h-1 bg-accent mx-auto mt-6" />
+        </motion.div>
 
         {/* Features Grid */}
-        <div
-          ref={featuresRef}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10"
         >
           {features.map((feature, index) => (
-            <div
+            <motion.div
               key={index}
-              className="bg-secondary p-6 rounded-xl2 shadow-architectural hover:shadow-sharp hover:scale-105 transition-all duration-300 ease-in-out flex flex-col items-center text-center"
+              variants={itemVariants}
+              className="group p-8 bg-white/5 dark:bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 dark:border-white/5 hover:border-accent dark:hover:border-accent transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 flex flex-col items-center text-center"
             >
-              <feature.icon
-                size={40}
-                className="text-accent mb-4 animate-fadeIn"
-              />
-              <h3 className="text-xl font-heading text-primary mb-2">
+              <div className="w-16 h-16 rounded-xl bg-accent/10 dark:bg-accent/20 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors duration-300">
+                <feature.icon
+                  size={32}
+                  className="text-accent group-hover:text-primary transition-colors duration-300"
+                />
+              </div>
+              <h3 className="text-xl font-heading font-bold text-primary dark:text-dark-text mb-4">
                 {feature.title}
               </h3>
-              <p className="text-base font-body text-dark leading-relaxed">
+              <p className="text-base font-body text-text-secondary dark:text-dark-textSecondary leading-relaxed">
                 {feature.description}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

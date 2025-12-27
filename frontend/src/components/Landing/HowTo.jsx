@@ -95,7 +95,7 @@ const HowTo = () => {
             <motion.div
               key={index}
               variants={itemVariants}
-              className='bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105'
+              className='bg-white/5 dark:bg-white/5 backdrop-blur-md p-6 rounded-lg border border-white/10 dark:border-white/5 shadow-lg hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105'
             >
               <div className='flex items-center space-x-4'>
                 <div className='p-3 bg-blue-100 rounded-full'>{step.icon}</div>

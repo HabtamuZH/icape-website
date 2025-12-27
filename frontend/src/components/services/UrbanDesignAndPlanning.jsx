@@ -24,7 +24,7 @@ const UrbanDesignAndPlanning = () => {
   return (
     <section
       name="urban"
-      className="relative min-h-screen flex items-center overflow-hidden bg-secondary"
+      className="relative min-h-screen flex items-center overflow-hidden bg-transparent"
     >
       {/* Background Overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/80 z-0" />

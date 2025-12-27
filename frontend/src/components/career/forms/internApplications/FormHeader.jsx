@@ -1,16 +1,26 @@
-import React from "react"
+/* eslint-disable react/prop-types */
+import { motion } from "framer-motion";
 
-const FormHeader = ({title, description}) => {
+const FormHeader = ({ title, description }) => {
   return (
-    <div className='form-header text-center mb-6 sm:mb-8'>
-      <h2 className='text-2xl sm:text-3xl md:text-4xl font-heading font-extrabold text-primary mb-4 sm:mb-6'>
+    <div className="text-center mb-12">
+      <motion.h2
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-primary dark:text-dark-text mb-4"
+      >
         {title}
-      </h2>
-      <p className='text-primary font-body text-sm sm:text-base md:text-lg'>
+      </motion.h2>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        className="text-text-secondary dark:text-dark-textSecondary font-body text-base md:text-lg max-w-2xl mx-auto"
+      >
         {description}
-      </p>
+      </motion.p>
     </div>
-  )
-}
+  );
+};
 
-export default FormHeader
+export default FormHeader;

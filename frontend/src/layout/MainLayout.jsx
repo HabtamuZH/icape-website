@@ -1,26 +1,32 @@
 import Navbar from "../components/common/NavBar.jsx";
 import Footer from "../components/common/Footer.jsx";
 import { Outlet } from "react-router-dom";
-import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
+import { ReactLenis } from "lenis/dist/lenis-react";
+// import Navbar from "../components/common/NavBar";
+// import Footer from "../components/common/Footer";
 
-const MainLayout = ({ isLoading }) => {
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-secondary">
-        <LoadingSpinner />
-      </div>
-    );
-  }
-  
+import ArchitecturalBackground from "../components/common/ArchitecturalBackground.jsx";
 
+const MainLayout = () => {
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen">
-        <Outlet />
-      </main>
-      <Footer />
-    </>
+    <ReactLenis
+      root
+      options={{
+        lerp: 0.05,
+        duration: 1.5,
+        smoothWheel: true,
+      }}
+    >
+      <div className="min-h-screen transition-colors duration-300">
+        <Navbar />
+        <ArchitecturalBackground variant="master">
+          <main className="pt-16 md:pt-20">
+            <Outlet />
+          </main>
+          <Footer />
+        </ArchitecturalBackground>
+      </div>
+    </ReactLenis>
   );
 };
 

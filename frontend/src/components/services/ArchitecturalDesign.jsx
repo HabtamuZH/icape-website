@@ -33,7 +33,7 @@ const ArchitecturalDesign = () => {
   return (
     <section
       name="arch"
-      className="relative w-full min-h-screen overflow-hidden bg-secondary"
+      className="relative w-full min-h-screen overflow-hidden bg-transparent"
     >
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">

@@ -1,117 +1,162 @@
-// src/components/Projects/Projects.js
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useEffect, useState } from "react";
-import projectService from '../../services/project-service';
-import ProjectCard from '../common/ProjectCard';
-import LoadingSpinner from '../common/LoadingSpinner';
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Filter } from "lucide-react";
+import ProjectCard from "../common/ProjectCard";
+import LoadingSpinner from "../common/LoadingSpinner";
+import projectService from "../../services/project-service";
+import clsx from "clsx";
 
 const Projects = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [projectType, setProjectType] = useState('ALL');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterType, setFilterType] = useState('ALL');
   const [projects, setProjects] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
+
+  const categories = ["All", "ARCHITECTURE DESIGN", "URBAN DESIGN", "ENGINEERING DESIGN"];
 
   useEffect(() => {
     const fetchProjects = async () => {
-      setLoading(true);
       try {
         const res = await projectService.getAll();
-        setProjects(Array.isArray(res.data) ? res.data : []);
-      } catch (err) {
-        console.error('Error fetching projects:', err);
+        const projectsData = Array.isArray(res.data) ? res.data : [];
+        setProjects(projectsData);
+        setFilteredProjects(projectsData);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
         setProjects([]);
+        setFilteredProjects([]);
       } finally {
         setLoading(false);
       }
     };
+
     fetchProjects();
   }, []);
 
   useEffect(() => {
-    const type = location.pathname.split('/').pop().toUpperCase();
-    setProjectType(
-      type === 'ARCHITECTURE DESIGN' || type === 'URBAN DESIGN' || type === 'CONTRACT ADMINISTRATION AND ENGINEERING DESIGN' ? type : 'ALL'
+    if (selectedCategory === "All") {
+      setFilteredProjects(projects);
+    } else {
+      setFilteredProjects(
+        projects.filter((project) => project.type?.toUpperCase() === selectedCategory)
+      );
+    }
+  }, [selectedCategory, projects]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-transparent">
+        <LoadingSpinner />
+      </div>
     );
-    setFilterType(
-      type === 'ARCHITECTURE DESIGN' || type === 'URBAN DESIGN' || type === 'ENGINEERING DESIGN' ? type : 'ALL'
-    );
-  }, [location]);
-
-  const filteredProjects = projects.filter((project) => {
-    const matchesSearch = project.name
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    const matchesType =
-      filterType === 'ALL' || project.type.toUpperCase() === filterType;
-    return matchesSearch && matchesType;
-  });
-
-  const handleProjectClick = (projectId) => {
-    const project = filteredProjects.find((p) => p.id === projectId);
-    navigate(`/projects/${projectId}`, { state: { project } });
-  };
-
-  if (loading) return <LoadingSpinner />;
+  }
 
   return (
-    <section className="py-12 bg-secondary sm:py-16 lg:py-24 relative min-h-screen">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        <h2 className="pt-8 text-3xl font-heading font-bold text-primary sm:text-4xl lg:text-5xl mb-4 text-center">
-          Explore Our <span className="text-accent">{projectType}</span> Projects
-        </h2>
-        <p className="mb-8 text-lg font-body text-primary text-center max-w-2xl mx-auto">
-          Discover the artistry and innovation in our architectural endeavors.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between items-center bg-light p-4 rounded-lg border border-border mb-8">
-          <input
-            type="text"
-            placeholder="Search projects by name..."
-            className="w-full sm:w-2/3 md:w-1/2 p-2 rounded-md bg-secondary text-primary font-body text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-accent"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <select
-            className="w-full sm:w-1/3 md:w-1/4 p-2 rounded-md bg-secondary text-primary font-body text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-accent"
-            value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}
+    <section className="min-h-screen py-20 md:py-32">
+        <div className="container-custom">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
           >
-            <option value="ALL">All Projects</option>
-            <option value="ARCHITECTURE DESIGN">Architecture Design</option>
-            <option value="URBAN DESIGN">Urban Planning && Design</option>
-            <option value="ENGINEERING DESIGN">Engineering Design</option>
-          </select>
-        </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary dark:text-dark-text mb-4">
+              Our Projects
+            </h1>
+            <p className="text-lg md:text-xl font-body text-text-secondary dark:text-dark-textSecondary max-w-3xl mx-auto">
+              Explore our portfolio of innovative architectural designs and successful projects
+            </p>
+          </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Filter Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mb-12"
+          >
+            {/* Mobile Filter Toggle */}
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="lg:hidden flex items-center gap-2 px-4 py-2 mb-4 rounded-lg bg-secondary-light dark:bg-dark-surface border border-border dark:border-dark-border text-primary dark:text-dark-text"
+            >
+              <Filter className="w-4 h-4" />
+              <span className="text-sm font-body font-medium">Filters</span>
+            </button>
+
+            {/* Filter Buttons */}
+            <div
+              className={clsx(
+                "flex flex-wrap gap-3",
+                showFilters ? "flex" : "hidden lg:flex"
+              )}
+            >
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={clsx(
+                    "px-6 py-2.5 rounded-lg font-body font-medium text-sm transition-all duration-300",
+                    selectedCategory === category
+                      ? "bg-primary dark:bg-accent text-secondary-light dark:text-primary shadow-lg scale-105"
+                      : "bg-secondary-light dark:bg-dark-surface text-text-secondary dark:text-dark-textSecondary border border-border dark:border-dark-border hover:border-primary dark:hover:border-accent hover:text-primary dark:hover:text-dark-text"
+                  )}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Projects Count */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mb-8"
+          >
+            <p className="text-sm font-body text-text-secondary dark:text-dark-textSecondary">
+              Showing {filteredProjects.length} {filteredProjects.length === 1 ? 'project' : 'projects'}
+            </p>
+          </motion.div>
+
+          {/* Projects Grid */}
           {filteredProjects.length > 0 ? (
-            filteredProjects.map((project, index) => (
-              <div key={project.id} className="mb-6">
-                <ProjectCard
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {filteredProjects.map((project, index) => (
+                <ProjectCard 
+                  key={project.id} 
                   project={{
                     ...project,
-                    id: project.id,
-                    imageUrl:
-                      project.images && project.images.length > 0
-                        ? project.images[0].url
-                        : 'https://via.placeholder.com/150',
-                    index,
-                  }}
-                  onClick={() => handleProjectClick(project.id)}
+                    imageUrl: project.images && project.images.length > 0
+                      ? project.images[0].url
+                      : 'https://via.placeholder.com/400x300',
+                  }} 
+                  index={index} 
                 />
-              </div>
-            ))
+              ))}
+            </div>
           ) : (
-            <p className="col-span-full text-center text-primary font-body text-lg">
-              No projects Available.
-            </p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-20"
+            >
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-transparent border border-border dark:border-dark-border flex items-center justify-center">
+                <Filter className="w-10 h-10 text-text-secondary dark:text-dark-textSecondary" />
+              </div>
+              <h3 className="text-2xl font-heading font-bold text-primary dark:text-dark-text mb-2">
+                No projects found
+              </h3>
+              <p className="text-base font-body text-text-secondary dark:text-dark-textSecondary">
+                Try selecting a different category
+              </p>
+            </motion.div>
           )}
         </div>
-      </div>
-    </section>
+      </section>
   );
 };
 

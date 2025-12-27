@@ -1,35 +1,22 @@
 /* eslint-disable react/prop-types */
-import {ReactLenis} from "lenis/dist/lenis-react"
-import {motion, useMotionTemplate, useScroll, useTransform} from "framer-motion"
-import {SiSpacex} from "react-icons/si"
-import {FiArrowRight, FiMapPin} from "react-icons/fi"
-import {useRef} from "react"
-import Navbar from "../common/NavBar"
-import Testimonials from "./Testimonial"
 import HeroSection from "./Hero"
 import Header from "../services/Header"
 import ExpVision from "./Vision"
 import HeroProject from "./HeroProject"
+import Testimonials from "./Testimonial"
+import { useScroll, useTransform, useMotionTemplate, motion } from "framer-motion"
+import { useRef } from "react"
+import { FiArrowRight, FiMapPin } from "react-icons/fi"
+import { SiSpacex } from "react-icons/si"
 
 export const SmoothScrollHero = () => {
   return (
-    <div className='bg-zinc-950'>
-      {/* <Navbar /> */}
-      <ReactLenis
-        root
-        option={{
-          lerp: 0.05,
-          duration: 1.5
-        }}
-      >
+    <div className='bg-transparent'>
         <HeroSection />
         <HeroProject />
-        {/* <Hero /> */}
-        {/* <Schedule /> */}
         <Header home />
         <ExpVision />
         <Testimonials />
-      </ReactLenis>
     </div>
   )
 }

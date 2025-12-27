@@ -1,54 +1,47 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useRef } from "react";
-import ScrollReveal from "scrollreveal";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 const CTA = ({ content }) => {
-  const ctaRef = useRef(null);
-
-  useEffect(() => {
-    const sr = ScrollReveal({
-      distance: "60px", // Slightly increased for impact
-      duration: 1400, // Smoother, longer animation
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)", // Modern easing curve
-      reset: false,
-    });
-
-    if (ctaRef.current) {
-      sr.reveal(ctaRef.current.children, {
-        origin: "bottom",
-        delay: 200,
-        interval: 250, // Slightly increased stagger for elegance
-      });
-    }
-  }, []);
-
   return (
-    <section className="relative w-full py-28 bg-primary text-light overflow-hidden">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary via-primary/90 to-accent/50 z-0" />
-      {/* Decorative Elements */}
-      <div className="absolute top-0 left-0 w-40 h-40 bg-accent/10 rounded-full filter blur-3xl animate-slow-pulse -z-10" />
-      <div className="absolute bottom-0 right-0 w-48 h-48 bg-tertiary/15 rounded-full filter blur-3xl animate-slow-spin -z-10" />
+    <section className="relative w-full py-24 md:py-32 overflow-hidden bg-transparent">
+      {/* Background Architectural Accent */}
+      <div className="absolute top-0 left-0 w-full h-full opacity-5 dark:opacity-10 pointer-events-none">
+        <div className="absolute top-0 right-0 w-1/2 h-full border-l border-primary dark:border-accent/20 transform skew-x-12" />
+        <div className="absolute bottom-0 left-0 w-full h-1/2 border-t border-primary dark:border-accent/20 transform -skew-y-6" />
+      </div>
 
-      <div className="max-w-[80vw] mx-auto px-4 text-center relative z-10">
-        <div ref={ctaRef} className="space-y-10">
-          {content.map((cta, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <h2 className="text-4xl md:text-5xl font-heading font-bold text-accent mb-6 animate-fadeIn bg-clip-text text-transparent bg-gradient-to-r from-accent to-accent drop-shadow-lg">
-                {cta.headline}
-              </h2>
-              <p className="text-xl md:text-2xl font-body text-secondary/95 mb-8 animate-fadeIn max-w-2xl leading-relaxed">
-                {cta.subtext}
-              </p>
-              <Link
-                to={cta.buttonLink}
-                className="inline-block px-12 py-5 text-xl font-semibold font-body bg-accent text-dark rounded-xl2 shadow-sharp hover:bg-gradient-to-r hover:from-accent hover:to-tertiary hover:text-light hover:scale-110 hover:shadow-architectural transform transition-all duration-400 ease-in-out focus:outline-none focus:ring-4 focus:ring-accent focus:ring-opacity-50"
+      <div className="container-custom relative z-10">
+        <div className="bg-white/5 dark:bg-white/5 backdrop-blur-xl rounded-[2.5rem] p-12 md:p-20 overflow-hidden relative group border border-white/10 dark:border-white/5 shadow-xl">
+          {/* Animated Background Glow */}
+          <div className="absolute -top-24 -left-24 w-96 h-96 bg-accent opacity-10 dark:opacity-20 filter blur-[120px] group-hover:opacity-30 transition-opacity duration-700" />
+          
+          <div className="max-w-3xl mx-auto text-center relative z-10">
+            {content.map((cta, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
               >
-                {cta.buttonText}
-              </Link>
-            </div>
-          ))}
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-primary dark:text-dark-text mb-8 leading-tight">
+                  {cta.headline}
+                </h2>
+                <p className="text-xl font-body text-text-secondary dark:text-dark-textSecondary mb-12 max-w-2xl mx-auto leading-relaxed">
+                  {cta.subtext}
+                </p>
+                <Link
+                  to={cta.buttonLink}
+                  className="group inline-flex items-center gap-3 px-10 py-5 bg-accent text-primary font-heading font-bold text-lg rounded-2xl hover:bg-white transition-all duration-300 shadow-2xl hover:shadow-accent/40"
+                >
+                  {cta.buttonText}
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

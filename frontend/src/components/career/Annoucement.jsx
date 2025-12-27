@@ -1,116 +1,160 @@
-import {useEffect, useState} from "react"
-import {Outlet, Link, useLocation} from "react-router-dom"
-import OpportunityCard from "./OpportunityCard" // Adjust path
-import careerService from "../../services/careers-service"
-import ScrollReveal from "scrollreveal"
-import LoadingSpinner from "../common/LoadingSpinner"
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Outlet, Link, useLocation } from "react-router-dom";
+import { Briefcase, MapPin, Clock, ArrowRight, Mail } from "lucide-react";
+import LoadingSpinner from "../common/LoadingSpinner";
+import careerService from "../../services/careers-service";
 
-// Combined Carrier component with Announcement functionality
 const Annoucement = () => {
-  const [opportunities, setOpportunities] = useState([])
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const location = useLocation() // To detect current route
+  const [opportunities, setOpportunities] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     careerService
       .getAll()
       .then((res) => setOpportunities(res.data))
       .catch((err) => {
-        console.error(err)
-        setError(err)
+        console.error(err);
+        setError(err);
       })
-      .finally(() => setLoading(false))
-  }, [])
+      .finally(() => setLoading(false));
+  }, []);
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-    const sr = ScrollReveal({
-      reset: false,
-      duration: 800,
-      easing: "ease-out"
-    })
-    sr.reveal(".announcement-header", {
-      origin: "top",
-      distance: "40px",
-      delay: 200
-    })
-    sr.reveal(".opportunity-card", {
-      origin: "bottom",
-      distance: "30px",
-      delay: 300,
-      interval: 400
-    })
-    sr.reveal(".cta-section", {
-      origin: "bottom",
-      distance: "40px",
-      delay: 400
-    })
+  const isBaseRoute = location.pathname === "/career";
 
-    return () => sr.destroy()
-  }, [])
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-transparent">
+        <p className="text-red-500 font-body">{error.message}</p>
+      </div>
+    );
+  }
 
-  // Determine if we're on the base /career route
-  const isBaseRoute = location.pathname === "/career"
-
-  if (error) return <div>{error.message}</div>
-  if (loading) return <div><LoadingSpinner/></div>
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-transparent">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
-    <section className='py-28 bg-secondary min-h-screen'>
-      <div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
-
-
-        {/* Render Announcement content or Outlet based on route */}
+    <section className="min-h-screen py-20 md:py-32">
+      <div className="container-custom">
         {isBaseRoute ? (
-          <>
-            {/* Announcement Header */}
-            <div className='announcement-header text-center mb-16'>
-              <h2 className='text-4xl font-heading font-extrabold text-primary sm:text-5xl tracking-tight'>
-                Career Opportunities at{" "}
-                <span className='text-accent underline'>iCAPE</span>
-              </h2>
-              <p className='mt-4 max-w-3xl mx-auto text-xl text-primary font-body leading-relaxed'>
-                Join our innovative team and contribute to groundbreaking
-                projects that shape the future. We’re seeking passionate
-                professionals and emerging talent to grow with us.
-              </p>
-            </div>
-
-            {/* Opportunities Grid */}
-            <div className='opportunity-card grid grid-cols-1 gap-10 md:grid-cols-2'>
-              {opportunities.map((opp) => (
-                <OpportunityCard
-                  key={opp.id}
-                  title={opp.title}
-                  description={opp.description}
-                  type={opp.type}
-                  details={opp.details}
-                  buttonText={opp.buttonText}
-                  buttonLink={opp.buttonLink}
-                />
-              ))}
-            </div>
-
-            {/* Additional CTA */}
-            <div className='cta-section mt-12 text-center'>
-              <p className='text-primary font-body mb-4'>
-                Questions about our opportunities? Reach out to our talent team.
-              </p>
-              <Link
-                to='/contactus'
-                className='inline-flex items-center px-6 py-3 border border-transparent text-base font-body font-medium rounded-lg text-light bg-accent hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent transition-colors duration-200'
+            <>
+              {/* Header */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="text-center mb-20"
               >
-                Contact Us
-              </Link>
-            </div>
-          </>
-        ) : (
-          <Outlet /> // Render InternshipApplicationForm or CareerApplicationForm
-        )}
-      </div>
-    </section>
-  )
-}
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary dark:text-dark-text mb-6">
+                  Career Opportunities at <span className="gradient-text">iCAPE</span>
+                </h1>
+                <p className="text-lg md:text-xl font-body text-text-secondary dark:text-dark-textSecondary max-w-3xl mx-auto leading-relaxed">
+                  Join our innovative team and contribute to groundbreaking projects that shape the future. We're seeking passionate professionals to grow with us.
+                </p>
+              </motion.div>
 
-export default Annoucement
+              {/* Opportunities Grid */}
+              {opportunities.length > 0 ? (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                  {opportunities.map((opp, index) => (
+                    <motion.div
+                      key={opp.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      className="group"
+                    >
+                      <div className="h-full bg-white/5 dark:bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10 dark:border-white/5 hover:border-accent dark:hover:border-accent transition-all duration-300 hover:scale-105">
+                        {/* Type Badge */}
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/10 dark:bg-accent/20 text-accent text-sm font-body font-semibold mb-6">
+                          <Briefcase className="w-4 h-4" />
+                          {opp.type || "Full-time"}
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="text-2xl font-heading font-bold text-primary dark:text-dark-text mb-4">
+                          {opp.title}
+                        </h3>
+
+                        {/* Description */}
+                        <p className="text-base font-body text-text-secondary dark:text-dark-textSecondary mb-6 leading-relaxed">
+                          {opp.description}
+                        </p>
+
+                        {/* Details */}
+                        {opp.details && (
+                          <div className="space-y-3 mb-6">
+                            {opp.details.location && (
+                              <div className="flex items-center gap-3 text-sm font-body text-text-secondary dark:text-dark-textSecondary">
+                                <MapPin className="w-4 h-4 text-accent" />
+                                <span>{opp.details.location}</span>
+                              </div>
+                            )}
+                            {opp.details.duration && (
+                              <div className="flex items-center gap-3 text-sm font-body text-text-secondary dark:text-dark-textSecondary">
+                                <Clock className="w-4 h-4 text-accent" />
+                                <span>{opp.details.duration}</span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* CTA */}
+                        <Link
+                          to={opp.buttonLink || "#"}
+                          className="inline-flex items-center gap-2 text-accent font-body font-semibold group-hover:gap-4 transition-all duration-300"
+                        >
+                          {opp.buttonText || "Apply Now"}
+                          <ArrowRight className="w-5 h-5" />
+                        </Link>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-20">
+                  <p className="text-lg font-body text-text-secondary dark:text-dark-textSecondary">
+                    No opportunities available at this time
+                  </p>
+                </div>
+              )}
+
+              {/* CTA Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="bg-white/5 dark:bg-white/5 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 text-center border border-white/10 dark:border-white/5 shadow-xl hover:shadow-2xl transition-shadow duration-500"
+              >
+                <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary dark:text-dark-text mb-6">
+                  Questions About Our Opportunities?
+                </h2>
+                <p className="text-lg font-body text-text-secondary dark:text-dark-textSecondary mb-10 max-w-2xl mx-auto leading-relaxed">
+                  Reach out to our talent team and let's discuss how you can contribute to our mission
+                </p>
+                <Link
+                  to="/contactus"
+                  className="inline-flex items-center gap-3 px-10 py-4 bg-accent text-primary rounded-2xl font-heading font-bold hover:bg-white hover:shadow-accent/40 transition-all duration-300 hover:scale-105 shadow-lg"
+                >
+                  <Mail className="w-5 h-5" />
+                  Contact Us
+                </Link>
+              </motion.div>
+            </>
+          ) : (
+            <Outlet />
+          )}
+        </div>
+      </section>
+  );
+};
+
+export default Annoucement;

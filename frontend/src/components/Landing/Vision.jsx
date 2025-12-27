@@ -1,98 +1,87 @@
-import { useEffect } from "react";
-import ScrollReveal from "scrollreveal";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { FaArrowRight, FaBookOpen, FaLightbulb, FaGlobe } from "react-icons/fa";
+import { BookOpen, Lightbulb, Globe, ArrowRight } from "lucide-react";
 
 const ExpVision = () => {
-  useEffect(() => {
-    ScrollReveal().reveal(".vision-card", {
-      delay: 200,
-      distance: "50px",
-      origin: "bottom",
-      opacity: 0,
-      duration: 1000,
-      interval: 200,
-      reset: true,
-    });
-    ScrollReveal().reveal(".sr-global-impact", {
-      opacity: 0,
-      x: -50,
-      duration: 1000,
-      delay: 200,
-      reset: true,
-    });
-    ScrollReveal().reveal(".icon-feature", {
-      delay: 300,
-      distance: "30px",
-      origin: "bottom",
-      opacity: 0,
-      duration: 800,
-      interval: 150,
-      reset: true,
-    });
-  }, []);
+  const features = [
+    {
+      icon: BookOpen,
+      title: "Expert Articles",
+      description: "In-depth insights from industry leaders",
+    },
+    {
+      icon: Lightbulb,
+      title: "Innovative Ideas",
+      description: "Cutting-edge architectural concepts",
+    },
+    {
+      icon: Globe,
+      title: "Global Trends",
+      description: "Stay ahead with worldwide perspectives",
+    },
+  ];
 
   return (
-    <section className="relative py-32 bg-secondary text-primary overflow-hidden">
-      {/* Background Image */}
-      {/* <div className='absolute inset-0 z-0'>
-        <img
-          src={backgroundImage}
-          alt='Insights Background'
-          className='w-full h-full object-cover opacity-20'
-          loading='lazy'
-        />
-        <div className='absolute inset-0 bg-primary/70'></div>
-      </div> */}
-
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
-        {/* Header Section */}
-        <div className="vision-card mb-16 text-center">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-primary mb-16 tracking-tight ">
-            Explore Our Visionary Insights
+    <section className="py-20 md:py-32 bg-transparent">
+      <div className="container-custom">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary dark:text-dark-text mb-4">
+            Explore Our Visionary <span className="gradient-text">Insights</span>
           </h2>
-          <div className="bg-light/95 shadow-lg border border-border rounded-xl">
-            <div className="px-6 py-8">
-              <p className="text-primary/80 text-lg md:text-xl font-body leading-relaxed max-w-3xl mx-auto">
-                Dive into a wealth of knowledge with our expertly crafted
-                articles. From industry trends to innovative solutions, our blog
-                empowers you to stay informed and inspired for the future.
-              </p>
-              {/* Icon Features */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
-                <div className="icon-feature flex flex-col items-center">
-                  <FaBookOpen className="text-accent text-3xl mb-2" />
-                  <p className="text-primary/70 text-sm font-body">
-                    Expert Articles
-                  </p>
+          <p className="text-lg md:text-xl font-body text-text-secondary dark:text-dark-textSecondary max-w-3xl mx-auto leading-relaxed">
+            Dive into a wealth of knowledge with our expertly crafted articles. From industry trends to innovative solutions, our blog empowers you to stay informed and inspired.
+          </p>
+        </motion.div>
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          {features.map((feature, index) => (
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="group"
+            >
+              <div className="bg-white/5 dark:bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10 dark:border-white/5 hover:border-accent dark:hover:border-accent transition-all duration-300 hover:scale-105 text-center">
+                <div className="w-16 h-16 mx-auto mb-6 rounded-xl bg-accent/10 dark:bg-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <feature.icon className="w-8 h-8 text-accent" />
                 </div>
-                <div className="icon-feature flex flex-col items-center">
-                  <FaLightbulb className="text-accent text-3xl mb-2" />
-                  <p className="text-primary/70 text-sm font-body">
-                    Innovative Ideas
-                  </p>
-                </div>
-                <div className="icon-feature flex flex-col items-center">
-                  <FaGlobe className="text-accent text-3xl mb-2" />
-                  <p className="text-primary/70 text-sm font-body">
-                    Global Trends
-                  </p>
-                </div>
+                <h3 className="text-xl font-heading font-bold text-primary dark:text-dark-text mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-sm font-body text-text-secondary dark:text-dark-textSecondary">
+                  {feature.description}
+                </p>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Call-to-Action Button */}
-        <div className="sr-global-impact">
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-center"
+        >
           <Link
-            to="/blog"
-            className="inline-flex items-center px-8 py-4 text-base md:text-lg font-body font-medium text-light bg-accent rounded-lg shadow-md hover:bg-opacity-80 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent transition-all duration-300"
+            to="/blogs"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-primary dark:bg-accent text-secondary-light dark:text-primary rounded-lg font-body font-semibold hover:bg-primary-light dark:hover:bg-accent-alt transition-all duration-300 hover:scale-105"
           >
             Discover Our Blog
-            <FaArrowRight className="ml-3 w-5 h-5 transform transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="w-5 h-5" />
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

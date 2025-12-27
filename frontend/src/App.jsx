@@ -1,16 +1,35 @@
 import RouteConfig from "./route/RouteConfig";
 import { BrowserRouter } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./components/common/ScrollToTop";
 
 function App() {
   return (
     <>
-      <ToastContainer
+      <Toaster
         position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: 'var(--color-surface)',
+            color: 'var(--color-text-primary)',
+            border: '1px solid var(--color-border)',
+            borderRadius: '8px',
+            fontSize: '14px',
+          },
+          success: {
+            iconTheme: {
+              primary: '#10B981',
+              secondary: '#FFFFFF',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: '#FFFFFF',
+            },
+          },
+        }}
       />
       <BrowserRouter>
         <ScrollToTop />

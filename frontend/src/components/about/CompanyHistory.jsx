@@ -52,7 +52,7 @@ const CompanyHistory = () => {
   }
 
   return (
-    <section className='relative py-20 pt-32 bg-secondary text-primary'>
+    <section className='relative py-20 pt-32 bg-transparent text-primary'>
       <div className='max-w-6xl mx-auto px-6'>
         {/* Enhanced Header Section */}
         <div className='text-center mb-16 reveal'>
@@ -100,7 +100,7 @@ const CompanyHistory = () => {
                 Introduction
               </h3>
             </div>
-            <div className='md:p-6 space-y-1 md:space-y-4 p-1 shadow-2xl rounded-lg bg-secondary'>
+            <div className='md:p-6 space-y-1 md:space-y-4 p-1 shadow-2xl rounded-lg bg-white/5 dark:bg-white/5 backdrop-blur-md border border-white/10 dark:border-white/5'>
               <p className='text-gray-700 xs:text-sm lg:text-lg md:text-xl font-body'>
                 iCAPE Consulting Architects and Engineers PLC (iCAPE Consulting
                 or simply iCAPE) is a Category I, leading architectural and
@@ -213,7 +213,7 @@ const CompanyHistory = () => {
                 Our Services
               </h3>
             </div>
-            <div className='hover:border-accent transition-colors p-6 shadow-2xl rounded-lg bg-secondary'>
+            <div className='hover:border-accent transition-colors p-6 shadow-2xl rounded-lg bg-transparent'>
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                 {[
                   {
@@ -283,7 +283,7 @@ const CompanyHistory = () => {
                 Recognition
               </h3>
             </div>
-            <div className='hover:shadow-accent/20 relative overflow-hidden group shadow-2xl rounded-lg bg-secondary w-full'>
+            <div className='hover:shadow-accent/20 relative overflow-hidden group shadow-2xl rounded-lg bg-transparent w-full'>
               <div className='p-1 sm:p-6 relative z-10'>
                 <div className='relative aspect-video rounded-lg overflow-hidden hover:scale-105 transition-transform'>
                   <img
@@ -293,16 +293,16 @@ const CompanyHistory = () => {
                   />
                   <div className='absolute inset-0 bg-accent/20 hover:bg-transparent transition-colors' />
                 </div>
-                <div className='relative bg-dark/90 backdrop-blur-sm p-4 rounded-lg mt-4'>
-                  <p className='text-light text-lg md:text-xl font-body'>
+                <div className='relative bg-black/40 backdrop-blur-md p-4 rounded-lg mt-4'>
+                  <div className='text-light text-lg md:text-xl font-body'>
                     Honored with the prestigious:
                     <ul className='list-disc list-inside mt-2 space-y-1'>
                       <li className='text-accent'>{awardData.title}</li>
                     </ul>
-                    <p className='mt-3 mb-3 text-gray-300 text-sm'>
-                      Recognizing outstanding innovation in sustainable
-                      architectural design
-                    </p>
+                  </div>
+                  <p className='mt-3 mb-3 text-gray-300 text-sm'>
+                    Recognizing outstanding innovation in sustainable
+                    architectural design
                   </p>
                 </div>
               </div>
